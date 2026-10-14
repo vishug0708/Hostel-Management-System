@@ -1,0 +1,6 @@
+.env
+.env.*
+!.env.example
+ca.pem
+node_modules/
+dist/
