@@ -1,0 +1,879 @@
+.viewgatepass-page {
+    min-height: 100vh;
+    padding: 35px 20px 60px;
+    box-sizing: border-box;
+    background: #eef4f7;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #102a43;
+}
+
+.viewgatepass-wrapper {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.viewgatepass-back {
+    margin-bottom: 18px;
+    border: none;
+    background: transparent;
+    color: #087f78;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.viewgatepass-card {
+    overflow: hidden;
+    border: 1px solid #dce6ec;
+    border-radius: 22px;
+    background: white;
+    box-shadow: 0 18px 50px rgba(15,42,60,0.14);
+}
+
+.viewgatepass-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 30px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.viewgatepass-logo,
+.viewgatepass-ticket {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 28px;
+}
+
+.viewgatepass-logo {
+    background: #e7f7f5;
+}
+
+.viewgatepass-ticket {
+    background: #fff5df;
+}
+
+.viewgatepass-header > div:nth-child(2) {
+    flex: 1;
+    text-align: center;
+}
+
+.viewgatepass-header h1 {
+    margin: 0;
+    color: #142f49;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.viewgatepass-header p {
+    margin: 4px 0;
+    color: #117d75;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.viewgatepass-header span {
+    color: #7b8c9d;
+    font-size: 11px;
+}
+
+.viewgatepass-photo-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 24px 20px 20px;
+}
+
+.viewgatepass-photo,
+.viewgatepass-photo-placeholder {
+    width: 125px;
+    height: 125px;
+    overflow: hidden;
+    border: 1px solid #d4dde4;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+.viewgatepass-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf3f6;
+    font-size: 45px;
+}
+
+.viewgatepass-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 0 30px;
+    padding: 15px;
+    border-top: 1px solid #e1e8ed;
+    border-bottom: 1px solid #e1e8ed;
+    font-size: 14px;
+}
+
+.viewgatepass-number b {
+    color: #117d75;
+}
+
+.viewgatepass-section {
+    padding: 24px 30px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.viewgatepass-section h2,
+.viewgatepass-qr h2 {
+    margin: 0 0 17px;
+    color: #117d75;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.viewgatepass-info-grid,
+.viewgatepass-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #dce5eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.viewgatepass-info-grid > div,
+.viewgatepass-details > div {
+    padding: 14px 15px;
+    border-right: 1px solid #dce5eb;
+    border-bottom: 1px solid #dce5eb;
+}
+
+.viewgatepass-info-grid > div:nth-child(2n),
+.viewgatepass-details > div:nth-child(2n) {
+    border-right: none;
+}
+
+.viewgatepass-info-grid > div:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+
+.viewgatepass-details .full {
+    grid-column: 1 / -1;
+}
+
+.viewgatepass-info-grid span,
+.viewgatepass-details span,
+.viewgatepass-rector span,
+.viewgatepass-security span {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a8b9c;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.viewgatepass-info-grid strong,
+.viewgatepass-details strong {
+    display: block;
+    color: #172f47;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.viewgatepass-qr {
+    padding: 26px 30px;
+    text-align: center;
+    border-bottom: 1px solid #e1e8ed;
+    background: #fbfdff;
+}
+
+.viewgatepass-qr-box {
+    display: inline-flex;
+    padding: 12px;
+    border: 2px dashed #63b7b0;
+    border-radius: 13px;
+    background: white;
+}
+
+.viewgatepass-qr p {
+    margin: 11px 0 0;
+    color: #77899a;
+    font-size: 11px;
+}
+
+.viewgatepass-rector,
+.viewgatepass-security {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.viewgatepass-rector > div,
+.viewgatepass-security > div {
+    padding: 20px 30px;
+}
+
+.viewgatepass-rector > div:first-child,
+.viewgatepass-security > div:first-child {
+    border-right: 1px solid #e1e8ed;
+}
+
+.viewgatepass-rector strong {
+    display: block;
+    color: #172f47;
+    font-size: 14px;
+}
+
+.viewgatepass-rector small {
+    display: block;
+    margin-top: 5px;
+    color: #77899a;
+    font-size: 11px;
+}
+
+.view-approved {
+    color: #159653 !important;
+}
+
+.viewgatepass-security strong {
+    color: #159653;
+    font-size: 13px;
+}
+
+.viewgatepass-validity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 24px 30px 30px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.viewgatepass-validity strong {
+    font-size: 15px;
+}
+
+.viewgatepass-validity span {
+    color: #687b8d;
+    font-size: 12px;
+}
+
+.viewgatepass-validity.valid {
+    border: 1px solid #a8dfbd;
+    background: #edfaf2;
+    color: #14864e;
+}
+
+.viewgatepass-validity.expired {
+    border: 1px solid #f2b4b4;
+    background: #fff0f0;
+    color: #d33b3b;
+}
+
+.viewgatepass-validity.inactive {
+    border: 1px solid #d7e0e7;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.viewgatepass-error {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 45px 30px;
+    border-radius: 18px;
+    background: white;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(15,42,60,0.12);
+}
+
+.viewgatepass-error button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 9px;
+    background: #117d75;
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+@media (max-width: 650px) {
+    .viewgatepass-page {
+        padding: 20px 10px 40px;
+    }
+
+    .viewgatepass-header {
+        padding: 20px 15px;
+    }
+
+    .viewgatepass-logo,
+    .viewgatepass-ticket {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+    }
+
+    .viewgatepass-header h1 {
+        font-size: 21px;
+    }
+
+    .viewgatepass-header p {
+        font-size: 13px;
+    }
+
+    .viewgatepass-number {
+        margin: 0 16px;
+        font-size: 12px;
+    }
+
+    .viewgatepass-section {
+        padding: 21px 16px;
+    }
+
+    .viewgatepass-info-grid,
+    .viewgatepass-details,
+    .viewgatepass-rector,
+    .viewgatepass-security {
+        grid-template-columns: 1fr;
+    }
+
+    .viewgatepass-info-grid > div,
+    .viewgatepass-details > div {
+        border-right: none;
+        border-bottom: 1px solid #dce5eb;
+    }
+
+    .viewgatepass-details .full {
+        grid-column: auto;
+    }
+
+    .viewgatepass-rector > div,
+    .viewgatepass-security > div {
+        padding: 17px 16px;
+    }
+
+    .viewgatepass-rector > div:first-child,
+    .viewgatepass-security > div:first-child {
+        border-right: none;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .viewgatepass-validity {
+        margin: 20px 16px 24px;
+    }
+}
+
+/* Mobile hamburger navigation */
+.viewgatepass-mobile-menu-button,
+.viewgatepass-mobile-overlay,
+.viewgatepass-mobile-close,
+.apply-mobile-topbar,
+.my-mobile-topbar,
+.view-mobile-topbar,
+.verify-mobile-topbar {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .viewgatepass-sidebar {
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+        box-shadow: 15px 0 35px rgba(0, 0, 0, 0.18);
+    }
+
+    .viewgatepass-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .viewgatepass-mobile-menu-button {
+        position: fixed;
+        top: 14px;
+        left: 14px;
+        z-index: 1100;
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 12px;
+        background: #0d172a;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(13, 23, 42, 0.22);
+    }
+
+    .viewgatepass-mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 900;
+        display: block;
+        visibility: hidden;
+        background: rgba(5, 15, 30, 0.48);
+        opacity: 0;
+        transition: 0.2s ease;
+    }
+
+    .viewgatepass-mobile-overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .viewgatepass-mobile-close {
+        display: block;
+        margin-left: auto;
+        border: none;
+        background: transparent;
+        color: white;
+        font-size: 30px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .applygatepass-main,
+    .mygatepass-main,
+    .verifyotp-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .apply-mobile-topbar,
+    .my-mobile-topbar,
+    .view-mobile-topbar,
+    .verify-mobile-topbar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        background: white;
+        border-bottom: 1px solid #dfe8ee;
+    }
+
+    .apply-mobile-topbar,
+    .my-mobile-topbar,
+    .view-mobile-topbar,
+    .verify-mobile-topbar {
+        margin: -40px -48px 25px;
+        padding: 12px 22px 12px 72px;
+    }
+
+    .apply-mobile-topbar button,
+    .my-mobile-topbar button,
+    .view-mobile-topbar button,
+    .verify-mobile-topbar button {
+        position: absolute;
+        left: 18px;
+        width: 42px;
+        height: 42px;
+        border: none;
+        background: transparent;
+        color: #102f4f;
+        font-size: 27px;
+        cursor: pointer;
+    }
+
+    .apply-mobile-topbar strong,
+    .my-mobile-topbar strong,
+    .view-mobile-topbar strong,
+    .verify-mobile-topbar strong {
+        display: block;
+        color: #102f4f;
+        font-size: 18px;
+    }
+
+    .apply-mobile-topbar div span,
+    .my-mobile-topbar div span,
+    .view-mobile-topbar div span,
+    .verify-mobile-topbar div span {
+        display: block;
+        margin-top: 2px;
+        color: #75879a;
+        font-size: 11px;
+    }
+
+    .apply-mobile-topbar > span,
+    .my-mobile-topbar > span,
+    .view-mobile-topbar > span,
+    .verify-mobile-topbar > span {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 620px) {
+    .applygatepass-main,
+    .mygatepass-main,
+    .verifyotp-main {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .apply-mobile-topbar,
+    .my-mobile-topbar,
+    .view-mobile-topbar,
+    .verify-mobile-topbar {
+        margin-left: -14px;
+        margin-right: -14px;
+        margin-bottom: 18px;
+    }
+}
+
+.gatepass-approved-text,
+.view-approved {
+    color: #159653 !important;
+}
+
+.gatepass-pending-text,
+.view-pending {
+    color: #d78300 !important;
+}
+
+
+
+/* =========================================================
+   viewgatepass RESPONSIVE STUDENT SHELL
+   ========================================================= */
+
+.viewgatepass-page {
+    min-height: 100vh;
+    width: 100%;
+    background: #f3f7fa;
+}
+
+.viewgatepass-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1400;
+    width: 275px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 16px;
+    background: #0d172b;
+    color: #ffffff;
+    overflow-y: auto;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+}
+
+.viewgatepass-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 82px;
+    padding: 0 10px 18px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.viewgatepass-brand-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #0d8b84;
+    font-size: 24px;
+}
+
+.viewgatepass-brand strong {
+    display: block;
+    margin: 0;
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1.1;
+}
+
+.viewgatepass-brand span {
+    display: block;
+    margin-top: 4px;
+    color: #9fb0c7;
+    font-size: 12px;
+}
+
+.viewgatepass-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 24px;
+    padding: 0;
+}
+
+.viewgatepass-nav-item {
+    width: 100%;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #c2cede;
+    text-decoration: none;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.viewgatepass-nav-item:hover {
+    background: rgba(255,255,255,0.07);
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+.viewgatepass-nav-item.active {
+    background: #145f5b;
+    color: #ffffff;
+    box-shadow: inset 3px 0 0 #2ce0d2;
+}
+
+.viewgatepass-nav-item span:first-child {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.viewgatepass-logout {
+    width: 100%;
+    min-height: 48px;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border: 1px solid #2c3a52;
+    border-radius: 10px;
+    background: transparent;
+    color: #ff9999;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.viewgatepass-logout:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.viewgatepass-main {
+    position: relative;
+    width: calc(100% - 275px);
+    min-height: 100vh;
+    margin-left: 275px;
+    box-sizing: border-box;
+}
+
+.viewgatepass-mobile-header {
+    display: none;
+}
+
+.viewgatepass-mobile-overlay {
+    display: none;
+}
+
+.viewgatepass-desktop-photo {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 50;
+}
+
+.viewgatepass-desktop-photo button,
+.viewgatepass-mobile-photo {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dbe6ee;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #102a43;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15,42,60,0.12);
+}
+
+.viewgatepass-desktop-photo img,
+.viewgatepass-mobile-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.viewgatepass-desktop-photo span,
+.viewgatepass-mobile-photo span {
+    font-size: 21px;
+}
+
+@media (max-width: 800px) {
+    body.viewgatepass-menu-open {
+        overflow: hidden;
+    }
+
+    .viewgatepass-sidebar {
+        width: 275px;
+        max-width: 86vw;
+        transform: translateX(-105%);
+        box-shadow: 12px 0 35px rgba(0,0,0,0.22);
+    }
+
+    .viewgatepass-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .viewgatepass-main {
+        width: 100%;
+        margin-left: 0;
+        min-height: 100vh;
+    }
+
+    .viewgatepass-mobile-header {
+        position: sticky;
+        top: 0;
+        z-index: 1200;
+        width: 100%;
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-sizing: border-box;
+        padding: 10px 14px;
+        background: #ffffff;
+        border-bottom: 1px solid #dbe6ee;
+        box-shadow: 0 3px 12px rgba(15,42,60,0.08);
+    }
+
+    .viewgatepass-mobile-left {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .viewgatepass-mobile-menu {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 0;
+        border-radius: 9px;
+        background: #0d8b84;
+        color: #ffffff;
+        font-size: 23px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .viewgatepass-mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+    }
+
+    .viewgatepass-mobile-brand-icon {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #0d8b84;
+        font-size: 20px;
+    }
+
+    .viewgatepass-mobile-brand strong {
+        display: block;
+        color: #102a43;
+        font-size: 16px;
+        line-height: 1.1;
+    }
+
+    .viewgatepass-mobile-brand span {
+        display: block;
+        margin-top: 2px;
+        color: #607d98;
+        font-size: 10px;
+    }
+
+    .viewgatepass-mobile-photo {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+    }
+
+    .viewgatepass-desktop-photo {
+        display: none;
+    }
+
+    .viewgatepass-mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1300;
+        display: block;
+        background: rgba(2, 12, 27, 0.48);
+        cursor: pointer;
+    }
+
+    .viewgatepass-sidebar {
+        z-index: 1400;
+    }
+}
+
+@media (max-width: 480px) {
+    .viewgatepass-mobile-header {
+        min-height: 62px;
+        padding: 8px 10px;
+    }
+
+    .viewgatepass-mobile-menu {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+
+    .viewgatepass-mobile-photo {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .viewgatepass-mobile-brand strong {
+        font-size: 15px;
+    }
+}
+
+.view-rejected {
+    color: #b42318;
+}
+
+
+/* Center the gate-pass card relative to the full desktop viewport, not only the area beside the sidebar. */
+@media (min-width: 801px) {
+    .viewgatepass-wrapper {
+        transform: translateX(-137.5px);
+    }
+}

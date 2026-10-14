@@ -1,0 +1,433 @@
+.security-gatepass-page {
+    min-height: 100vh;
+    display: flex;
+    background: #f4f7fa;
+    color: #102f4d;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.security-gatepass-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    background: #102f4d;
+    color: #fff;
+    z-index: 100;
+}
+.security-gatepass-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.security-gatepass-brand-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #0f8179;
+    font-size: 22px;
+}
+.security-gatepass-brand h2 {
+    margin: 0;
+    font-size: 20px;
+}
+.security-gatepass-brand span {
+    display: block;
+    margin-top: 3px;
+    color: #b9c8d5;
+    font-size: 11px;
+}
+.security-gatepass-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 12px;
+}
+.security-gatepass-nav button {
+    width: 100%;
+    padding: 13px 15px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #d6e1e9;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+.security-gatepass-nav button:hover,
+.security-gatepass-nav button.active {
+    background: #0f8179;
+    color: #fff;
+}
+.security-gatepass-sidebar-bottom {
+    margin-top: auto;
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+}
+.security-gatepass-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+.security-gatepass-avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #0f8179;
+    font-weight: 700;
+}
+.security-gatepass-user strong,
+.security-gatepass-user span {
+    display: block;
+}
+.security-gatepass-user strong {
+    max-width: 165px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+}
+.security-gatepass-user span {
+    margin-top: 3px;
+    color: #aebdca;
+    font-size: 11px;
+}
+.security-gatepass-logout {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    background: transparent;
+    color: #ffb4b4;
+    cursor: pointer;
+}
+.security-gatepass-main {
+    width: calc(100% - 260px);
+    min-height: 100vh;
+    margin-left: 260px;
+    padding: 32px;
+    box-sizing: border-box;
+}
+.security-gatepass-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.security-gatepass-header > div:first-child > span {
+    color: #0f8179;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+.security-gatepass-header h1 {
+    margin: 7px 0 6px;
+    font-size: 34px;
+}
+.security-gatepass-header p {
+    margin: 0;
+    color: #71879b;
+    font-size: 14px;
+}
+.security-gatepass-online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #cfe8da;
+    border-radius: 20px;
+    background: #effaf3;
+    color: #178b4d;
+    font-size: 12px;
+    font-weight: 700;
+}
+.security-gatepass-online i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1eb35c;
+}
+.security-gatepass-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    border-radius: 10px;
+}
+.security-gatepass-message.success {
+    border: 1px solid #b9e5c9;
+    background: #effaf3;
+    color: #168b4d;
+}
+.security-gatepass-message.error {
+    border: 1px solid #f4c4c4;
+    background: #fff2f2;
+    color: #d83b3b;
+}
+.security-gatepass-message span {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+}
+.security-gatepass-message button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 19px;
+    cursor: pointer;
+}
+.security-gatepass-grid {
+    display: grid;
+    grid-template-columns: minmax(350px, 1fr) minmax(330px, 0.8fr);
+    gap: 22px;
+    max-width: 1180px;
+}
+.security-gatepass-scanner-card,
+.security-gatepass-info-card {
+    overflow: hidden;
+    border: 1px solid #dfe7ee;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 8px 25px rgba(16,47,77,0.05);
+}
+.security-gatepass-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 20px 22px;
+    border-bottom: 1px solid #e4ebf0;
+}
+.security-gatepass-card-header span {
+    color: #0f8179;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.7px;
+}
+.security-gatepass-card-header h2 {
+    margin: 5px 0 0;
+    color: #173650;
+    font-size: 20px;
+}
+.security-gatepass-card-icon {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #e9f7f5;
+    font-size: 23px;
+}
+.security-qr-reader {
+    width: 100%;
+    min-height: 360px;
+    background: #0e1720;
+}
+.security-qr-reader video {
+    width: 100% !important;
+    max-height: 440px;
+    object-fit: cover;
+}
+.security-qr-reader__scan_region {
+    border: none !important;
+}
+.security-gatepass-scanner-placeholder {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+}
+.security-gatepass-scanner-placeholder > div {
+    width: 68px;
+    height: 68px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 15px;
+    border: 2px dashed #86c8c2;
+    border-radius: 15px;
+    color: #0f8179;
+    font-size: 30px;
+}
+.security-gatepass-scanner-placeholder h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+}
+.security-gatepass-scanner-placeholder p {
+    max-width: 360px;
+    margin: 0 0 20px;
+    color: #71879b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.security-gatepass-scanner-placeholder button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 9px;
+    background: #0f8179;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+.security-gatepass-scanner-placeholder button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.security-gatepass-loading {
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.security-gatepass-loading span {
+    color: #71879b;
+    font-size: 13px;
+}
+.security-gatepass-spinner {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border: 4px solid #dceceb;
+    border-top-color: #0f8179;
+    border-radius: 50%;
+    animation: securityGatePassSpin 0.8s linear infinite;
+}
+.security-gatepass-scanning-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    background: #effaf3;
+    color: #168b4d;
+    font-size: 12px;
+    font-weight: 700;
+}
+.security-gatepass-scanning-status span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1eb35c;
+}
+.security-gatepass-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+}
+.security-gatepass-flow > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border-radius: 10px;
+    background: #f7f9fb;
+}
+.security-gatepass-flow b {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #0f8179;
+    color: #fff;
+    font-size: 12px;
+}
+.security-gatepass-flow span {
+    color: #314e64;
+    font-size: 13px;
+    font-weight: 600;
+}
+.security-gatepass-preview {
+    margin: 0 22px 22px;
+    padding: 16px;
+    border-left: 4px solid #0f8179;
+    border-radius: 10px;
+    background: #effaf3;
+}
+.security-gatepass-preview span,
+.security-gatepass-preview strong,
+.security-gatepass-preview p {
+    display: block;
+}
+.security-gatepass-preview span {
+    color: #0f8179;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+}
+.security-gatepass-preview strong {
+    margin-top: 6px;
+    font-size: 16px;
+}
+.security-gatepass-preview p {
+    margin: 4px 0 0;
+    color: #648091;
+    font-size: 12px;
+}
+@keyframes securityGatePassSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@media (max-width: 900px) {
+    .security-gatepass-sidebar {
+        width: 220px;
+    }
+    .security-gatepass-main {
+        width: calc(100% - 220px);
+        margin-left: 220px;
+        padding: 24px;
+    }
+    .security-gatepass-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 680px) {
+    .security-gatepass-sidebar {
+        position: static;
+        width: 100%;
+        min-height: auto;
+    }
+    .security-gatepass-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .security-gatepass-sidebar-bottom {
+        margin-top: 0;
+    }
+    .security-gatepass-main {
+        width: 100%;
+        margin-left: 0;
+        padding: 18px;
+    }
+    .security-gatepass-page {
+        display: block;
+    }
+    .security-gatepass-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .security-gatepass-header h1 {
+        font-size: 28px;
+    }
+    .security-gatepass-grid {
+        grid-template-columns: 1fr;
+    }
+    .security-qr-reader {
+        min-height: 300px;
+    }
+}
