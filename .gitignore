@@ -1,0 +1,8 @@
+@(
+  ".env"
+  ".env.*"
+  "!.env.example"
+  "ca.pem"
+  "node_modules/"
+  "dist/"
+) | Set-Content .gitignore
