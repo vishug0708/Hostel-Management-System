@@ -21,20 +21,29 @@ function getPhotoUrl(photo) {
 
 function StaffDashboard() {
   const navigate = useNavigate();
-  const [staff, setStaff] = useState(null);
+
+  // Instant render from session data
+  const [staff, setStaff] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem("staff") || localStorage.getItem("staff");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("staffToken");
+    const token = sessionStorage.getItem("staffToken") || localStorage.getItem("staffToken");
 
     if (!token) {
       navigate("/staff/login", { replace: true });
       return;
     }
 
-    const savedStaff = sessionStorage.getItem("staff");
-
-    if (savedStaff) {
+    const savedStaff = sessionStorage.getItem("staff") || localStorage.getItem("staff");
+    if (savedStaff && !staff) {
       try {
         setStaff(JSON.parse(savedStaff));
       } catch (error) {
@@ -46,7 +55,9 @@ function StaffDashboard() {
   }, [navigate]);
 
   const fetchProfile = async () => {
-    const token = sessionStorage.getItem("staffToken");
+    const token = sessionStorage.getItem("staffToken") || localStorage.getItem("staffToken");
+
+    if (!token) return;
 
     try {
       const response = await fetch(`${API_URL}/api/staff/profile`, {
@@ -63,7 +74,9 @@ function StaffDashboard() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        const saved = JSON.parse(sessionStorage.getItem("staff") || "{}");
+        const saved = JSON.parse(
+          sessionStorage.getItem("staff") || localStorage.getItem("staff") || "{}"
+        );
         const mergedStaff = {
           ...saved,
           ...data.staff,
@@ -71,13 +84,17 @@ function StaffDashboard() {
             data.staff?.photo ||
             saved.photo ||
             sessionStorage.getItem("staffPhoto") ||
+            localStorage.getItem("staffPhoto") ||
             "",
         };
         setStaff(mergedStaff);
         sessionStorage.setItem("staff", JSON.stringify(mergedStaff));
+        localStorage.setItem("staff", JSON.stringify(mergedStaff));
 
         if (mergedStaff.photo) {
-          sessionStorage.setItem("staffPhoto", getPhotoUrl(mergedStaff.photo));
+          const photoUrl = getPhotoUrl(mergedStaff.photo);
+          sessionStorage.setItem("staffPhoto", photoUrl);
+          localStorage.setItem("staffPhoto", photoUrl);
         }
       }
     } catch (error) {
@@ -88,14 +105,17 @@ function StaffDashboard() {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem("staffToken");
-    sessionStorage.removeItem("staff");
-    sessionStorage.removeItem("staffPhoto");
+    ["staffToken", "staff", "staffPhoto", "currentStaffId"].forEach((k) => {
+      sessionStorage.removeItem(k);
+      localStorage.removeItem(k);
+    });
     navigate("/staff/login", { replace: true });
   };
 
   const profilePhoto =
-    getPhotoUrl(staff?.photo) || sessionStorage.getItem("staffPhoto");
+    getPhotoUrl(staff?.photo) ||
+    sessionStorage.getItem("staffPhoto") ||
+    localStorage.getItem("staffPhoto");
 
   return (
     <div className="staff-dashboard-page">

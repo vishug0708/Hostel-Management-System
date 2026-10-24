@@ -17,7 +17,7 @@ function StaffLogin() {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
-        const token = localStorage.getItem("staffToken");
+        const token = sessionStorage.getItem("staffToken") || localStorage.getItem("staffToken");
 
         if (token) {
             navigate("/staff/dashboard", {
@@ -38,6 +38,8 @@ function StaffLogin() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (loading) return;
+
         setError("");
         setSuccess("");
 
@@ -51,11 +53,6 @@ function StaffLogin() {
 
         try {
             setLoading(true);
-
-            console.log(
-                "Staff Login API:",
-                `${API_URL}/api/staff/auth/login`
-            );
 
             const response = await fetch(
                 `${API_URL}/api/staff/auth/login`,
@@ -71,97 +68,46 @@ function StaffLogin() {
                 }
             );
 
-            const contentType =
-                response.headers.get("content-type") || "";
+            const contentType = response.headers.get("content-type") || "";
 
             let data;
-
             if (contentType.includes("application/json")) {
                 data = await response.json();
             } else {
-                const responseText = await response.text();
-
-                console.error(
-                    "Staff Login Non-JSON Response:",
-                    responseText
-                );
-
-                throw new Error(
-                    `Backend returned ${response.status} instead of JSON.`
-                );
+                throw new Error(`Backend returned ${response.status} instead of JSON.`);
             }
 
-            console.log(
-                "Staff Login Status:",
-                response.status
-            );
-
-            console.log(
-                "Staff Login Response:",
-                data
-            );
-
             if (!response.ok || !data.success) {
-                throw new Error(
-                    data.message ||
-                    "Invalid Staff ID or password."
-                );
+                throw new Error(data.message || "Invalid Staff ID or password.");
             }
 
             if (!data.token) {
-                throw new Error(
-                    "Login successful but JWT token was not received from backend."
-                );
+                throw new Error("Login successful but JWT token was not received from backend.");
             }
 
-            // ==========================================
-            // SAVE STAFF LOGIN DATA
-            // ==========================================
-
-            localStorage.setItem(
-                "staffToken",
-                data.token
-            );
-
-            localStorage.setItem(
-                "staff",
-                JSON.stringify(data.staff || {})
-            );
+            // Save staff session data
+            sessionStorage.setItem("staffToken", data.token);
+            sessionStorage.setItem("staff", JSON.stringify(data.staff || {}));
+            localStorage.setItem("staffToken", data.token);
+            localStorage.setItem("staff", JSON.stringify(data.staff || {}));
 
             if (data.staff?.photo) {
-                localStorage.setItem(
-                    "staffPhoto",
-                    data.staff.photo
-                );
+                sessionStorage.setItem("staffPhoto", data.staff.photo);
+                localStorage.setItem("staffPhoto", data.staff.photo);
             } else {
+                sessionStorage.removeItem("staffPhoto");
                 localStorage.removeItem("staffPhoto");
             }
 
-            // Remove old session-based staff data
-            sessionStorage.removeItem("staffToken");
-            sessionStorage.removeItem("staff");
-            sessionStorage.removeItem("staffPhoto");
-            sessionStorage.removeItem("currentStaffId");
+            setSuccess("Staff login successful! Redirecting...");
 
-            setSuccess(
-                "Staff login successful! Redirecting..."
-            );
-
-            setTimeout(() => {
-                navigate("/staff/dashboard", {
-                    replace: true
-                });
-            }, 300);
+            // Instant navigation to dashboard
+            navigate("/staff/dashboard", {
+                replace: true
+            });
         } catch (err) {
-            console.error(
-                "Staff Login Error:",
-                err
-            );
-
-            setError(
-                err.message ||
-                "Unable to login."
-            );
+            console.error("Staff Login Error:", err);
+            setError(err.message || "Unable to login.");
         } finally {
             setLoading(false);
         }

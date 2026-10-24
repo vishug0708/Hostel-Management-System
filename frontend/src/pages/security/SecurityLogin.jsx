@@ -32,6 +32,7 @@ const SecurityLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (loading) return;
         if (!formData.email.trim()) {
             setError("Please enter your email address.");
             return;

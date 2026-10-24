@@ -30,6 +30,7 @@ function AdminLogin() {
         // VALIDATION
         // =================================================
 
+        if (loading) return;
         if (!email || !password) {
 
             setError(
@@ -120,7 +121,7 @@ function AdminLogin() {
             // REDIRECT TO ADMIN DASHBOARD
             // =================================================
 
-            navigate("/admin/dashboard");
+            navigate("/admin/dashboard", { replace: true });
 
 
         } catch (error) {

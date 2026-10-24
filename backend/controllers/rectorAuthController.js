@@ -17,7 +17,7 @@ const rectorLogin = async (req, res) => {
         const [rows] = await db.query(
             `SELECT id, rector_id, name, email, password, phone, status, photo, salary
              FROM rectors
-             WHERE LOWER(email) = ?
+             WHERE email = ?
              LIMIT 1`,
             [cleanEmail]
         );

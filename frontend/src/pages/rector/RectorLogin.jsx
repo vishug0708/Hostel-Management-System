@@ -26,6 +26,7 @@ function RectorLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (loading) return;
         if (!formData.email || !formData.password) {
             setError("Please enter email and password.");
             return;

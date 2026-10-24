@@ -1,8 +1,24 @@
-@(
-  ".env"
-  ".env.*"
-  "!.env.example"
-  "ca.pem"
-  "node_modules/"
-  "dist/"
-) | Set-Content .gitignore
+# Environment files
+.env
+.env.*
+!.env.example
+
+# SSL Certificates
+ca.pem
+
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+dist-ssr/
+
+# Local overrides
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

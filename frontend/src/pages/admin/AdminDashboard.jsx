@@ -9,7 +9,7 @@ function AdminDashboard() {
 
     const navigate = useNavigate();
 
-    const [admin, setAdmin] = useState(null);
+    const [admin, setAdmin] = useState(() => { try { const saved = sessionStorage.getItem("admin") || localStorage.getItem("admin"); return saved ? JSON.parse(saved) : null; } catch { return null; } });
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const getPhotoUrl = (photo) => {

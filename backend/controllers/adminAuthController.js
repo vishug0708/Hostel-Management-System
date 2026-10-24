@@ -13,7 +13,7 @@ const adminLogin = async (req, res) => {
         const sql = `
             SELECT id, name, email, password, phone, photo
             FROM admins
-            WHERE LOWER(email) = ?
+            WHERE email = ?
             LIMIT 1
         `;
         const [results] = await db.query(sql, [cleanEmail]);

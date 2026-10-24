@@ -7,10 +7,10 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const StudentDashboard = () => {
     const navigate = useNavigate();
 
-    const [student, setStudent] = useState(null);
+    const [student, setStudent] = useState(() => { try { const raw = sessionStorage.getItem("student") || localStorage.getItem("student"); return raw ? JSON.parse(raw) : null; } catch { return null; } });
     const [room, setRoom] = useState(null);
     const [leaveRequests, setLeaveRequests] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
