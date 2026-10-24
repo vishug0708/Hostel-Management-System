@@ -772,49 +772,38 @@ function CricketBooking() {
                         <p>Select ground, date, time slot and add your players.</p>
                     </div>
 
-                    <div className="cricketbooking-desktop-photo">
+                    <div className="cricketbooking-desktop-actions">
                         <button
                             type="button"
-                            onClick={() => navigate("/student/profile")}
-                            aria-label="Open student profile"
+                            className="back-cricket-btn"
+                            onClick={() => navigate("/student/cricketbox")}
                         >
-                            {studentPhoto ? (
-                                <img
-                                    src={studentPhoto}
-                                    alt="Student profile"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display = "none";
-                                    }}
-                                />
-                            ) : (
-                                "👤"
-                            )}
+                            ← Back to Grounds
                         </button>
+
+                        <div className="cricketbooking-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {studentPhoto ? (
+                                    <img
+                                        src={studentPhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </header>
 
                 <main className="cricketbooking-content">
-                    <div className="cricketbooking-heading">
-                        <div>
-                            <span className="cricket-page-label">
-                                CRICKET BOX
-                            </span>
-                            <h1>Book Cricket Box</h1>
-                            <p>
-                                Select ground, date, time slot and add
-                                your players.
-                            </p>
-                        </div>
-
-                        <button
-                            className="back-cricket-btn"
-                            onClick={() =>
-                                navigate("/student/cricket-box")
-                            }
-                        >
-                            ← Back
-                        </button>
-                    </div>
 
                     {error && (
                         <div className="cricket-alert cricket-alert-error">
