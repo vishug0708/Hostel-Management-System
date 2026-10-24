@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./EditProfile.css";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const EditProfile = () => {
     const navigate = useNavigate();
@@ -9,11 +11,19 @@ const EditProfile = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
-
+    const [success, setSuccess] = useState("");
+    const [photoPreview, setPhotoPreview] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
 
     const sidebarRef = useRef(null);
     const mobileMenuButtonRef = useRef(null);
+
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        mobile: "",
+        photo: null
+    });
 
     useEffect(() => {
         document.body.classList.toggle(
@@ -21,10 +31,14 @@ const EditProfile = () => {
             menuOpen
         );
 
+        return () => {
+            document.body.classList.remove("editprofile-menu-open");
+        };
+    }, [menuOpen]);
+
+    useEffect(() => {
         if (!menuOpen) {
-            return () => {
-                document.body.classList.remove("editprofile-menu-open");
-            };
+            return;
         }
 
         const handleOutsidePointer = (event) => {
@@ -57,25 +71,15 @@ const EditProfile = () => {
         };
     }, [menuOpen]);
 
-    const [success, setSuccess] = useState("");
-    const [photoPreview, setPhotoPreview] = useState("");
-
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        mobile: "",
-        photo: null
-    });
-
     const getStudentId = () => {
         const studentData = localStorage.getItem("student");
 
         if (studentData) {
             try {
-                const student = JSON.parse(studentData);
-                return student?.id || null;
-            } catch (error) {
-                console.error("Invalid student data:", error);
+                const parsed = JSON.parse(studentData);
+                return parsed?.id || null;
+            } catch (err) {
+                console.error("Invalid student data:", err);
             }
         }
 
@@ -93,8 +97,8 @@ const EditProfile = () => {
         if (savedStudent) {
             try {
                 setStudent(JSON.parse(savedStudent));
-            } catch (error) {
-                console.error("Invalid saved student data:", error);
+            } catch (err) {
+                console.error("Invalid saved student data:", err);
             }
         }
 
@@ -112,12 +116,14 @@ const EditProfile = () => {
                 return;
             }
 
-            const API_URL =
-                import.meta.env.VITE_API_URL ||
-                "http://localhost:5000";
-
+            const token = localStorage.getItem("studentToken");
             const response = await fetch(
-                `${API_URL}/api/student/profile/${studentId}`
+                `${API_URL}/api/student/profile/${studentId}`,
+                {
+                    headers: {
+                        ...(token ? { Authorization: `Bearer ${token}` } : {})
+                    }
+                }
             );
 
             const data = await response.json();
@@ -129,7 +135,6 @@ const EditProfile = () => {
             }
 
             const profile = data.student;
-
             setStudent(profile);
 
             setFormData({
@@ -140,17 +145,26 @@ const EditProfile = () => {
             });
 
             if (profile.photo) {
-                setPhotoPreview(
-                    profile.photo.startsWith("http")
-                        ? profile.photo
-                        : `${API_URL}/${profile.photo}`
-                );
+                const photo = String(profile.photo).trim();
+                if (
+                    photo.startsWith("data:") ||
+                    photo.startsWith("blob:") ||
+                    photo.startsWith("http://") ||
+                    photo.startsWith("https://")
+                ) {
+                    setPhotoPreview(photo);
+                } else {
+                    const normalizedPhoto = photo.replace(/^\/+/, "");
+                    if (normalizedPhoto.startsWith("uploads/")) {
+                        setPhotoPreview(`${API_URL}/${normalizedPhoto}`);
+                    } else {
+                        setPhotoPreview(`${API_URL}/uploads/students/${normalizedPhoto}`);
+                    }
+                }
             }
         } catch (err) {
             console.error("Edit Profile Error:", err);
-            setError(
-                err.message || "Failed to fetch profile."
-            );
+            setError(err.message || "Failed to fetch profile.");
         } finally {
             setLoading(false);
         }
@@ -172,10 +186,6 @@ const EditProfile = () => {
             return photo;
         }
 
-        const API_URL =
-            import.meta.env.VITE_API_URL ||
-            "http://localhost:5000";
-
         const normalizedPhoto = photo.replace(/^\/+/, "");
 
         if (normalizedPhoto.startsWith("uploads/")) {
@@ -189,7 +199,6 @@ const EditProfile = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         setFormData((prev) => ({
             ...prev,
             [name]: value
@@ -251,12 +260,7 @@ const EditProfile = () => {
                 return;
             }
 
-            const API_URL =
-                import.meta.env.VITE_API_URL ||
-                "http://localhost:5000";
-
             const body = new FormData();
-
             body.append("name", formData.name.trim());
             body.append("email", formData.email.trim());
             body.append("mobile", formData.mobile.trim());
@@ -265,10 +269,14 @@ const EditProfile = () => {
                 body.append("photo", formData.photo);
             }
 
+            const token = localStorage.getItem("studentToken");
             const response = await fetch(
                 `${API_URL}/api/student/profile/${studentId}`,
                 {
                     method: "PUT",
+                    headers: {
+                        ...(token ? { Authorization: `Bearer ${token}` } : {})
+                    },
                     body
                 }
             );
@@ -284,19 +292,28 @@ const EditProfile = () => {
             setStudent(data.student);
 
             if (data.student?.photo) {
-                setPhotoPreview(
-                    data.student.photo.startsWith("http")
-                        ? data.student.photo
-                        : `${API_URL}/${data.student.photo}`
-                );
+                const photo = String(data.student.photo).trim();
+                if (
+                    photo.startsWith("data:") ||
+                    photo.startsWith("blob:") ||
+                    photo.startsWith("http://") ||
+                    photo.startsWith("https://")
+                ) {
+                    setPhotoPreview(photo);
+                } else {
+                    const normalizedPhoto = photo.replace(/^\/+/, "");
+                    if (normalizedPhoto.startsWith("uploads/")) {
+                        setPhotoPreview(`${API_URL}/${normalizedPhoto}`);
+                    } else {
+                        setPhotoPreview(`${API_URL}/uploads/students/${normalizedPhoto}`);
+                    }
+                }
             }
 
             const oldStudentData = localStorage.getItem("student");
-
             if (oldStudentData) {
                 try {
                     const oldStudent = JSON.parse(oldStudentData);
-
                     localStorage.setItem(
                         "student",
                         JSON.stringify({
@@ -304,11 +321,8 @@ const EditProfile = () => {
                             ...data.student
                         })
                     );
-                } catch (error) {
-                    console.error(
-                        "Failed to update local student data:",
-                        error
-                    );
+                } catch (err) {
+                    console.error("Failed to update local student data:", err);
                 }
             }
 
@@ -324,9 +338,7 @@ const EditProfile = () => {
             }, 1200);
         } catch (err) {
             console.error("Update Profile Error:", err);
-            setError(
-                err.message || "Failed to update profile."
-            );
+            setError(err.message || "Failed to update profile.");
         } finally {
             setSaving(false);
         }
@@ -338,12 +350,15 @@ const EditProfile = () => {
     };
 
     const handleLogout = () => {
+        setMenuOpen(false);
         localStorage.removeItem("studentId");
         localStorage.removeItem("student_id");
         localStorage.removeItem("student");
         localStorage.removeItem("studentToken");
 
-        navigate("/student/login");
+        navigate("/student/login", {
+            replace: true
+        });
     };
 
     const getInitials = () => {
@@ -361,180 +376,41 @@ const EditProfile = () => {
 
     if (loading) {
         return (
-            <div className="editprofile-layout">
+            <div className="editprofile-page">
 
-            <header className="editprofile-mobile-header">
-                <div className="editprofile-mobile-left">
-                    <button
-                        ref={mobileMenuButtonRef}
-                        type="button"
-                        className="editprofile-mobile-menu"
-                        onClick={() => setMenuOpen((open) => !open)}
-                        aria-label={
-                            menuOpen
-                                ? "Close student menu"
-                                : "Open student menu"
-                        }
-                    >
-                        ☰
-                    </button>
+                {/* =========================
+                    MOBILE HEADER
+                ========================= */}
+                <header className="editprofile-mobile-header">
+                    <div className="editprofile-mobile-left">
+                        <button
+                            ref={mobileMenuButtonRef}
+                            type="button"
+                            className="editprofile-mobile-menu"
+                            onClick={() => setMenuOpen((open) => !open)}
+                            aria-label={
+                                menuOpen
+                                    ? "Close student menu"
+                                    : "Open student menu"
+                            }
+                        >
+                            ☰
+                        </button>
 
-                    <div className="editprofile-mobile-brand">
-                        <div className="editprofile-mobile-brand-icon">🏠</div>
-                        <div>
-                            <strong>Hostel</strong>
-                            <span>Student Portal</span>
+                        <div className="editprofile-mobile-brand">
+                            <div className="editprofile-mobile-brand-icon">
+                                🏠
+                            </div>
+                            <div>
+                                <strong>Hostel</strong>
+                                <span>Student Portal</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <button
-                    type="button"
-                    className="editprofile-mobile-photo"
-                    onClick={() => navigate("/student/profile")}
-                    aria-label="Open student profile"
-                >
-                    {profilePhoto ? (
-                        <img
-                            src={profilePhoto}
-                            alt="Student profile"
-                            onError={(event) => {
-                                event.currentTarget.style.display = "none";
-                            }}
-                        />
-                    ) : (
-                        "👤"
-                    )}
-                </button>
-            </header>
-
-            {menuOpen && (
-                <div
-                    className="editprofile-mobile-overlay"
-                    onPointerDown={() => setMenuOpen(false)}
-                />
-            )}
-
-            <aside
-                ref={sidebarRef}
-                className={`editprofile-sidebar ${menuOpen ? "mobile-open" : ""}`}
-            >
-                <div className="editprofile-brand">
-                    <div className="editprofile-brand-icon">🏠</div>
-                    <div>
-                        <strong>Hostel</strong>
-                        <span>Student Portal</span>
-                    </div>
-                </div>
-
-                <nav className="editprofile-nav">
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/dashboard")}
-                    >
-                        <span>📊</span>
-                        <span>Dashboard</span>
-                    </button>
 
                     <button
                         type="button"
-                        className="editprofile-nav-item active"
-                        onClick={() => handleNavigation("/student/profile")}
-                    >
-                        <span>👤</span>
-                        <span>My Profile</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/room")}
-                    >
-                        <span>🛏️</span>
-                        <span>My Room</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/leave")}
-                    >
-                        <span>📄</span>
-                        <span>My Leave</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/leave/apply")}
-                    >
-                        <span>➕</span>
-                        <span>Apply Leave</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/gatepass")}
-                    >
-                        <span>🎫</span>
-                        <span>Gate Pass</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/complaints")}
-                    >
-                        <span>🛠️</span>
-                        <span>Complaints</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/fees")}
-                    >
-                        <span>💰</span>
-                        <span>My Fees</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/notifications")}
-                    >
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/cricketbox")}
-                    >
-                        <span>🏏</span>
-                        <span>Cricket Box</span>
-                    </button>
-
-                    
-                </nav>
-
-                <button
-                    type="button"
-                    className="editprofile-logout"
-                    onClick={handleLogout}
-                >
-                    <span>🚪</span>
-                    <span>Logout</span>
-                </button>
-            </aside>
-
-            <main className="editprofile-main">
-                <div className="editprofile-desktop-photo">
-                    <button
-                        type="button"
+                        className="editprofile-mobile-photo"
                         onClick={() => navigate("/student/profile")}
                         aria-label="Open student profile"
                     >
@@ -550,20 +426,178 @@ const EditProfile = () => {
                             "👤"
                         )}
                     </button>
-                </div>
+                </header>
+
+                {/* =========================
+                    SIDEBAR
+                ========================= */}
+                <aside
+                    ref={sidebarRef}
+                    className={`editprofile-sidebar ${menuOpen ? "mobile-open" : ""}`}
+                >
+                    <div className="editprofile-sidebar-brand">
+                        <div className="editprofile-brand-icon">
+                            🏠
+                        </div>
+                        <div>
+                            <strong>Hostel</strong>
+                            <span>Student Portal</span>
+                        </div>
+                    </div>
+
+                    <nav className="editprofile-sidebar-nav">
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/dashboard")}
+                        >
+                            <span>📊</span>
+                            Dashboard
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item active"
+                            onClick={() => handleNavigation("/student/profile")}
+                        >
+                            <span>👤</span>
+                            My Profile
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/room")}
+                        >
+                            <span>🛏️</span>
+                            My Room
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/leave")}
+                        >
+                            <span>📄</span>
+                            My Leave
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/leave/apply")}
+                        >
+                            <span>➕</span>
+                            Apply Leave
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/gatepass")}
+                        >
+                            <span>🎫</span>
+                            Gate Pass
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/complaints")}
+                        >
+                            <span>🛠️</span>
+                            Complaints
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/fees")}
+                        >
+                            <span>💰</span>
+                            My Fees
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/notifications")}
+                        >
+                            <span>🔔</span>
+                            Notifications
+                        </button>
+
+                        <button
+                            type="button"
+                            className="editprofile-nav-item"
+                            onClick={() => handleNavigation("/student/cricketbox")}
+                        >
+                            <span>🏏</span>
+                            Cricket Box
+                        </button>
+                    </nav>
+
+                    <button
+                        type="button"
+                        className="editprofile-logout"
+                        onClick={handleLogout}
+                    >
+                        <span>🚪</span>
+                        Logout
+                    </button>
+                </aside>
+
+                {/* =========================
+                    MOBILE OVERLAY
+                ========================= */}
+                {menuOpen && (
+                    <div
+                        className="editprofile-mobile-overlay"
+                        onPointerDown={() => setMenuOpen(false)}
+                        onClick={() => setMenuOpen(false)}
+                    />
+                )}
+
+                {/* =========================
+                    MAIN
+                ========================= */}
+                <main className="editprofile-main">
+                    <div className="editprofile-desktop-photo">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/student/profile")}
+                            aria-label="Open student profile"
+                        >
+                            {profilePhoto ? (
+                                <img
+                                    src={profilePhoto}
+                                    alt="Student profile"
+                                    onError={(event) => {
+                                        event.currentTarget.style.display = "none";
+                                    }}
+                                />
+                            ) : (
+                                "👤"
+                            )}
+                        </button>
+                    </div>
 
                     <div className="editprofile-loading">
                         <div className="loading-spinner"></div>
                         <p>Loading profile...</p>
                     </div>
                 </main>
+
             </div>
         );
     }
 
     return (
-        <div className="editprofile-layout">
+        <div className="editprofile-page">
 
+            {/* =========================
+                MOBILE HEADER
+            ========================= */}
             <header className="editprofile-mobile-header">
                 <div className="editprofile-mobile-left">
                     <button
@@ -581,7 +615,9 @@ const EditProfile = () => {
                     </button>
 
                     <div className="editprofile-mobile-brand">
-                        <div className="editprofile-mobile-brand-icon">🏠</div>
+                        <div className="editprofile-mobile-brand-icon">
+                            🏠
+                        </div>
                         <div>
                             <strong>Hostel</strong>
                             <span>Student Portal</span>
@@ -609,33 +645,31 @@ const EditProfile = () => {
                 </button>
             </header>
 
-            {menuOpen && (
-                <div
-                    className="editprofile-mobile-overlay"
-                    onPointerDown={() => setMenuOpen(false)}
-                />
-            )}
-
+            {/* =========================
+                SIDEBAR
+            ========================= */}
             <aside
                 ref={sidebarRef}
                 className={`editprofile-sidebar ${menuOpen ? "mobile-open" : ""}`}
             >
-                <div className="editprofile-brand">
-                    <div className="editprofile-brand-icon">🏠</div>
+                <div className="editprofile-sidebar-brand">
+                    <div className="editprofile-brand-icon">
+                        🏠
+                    </div>
                     <div>
                         <strong>Hostel</strong>
                         <span>Student Portal</span>
                     </div>
                 </div>
 
-                <nav className="editprofile-nav">
+                <nav className="editprofile-sidebar-nav">
                     <button
                         type="button"
                         className="editprofile-nav-item"
                         onClick={() => handleNavigation("/student/dashboard")}
                     >
                         <span>📊</span>
-                        <span>Dashboard</span>
+                        Dashboard
                     </button>
 
                     <button
@@ -644,7 +678,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/profile")}
                     >
                         <span>👤</span>
-                        <span>My Profile</span>
+                        My Profile
                     </button>
 
                     <button
@@ -653,7 +687,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/room")}
                     >
                         <span>🛏️</span>
-                        <span>My Room</span>
+                        My Room
                     </button>
 
                     <button
@@ -662,7 +696,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/leave")}
                     >
                         <span>📄</span>
-                        <span>My Leave</span>
+                        My Leave
                     </button>
 
                     <button
@@ -671,7 +705,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/leave/apply")}
                     >
                         <span>➕</span>
-                        <span>Apply Leave</span>
+                        Apply Leave
                     </button>
 
                     <button
@@ -680,7 +714,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/gatepass")}
                     >
                         <span>🎫</span>
-                        <span>Gate Pass</span>
+                        Gate Pass
                     </button>
 
                     <button
@@ -689,7 +723,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/complaints")}
                     >
                         <span>🛠️</span>
-                        <span>Complaints</span>
+                        Complaints
                     </button>
 
                     <button
@@ -698,7 +732,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/fees")}
                     >
                         <span>💰</span>
-                        <span>My Fees</span>
+                        My Fees
                     </button>
 
                     <button
@@ -707,7 +741,7 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/notifications")}
                     >
                         <span>🔔</span>
-                        <span>Notifications</span>
+                        Notifications
                     </button>
 
                     <button
@@ -716,10 +750,8 @@ const EditProfile = () => {
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
-                        <span>Cricket Box</span>
+                        Cricket Box
                     </button>
-
-                    
                 </nav>
 
                 <button
@@ -728,11 +760,27 @@ const EditProfile = () => {
                     onClick={handleLogout}
                 >
                     <span>🚪</span>
-                    <span>Logout</span>
+                    Logout
                 </button>
             </aside>
 
+            {/* =========================
+                MOBILE OVERLAY
+            ========================= */}
+            {menuOpen && (
+                <div
+                    className="editprofile-mobile-overlay"
+                    onPointerDown={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
+                />
+            )}
+
+            {/* =========================
+                MAIN
+            ========================= */}
             <main className="editprofile-main">
+
+                {/* DESKTOP TOP-RIGHT PROFILE PHOTO */}
                 <div className="editprofile-desktop-photo">
                     <button
                         type="button"
@@ -753,15 +801,12 @@ const EditProfile = () => {
                     </button>
                 </div>
 
-
                 <div className="editprofile-header">
                     <div>
                         <p className="section-label">
                             STUDENT PROFILE
                         </p>
-
                         <h1>Edit Profile</h1>
-
                         <p className="page-description">
                             Update your personal information and profile photo.
                         </p>
@@ -779,7 +824,6 @@ const EditProfile = () => {
                     <div className="profile-alert error">
                         ⚠️
                         <span>{error}</span>
-
                         <button onClick={() => setError("")}>
                             ×
                         </button>
@@ -797,26 +841,20 @@ const EditProfile = () => {
                     className="editprofile-card"
                     onSubmit={handleSubmit}
                 >
-
                     {/* PROFILE PHOTO */}
                     <div className="photo-section">
-
                         <div className="photo-heading">
                             <p className="section-label">
                                 PROFILE PHOTO
                             </p>
-
                             <h2>Update your photo</h2>
-
                             <p>
                                 Choose a clear photo. Maximum size is 5 MB.
                             </p>
                         </div>
 
                         <div className="photo-content">
-
                             <div className="profile-photo-preview">
-
                                 {photoPreview ? (
                                     <img
                                         src={photoPreview}
@@ -827,11 +865,9 @@ const EditProfile = () => {
                                         {getInitials()}
                                     </span>
                                 )}
-
                             </div>
 
                             <div className="photo-actions">
-
                                 <label
                                     htmlFor="photo"
                                     className="choose-photo-btn"
@@ -856,31 +892,24 @@ const EditProfile = () => {
                                         ✓ {formData.photo.name}
                                     </span>
                                 )}
-
                             </div>
-
                         </div>
-
                     </div>
 
                     {/* PERSONAL INFORMATION */}
                     <div className="form-section">
-
                         <div className="form-section-heading">
                             <p className="section-label">
                                 PERSONAL INFORMATION
                             </p>
-
                             <h2>Basic Details</h2>
                         </div>
 
                         <div className="form-grid">
-
                             <div className="form-group full-width">
                                 <label htmlFor="name">
                                     Full Name
                                 </label>
-
                                 <input
                                     id="name"
                                     name="name"
@@ -892,11 +921,9 @@ const EditProfile = () => {
                             </div>
 
                             <div className="form-group">
-
                                 <label htmlFor="email">
                                     Email Address
                                 </label>
-
                                 <input
                                     id="email"
                                     name="email"
@@ -905,15 +932,12 @@ const EditProfile = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                 />
-
                             </div>
 
                             <div className="form-group">
-
                                 <label htmlFor="mobile">
                                     Mobile Number
                                 </label>
-
                                 <input
                                     id="mobile"
                                     name="mobile"
@@ -923,16 +947,12 @@ const EditProfile = () => {
                                     value={formData.mobile}
                                     onChange={handleChange}
                                 />
-
                             </div>
-
                         </div>
-
                     </div>
 
                     {/* ACTIONS */}
                     <div className="form-actions">
-
                         <button
                             type="button"
                             className="cancel-btn"
@@ -950,9 +970,7 @@ const EditProfile = () => {
                                 ? "Saving..."
                                 : "✓ Save Changes"}
                         </button>
-
                     </div>
-
                 </form>
 
             </main>
