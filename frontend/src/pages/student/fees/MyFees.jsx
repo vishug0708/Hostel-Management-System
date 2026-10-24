@@ -84,6 +84,12 @@ function MyFees() {
                 }
             });
 
+            const contentType = response.headers.get("content-type") || "";
+            if (!contentType.includes("application/json")) {
+                setError(`Server returned HTTP ${response.status}. Please try again later.`);
+                return;
+            }
+
             const data = await response.json();
 
             if (!response.ok || !data.success) {
@@ -191,23 +197,33 @@ function MyFees() {
                 })
             });
 
-            const orderData = await orderRes.json();
+            const orderContentType = orderRes.headers.get("content-type") || "";
+            let orderData;
+            if (orderContentType.includes("application/json")) {
+                orderData = await orderRes.json();
+            } else {
+                const textErr = await orderRes.text();
+                throw new Error(`Server returned status ${orderRes.status}. Expected JSON response.`);
+            }
+
             if (!orderRes.ok || !orderData.success) {
                 alert(orderData.message || "Failed to initialize fee payment order.");
                 setProcessingInvoiceId(null);
                 return;
             }
 
-            const { order, key } = orderData;
+            const key = orderData.key || orderData.key_id;
+            const orderId = orderData.order?.id || orderData.order_id;
+            const amountInPaise = orderData.order?.amount || orderData.amount || Math.round(Number(inv.balance_amount || 0) * 100);
 
             // 3. Open Razorpay Checkout modal
             const options = {
                 key: key || "rzp_test_placeholder",
-                amount: order.amount,
+                amount: amountInPaise,
                 currency: "INR",
                 name: "Hostel Management System",
-                description: `Hostel Fee - ${inv.semester} (${inv.invoice_no})`,
-                order_id: order.id,
+                description: `Hostel Fee - ${inv.semester || `Semester ${inv.semester_number}`} (${inv.invoice_no})`,
+                order_id: orderId,
                 handler: async function (response) {
                     try {
                         setLoading(true);
@@ -227,19 +243,27 @@ function MyFees() {
                             })
                         });
 
-                        const verifyData = await verifyRes.json();
+                        const verifyContentType = verifyRes.headers.get("content-type") || "";
+                        let verifyData;
+                        if (verifyContentType.includes("application/json")) {
+                            verifyData = await verifyRes.json();
+                        } else {
+                            throw new Error(`Server returned status ${verifyRes.status} during verification.`);
+                        }
+
                         if (verifyRes.ok && verifyData.success) {
-                            setSuccessMessage(`Payment of ${formatCurrency(inv.balance_amount)} completed successfully! Receipt No: ${verifyData.receipt?.receipt_no || "Issued"}`);
+                            const receiptNum = verifyData.receipt?.receipt_no || verifyData.receipt_no || "Issued";
+                            setSuccessMessage(`Payment of ${formatCurrency(inv.balance_amount)} completed successfully! Receipt No: ${receiptNum}`);
                             await fetchMyFees();
-                            if (verifyData.receipt?.receipt_no) {
-                                handleViewReceipt(verifyData.receipt.receipt_no);
+                            if (verifyData.receipt?.receipt_no || verifyData.receipt_no) {
+                                handleViewReceipt(verifyData.receipt?.receipt_no || verifyData.receipt_no);
                             }
                         } else {
                             alert(verifyData.message || "Payment verification failed. Please contact hostel rector.");
                         }
                     } catch (verifyErr) {
                         console.error("Payment Verification Error:", verifyErr);
-                        alert("An error occurred while verifying your payment.");
+                        alert(verifyErr.message || "An error occurred while verifying your payment.");
                     } finally {
                         setLoading(false);
                     }
@@ -267,7 +291,7 @@ function MyFees() {
             rzp.open();
         } catch (payErr) {
             console.error("Payment Initiate Error:", payErr);
-            alert("Failed to start payment process. Please try again.");
+            alert(payErr.message || "Failed to start payment process. Please try again.");
         } finally {
             setProcessingInvoiceId(null);
         }
@@ -281,7 +305,13 @@ function MyFees() {
             const res = await fetch(`${API_URL}/api/student/fees/my-receipt/${encodeURIComponent(receiptNo)}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const data = await res.json();
+            const receiptContentType = res.headers.get("content-type") || "";
+            let data;
+            if (receiptContentType.includes("application/json")) {
+                data = await res.json();
+            } else {
+                throw new Error(`Server returned status ${res.status}`);
+            }
             if (res.ok && data.success) {
                 setSelectedReceipt(data.receipt);
             } else {

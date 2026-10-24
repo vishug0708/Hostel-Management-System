@@ -14,9 +14,10 @@ const {
 // =====================================================
 
 router.get("/my-invoices", authMiddleware, getMyInvoices);
+router.post("/create-order", authMiddleware, createPaymentOrder);
 router.post("/create-order/:invoiceId", authMiddleware, createPaymentOrder);
 router.post("/verify-payment", authMiddleware, verifyPayment);
+router.get("/my-receipt/:receiptNo", authMiddleware, getMyReceipt);
 router.get("/receipt/:receiptNo", authMiddleware, getMyReceipt);
 
 module.exports = router;
-

@@ -87,10 +87,15 @@ const getMyInvoices = async (req, res) => {
 const createPaymentOrder = async (req, res) => {
     try {
         const studentId = Number(req.user?.id);
-        const { invoiceId } = req.params;
+        const rawInvoiceId = req.params?.invoiceId || req.body?.invoice_id || req.body?.invoiceId;
+        const invoiceId = Number(rawInvoiceId);
 
         if (!studentId) {
             return res.status(401).json({ success: false, message: "Authentication required." });
+        }
+
+        if (!rawInvoiceId || isNaN(invoiceId) || invoiceId <= 0) {
+            return res.status(400).json({ success: false, message: "Valid invoice ID is required." });
         }
 
         const [invRows] = await db.query(`
@@ -164,7 +169,13 @@ const createPaymentOrder = async (req, res) => {
 
         return res.status(200).json({
             success: true,
+            key: keyId,
             key_id: keyId,
+            order: {
+                id: order.id,
+                amount: order.amount,
+                currency: order.currency
+            },
             order_id: order.id,
             amount: order.amount,
             currency: order.currency,
@@ -195,8 +206,9 @@ const verifyPayment = async (req, res) => {
     let connection;
     try {
         const studentId = Number(req.user?.id);
+        const rawInvoiceId = req.body?.invoice_id || req.body?.invoiceId || req.params?.invoiceId;
+        const invoice_id = Number(rawInvoiceId);
         const {
-            invoice_id,
             razorpay_order_id,
             razorpay_payment_id,
             razorpay_signature
@@ -227,7 +239,12 @@ const verifyPayment = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: "Payment is already verified.",
-                receipt_no: existingPayment[0].receipt_no
+                receipt_no: existingPayment[0].receipt_no,
+                receipt: {
+                    receipt_no: existingPayment[0].receipt_no,
+                    amount: existingPayment[0].amount,
+                    invoice_id: existingPayment[0].invoice_id
+                }
             });
         }
 
@@ -370,6 +387,11 @@ const verifyPayment = async (req, res) => {
             success: true,
             message: "Payment successfully verified and receipt generated.",
             receipt_no: receiptNo,
+            receipt: {
+                receipt_no: receiptNo,
+                amount: paidAmount,
+                invoice_id: invoice.id
+            },
             status: newStatus,
             paid_amount: paidAmount,
             remaining_balance: newBalance
