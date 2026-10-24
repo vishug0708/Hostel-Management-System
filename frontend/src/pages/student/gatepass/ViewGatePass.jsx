@@ -418,20 +418,22 @@ const ViewGatePass = () => {
                     <button
                         type="button"
                         className="viewgatepass-nav-item"
+                        onClick={() => handleNavigation("/student/notifications")}
+                    >
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="viewgatepass-nav-item"
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
                         <span>Cricket Box</span>
                     </button>
 
-                    <button
-                        type="button"
-                        className="viewgatepass-nav-item"
-                        onClick={() => handleNavigation("/student/notifications")}
-                    >
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </button>
+                    
                 </nav>
 
                 <button

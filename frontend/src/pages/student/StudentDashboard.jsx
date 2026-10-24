@@ -237,84 +237,113 @@ const StudentDashboard = () => {
                 <nav className="student-dashboard-nav">
 
                     <button
-                        className="active"
+                        type="button"
+                        className="student-dashboard-nav-item active"
                         onClick={() =>
                             handleNavigation("/student/dashboard")
                         }
                     >
-                        📊 Dashboard
+                        <span>📊</span>
+                        <span>Dashboard</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/profile")
                         }
                     >
-                        👤 My Profile
+                        <span>👤</span>
+                        <span>My Profile</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/room")
                         }
                     >
-                        🛏️ My Room
+                        <span>🛏️</span>
+                        <span>My Room</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
-                            handleNavigation("/student/leaves")
+                            handleNavigation("/student/leave")
                         }
                     >
-                        📝 My Leave
+                        <span>📄</span>
+                        <span>My Leave</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
-                            handleNavigation("/student/apply-leave")
+                            handleNavigation("/student/leave/apply")
                         }
                     >
-                        ➕ Apply Leave
+                        <span>➕</span>
+                        <span>Apply Leave</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/gatepass")
                         }
                     >
-                        🚪 Gate Pass
+                        <span>🎫</span>
+                        <span>Gate Pass</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/complaints")
                         }
                     >
-                        🛠️ Complaints
+                        <span>🛠️</span>
+                        <span>Complaints</span>
                     </button>
 
                     <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/fees")
                         }
                     >
-                        💰 My Fees
+                        <span>💰</span>
+                        <span>My Fees</span>
                     </button>
 
                     <button
-                        onClick={() =>
-                            handleNavigation("/student/cricket-box/bookings")
-                        }
-                    >
-                        🏏 Cricket Box
-                    </button>
-
-                    <button
+                        type="button"
+                        className="student-dashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/notifications")
                         }
                     >
-                        🔔 Notifications
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="student-dashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/cricketbox")
+                        }
+                    >
+                        <span>🏏</span>
+                        <span>Cricket Box</span>
                     </button>
 
                 </nav>
@@ -343,7 +372,7 @@ const StudentDashboard = () => {
             {/* ================= MAIN ================= */}
             <main className="student-dashboard-main">
 
-                <div className="student-dashboard-mobile-topbar">
+                <header className="student-dashboard-mobile-header student-dashboard-mobile-topbar">
 
                     <button
                         ref={mobileMenuButtonRef}
@@ -377,11 +406,21 @@ const StudentDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="student-dashboard-mobile-photo">
+                    <button
+                        type="button"
+                        className="student-dashboard-mobile-photo"
+                        onClick={() =>
+                            handleNavigation("/student/profile")
+                        }
+                        aria-label="Open student profile"
+                    >
                         {getPhotoUrl() ? (
                             <img
                                 src={getPhotoUrl()}
-                                alt="Student"
+                                alt="Student profile"
+                                onError={(event) => {
+                                    event.currentTarget.style.display = "none";
+                                }}
                             />
                         ) : (
                             <span>
@@ -390,9 +429,9 @@ const StudentDashboard = () => {
                                 )}
                             </span>
                         )}
-                    </div>
+                    </button>
 
-                </div>
+                </header>
 
                 {/* HEADER */}
                 <header className="student-dashboard-header">
@@ -422,11 +461,21 @@ const StudentDashboard = () => {
                             ↻ Refresh
                         </button>
 
-                        <div className="student-dashboard-profile-photo">
+                        <button
+                            type="button"
+                            className="student-dashboard-profile-photo"
+                            onClick={() =>
+                                handleNavigation("/student/profile")
+                            }
+                            aria-label="Open student profile"
+                        >
                             {getPhotoUrl() ? (
                                 <img
                                     src={getPhotoUrl()}
-                                    alt="Student"
+                                    alt="Student profile"
+                                    onError={(event) => {
+                                        event.currentTarget.style.display = "none";
+                                    }}
                                 />
                             ) : (
                                 <span>
@@ -435,7 +484,7 @@ const StudentDashboard = () => {
                                     )}
                                 </span>
                             )}
-                        </div>
+                        </button>
 
                     </div>
 

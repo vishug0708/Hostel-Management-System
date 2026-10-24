@@ -8,13 +8,13 @@ const menuItems = [
   { label: "Dashboard", icon: "📊", path: "/student/dashboard" },
   { label: "My Profile", icon: "👤", path: "/student/profile" },
   { label: "My Room", icon: "🛏️", path: "/student/room" },
-  { label: "My Leave", icon: "📝", path: "/student/leaves" },
-  { label: "Apply Leave", icon: "➕", path: "/student/apply-leave" },
+  { label: "My Leave", icon: "📄", path: "/student/leave" },
+  { label: "Apply Leave", icon: "➕", path: "/student/leave/apply" },
   { label: "Gate Pass", icon: "🎫", path: "/student/gatepass" },
-  { label: "Complaints", icon: "📩", path: "/student/complaints" },
+  { label: "Complaints", icon: "🛠️", path: "/student/complaints" },
   { label: "My Fees", icon: "💰", path: "/student/fees" },
   { label: "Notifications", icon: "🔔", path: "/student/notifications" },
-  { label: "Cricket Box", icon: "🏏", path: "/student/cricket-box/bookings" },
+  { label: "Cricket Box", icon: "🏏", path: "/student/cricketbox" },
 ];
 
 const categories = [
@@ -244,23 +244,63 @@ const NewComplaint = () => {
     .toUpperCase();
 
   return (
-    <div className="student-complaint-page">
+    <div className="newcomplaint-page">
+      {/* MOBILE HEADER */}
+      <header className="newcomplaint-mobile-header">
+        <div className="newcomplaint-mobile-left">
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="newcomplaint-mobile-menu"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Close student menu" : "Open student menu"}
+          >
+            ☰
+          </button>
+          <div className="newcomplaint-mobile-brand">
+            <div className="newcomplaint-mobile-brand-icon">🏠</div>
+            <div>
+              <strong>Hostel</strong>
+              <span>Student Portal</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="newcomplaint-mobile-photo"
+          onClick={() => navigateTo("/student/profile")}
+          aria-label="Open student profile"
+        >
+          {photo ? (
+            <img
+              src={photo}
+              alt="Student profile"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+            />
+          ) : initials}
+        </button>
+      </header>
+
+      {/* SIDEBAR */}
       <aside
         ref={sidebarRef}
-        className={`student-dashboard-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}
+        className={`newcomplaint-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}
       >
-        <div className="student-dashboard-brand">
-          <div className="student-dashboard-brand-icon">🏠</div>
+        <div className="newcomplaint-sidebar-brand">
+          <div className="newcomplaint-brand-icon">🏠</div>
           <div>
             <strong>Hostel</strong>
             <span>Student Portal</span>
           </div>
         </div>
-        <nav className="student-dashboard-nav">
+
+        <nav className="newcomplaint-sidebar-nav">
           {menuItems.map((item) => (
             <button
               key={item.path}
-              className={item.label === "Complaints" ? "active" : ""}
+              type="button"
+              className={`newcomplaint-nav-item ${item.label === "Complaints" ? "active" : ""}`}
               onClick={() => navigateTo(item.path)}
             >
               <span>{item.icon}</span>
@@ -268,38 +308,29 @@ const NewComplaint = () => {
             </button>
           ))}
         </nav>
-        <button className="student-dashboard-logout" onClick={logout}>
+
+        <button
+          type="button"
+          className="newcomplaint-logout"
+          onClick={logout}
+        >
           <span>🚪</span>
           <span>Logout</span>
         </button>
       </aside>
 
+      {/* OVERLAY */}
       {mobileMenuOpen && (
         <div
-          className="student-dashboard-mobile-overlay"
+          className="newcomplaint-mobile-overlay"
+          onPointerDown={() => setMobileMenuOpen(false)}
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
-      <main className="student-complaint-main">
-        <header className="student-dashboard-mobile-topbar">
-          <button
-            ref={menuButtonRef}
-            className="student-dashboard-mobile-menu-btn"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            ☰
-          </button>
-          <div className="student-dashboard-mobile-brand">
-            <strong>Hostel Student Panel</strong>
-            <span>New Complaint</span>
-          </div>
-          <div className="student-dashboard-mobile-photo">
-            {photo ? <img src={photo} alt="Student" /> : initials}
-          </div>
-        </header>
-
-        <header className="student-complaint-header">
+      {/* MAIN */}
+      <main className="newcomplaint-main">
+        <header className="newcomplaint-header">
           <div>
             <span>HOSTEL SERVICES</span>
             <h1>New Complaint</h1>
@@ -310,11 +341,17 @@ const NewComplaint = () => {
           </div>
           <button
             type="button"
-            className="student-complaint-header-profile"
+            className="newcomplaint-header-profile"
             onClick={() => navigateTo("/student/profile")}
             aria-label="Open student profile"
           >
-            {photo ? <img src={photo} alt="Student" /> : initials}
+            {photo ? (
+              <img
+                src={photo}
+                alt="Student profile"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            ) : initials}
           </button>
         </header>
 

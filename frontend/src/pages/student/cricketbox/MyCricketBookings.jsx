@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyCricketBookings.css";
 
@@ -31,6 +31,28 @@ function MyCricketBookings() {
     const navigate = useNavigate();
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const sidebarRef = useRef(null);
+    const mobileMenuButtonRef = useRef(null);
+
+    useEffect(() => {
+        document.body.classList.toggle("mycricketbookings-menu-open", sidebarOpen);
+        return () => {
+            document.body.classList.remove("mycricketbookings-menu-open");
+        };
+    }, [sidebarOpen]);
+
+    useEffect(() => {
+        if (!sidebarOpen) return;
+        const handleOutsidePointer = (event) => {
+            const sidebar = sidebarRef.current;
+            const menuBtn = mobileMenuButtonRef.current;
+            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
+                setSidebarOpen(false);
+            }
+        };
+        document.addEventListener("pointerdown", handleOutsidePointer, true);
+        return () => document.removeEventListener("pointerdown", handleOutsidePointer, true);
+    }, [sidebarOpen]);
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -149,180 +171,153 @@ function MyCricketBookings() {
     };
 
     return (
-        <div className="my-cricket-layout">
-            {sidebarOpen && (
-                <div
-                    className="my-cricket-overlay"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
+        <div className="mycricketbookings-page">
+            {/* MOBILE HEADER */}
+            <header className="mycricketbookings-mobile-header">
+                <div className="mycricketbookings-mobile-left">
+                    <button
+                        ref={mobileMenuButtonRef}
+                        type="button"
+                        className="mycricketbookings-mobile-menu"
+                        onClick={() => setSidebarOpen((prev) => !prev)}
+                        aria-label={sidebarOpen ? "Close student menu" : "Open student menu"}
+                    >
+                        ☰
+                    </button>
+                    <div className="mycricketbookings-mobile-brand">
+                        <div className="mycricketbookings-mobile-brand-icon">🏠</div>
+                        <div>
+                            <strong>Hostel</strong>
+                            <span>Student Portal</span>
+                        </div>
+                    </div>
+                </div>
 
+                <button
+                    type="button"
+                    className="mycricketbookings-mobile-photo"
+                    onClick={() => navigate("/student/profile")}
+                    aria-label="Open student profile"
+                >
+                    {studentPhoto ? (
+                        <img
+                            src={studentPhoto}
+                            alt="Student profile"
+                            onError={(event) => {
+                                event.currentTarget.style.display = "none";
+                            }}
+                        />
+                    ) : (
+                        "👤"
+                    )}
+                </button>
+            </header>
+
+            {/* SIDEBAR */}
             <aside
-                className={`my-cricket-sidebar ${
-                    sidebarOpen
-                        ? "my-cricket-sidebar-open"
-                        : ""
+                ref={sidebarRef}
+                className={`mycricketbookings-sidebar ${
+                    sidebarOpen ? "mobile-open" : ""
                 }`}
             >
-                <div className="my-cricket-brand">
-                    <div className="my-cricket-brand-icon">
-                        🏠
-                    </div>
-
+                <div className="mycricketbookings-sidebar-brand">
+                    <div className="mycricketbookings-brand-icon">🏠</div>
                     <div>
-                        <h2>Hostel</h2>
+                        <strong>Hostel</strong>
                         <span>Student Portal</span>
                     </div>
                 </div>
 
-                <nav className="my-cricket-nav">
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/dashboard")
-                        }
-                    >
+                <nav className="mycricketbookings-sidebar-nav">
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/dashboard")}>
                         <span>📊</span>
                         <span>Dashboard</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/profile")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/profile")}>
                         <span>👤</span>
                         <span>My Profile</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/room")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/room")}>
                         <span>🛏️</span>
                         <span>My Room</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/leaves")
-                        }
-                    >
-                        <span>📝</span>
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/leave")}>
+                        <span>📄</span>
                         <span>My Leave</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/apply-leave")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/leave/apply")}>
                         <span>➕</span>
                         <span>Apply Leave</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/gatepass")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/gatepass")}>
                         <span>🎫</span>
                         <span>Gate Pass</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/complaints")
-                        }
-                    >
-                        <span>📝</span>
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/complaints")}>
+                        <span>🛠️</span>
                         <span>Complaints</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/fees")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/fees")}>
                         <span>💰</span>
                         <span>My Fees</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item"
-                        onClick={() =>
-                            goTo("/student/notifications")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item" onClick={() => goTo("/student/notifications")}>
                         <span>🔔</span>
                         <span>Notifications</span>
                     </button>
-
-                    <button
-                        className="my-cricket-nav-item active"
-                        onClick={() =>
-                            goTo("/student/cricketbox")
-                        }
-                    >
+                    <button type="button" className="mycricketbookings-nav-item active" onClick={() => goTo("/student/cricketbox")}>
                         <span>🏏</span>
                         <span>Cricket Box</span>
                     </button>
                 </nav>
 
-                <button
-                    className="my-cricket-logout"
-                    onClick={handleLogout}
-                >
+                <button type="button" className="mycricketbookings-logout" onClick={handleLogout}>
                     <span>🚪</span>
                     <span>Logout</span>
                 </button>
             </aside>
 
-            <div className="my-cricket-main">
-                <header className="my-cricket-topbar">
-                    <button
-                        className="my-cricket-hamburger"
-                        onClick={() =>
-                            setSidebarOpen((prev) => !prev)
-                        }
-                        aria-label="Toggle menu"
-                    >
-                        ☰
-                    </button>
+            {/* MOBILE OVERLAY */}
+            {sidebarOpen && (
+                <div
+                    className="mycricketbookings-mobile-overlay"
+                    onPointerDown={() => setSidebarOpen(false)}
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
 
-                    <div className="my-cricket-panel-title">
-                        <strong>Hostel Student Panel</strong>
-                        <span>My Cricket Bookings</span>
+            {/* MAIN */}
+            <div className="mycricketbookings-main">
+                <header className="mycricketbookings-topbar">
+                    <div className="mycricketbookings-heading">
+                        <span className="mycricketbookings-eyebrow">CRICKET FACILITIES</span>
+                        <h1>My Cricket Bookings</h1>
+                        <p>View, manage and track your hostel cricket box reservations.</p>
                     </div>
 
-                    <div className="my-cricket-profile">
-                        {studentPhoto ? (
-                            <img
-                                src={studentPhoto}
-                                alt="Student"
-                                onError={(event) => {
-                                    event.currentTarget.style.display =
-                                        "none";
-                                }}
-                            />
-                        ) : (
-                            <div className="my-cricket-photo-fallback">
-                                👤
-                            </div>
-                        )}
+                    <div className="mycricketbookings-desktop-photo">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/student/profile")}
+                            aria-label="Open student profile"
+                        >
+                            {studentPhoto ? (
+                                <img
+                                    src={studentPhoto}
+                                    alt="Student profile"
+                                    onError={(event) => {
+                                        event.currentTarget.style.display = "none";
+                                    }}
+                                />
+                            ) : (
+                                "👤"
+                            )}
+                        </button>
                     </div>
                 </header>
 
-                <main className="my-cricket-content">
-                    <div className="my-cricket-heading">
+                <main className="mycricketbookings-content">
+                    <div className="mycricketbookings-heading">
                         <div>
                             <span>CRICKET BOX</span>
                             <h1>My Cricket Bookings</h1>
@@ -345,18 +340,18 @@ function MyCricketBookings() {
                     </div>
 
                     {error && (
-                        <div className="my-cricket-error">
+                        <div className="mycricketbookings-error">
                             ⚠️ {error}
                         </div>
                     )}
 
                     {loading ? (
-                        <div className="my-cricket-loading">
+                        <div className="mycricketbookings-loading">
                             <div className="booking-spinner" />
                             <span>Loading bookings...</span>
                         </div>
                     ) : bookings.length === 0 ? (
-                        <div className="my-cricket-empty">
+                        <div className="mycricketbookings-empty">
                             <div className="empty-cricket-icon">
                                 🏏
                             </div>
@@ -379,8 +374,8 @@ function MyCricketBookings() {
                             </button>
                         </div>
                     ) : (
-                        <div className="my-cricket-table-card">
-                            <div className="my-cricket-table-header">
+                        <div className="mycricketbookings-table-card">
+                            <div className="mycricketbookings-table-header">
                                 <div>
                                     <h3>Booking History</h3>
                                     <span>
@@ -392,8 +387,8 @@ function MyCricketBookings() {
                                 </div>
                             </div>
 
-                            <div className="my-cricket-table-wrapper">
-                                <table className="my-cricket-table">
+                            <div className="mycricketbookings-table-wrapper">
+                                <table className="mycricketbookings-table">
                                     <thead>
                                         <tr>
                                             <th>Booking ID</th>
@@ -503,7 +498,7 @@ function MyCricketBookings() {
                                 </table>
                             </div>
 
-                            <div className="my-cricket-mobile-list">
+                            <div className="mycricketbookings-mobile-list">
                                 {bookings.map(
                                     (booking) => (
                                         <div

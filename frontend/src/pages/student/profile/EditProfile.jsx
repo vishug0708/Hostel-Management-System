@@ -503,20 +503,22 @@ const EditProfile = () => {
                     <button
                         type="button"
                         className="editprofile-nav-item"
+                        onClick={() => handleNavigation("/student/notifications")}
+                    >
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="editprofile-nav-item"
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
                         <span>Cricket Box</span>
                     </button>
 
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/notifications")}
-                    >
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </button>
+                    
                 </nav>
 
                 <button
@@ -702,20 +704,22 @@ const EditProfile = () => {
                     <button
                         type="button"
                         className="editprofile-nav-item"
+                        onClick={() => handleNavigation("/student/notifications")}
+                    >
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="editprofile-nav-item"
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
                         <span>Cricket Box</span>
                     </button>
 
-                    <button
-                        type="button"
-                        className="editprofile-nav-item"
-                        onClick={() => handleNavigation("/student/notifications")}
-                    >
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </button>
+                    
                 </nav>
 
                 <button

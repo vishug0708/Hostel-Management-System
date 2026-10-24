@@ -1,4 +1,4 @@
-.student-cricket-page {
+.cricketbox-page {
     min-height: 100vh;
     background: #f8fafc;
     color: #0f172a;
@@ -6,7 +6,7 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.student-cricket-sidebar {
+.cricketbox-sidebar {
     width: 255px;
     min-height: 100vh;
     background: #0f172a;
@@ -20,7 +20,7 @@
     z-index: 100;
 }
 
-.student-cricket-brand {
+.cricketbox-brand {
     height: 82px;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.student-cricket-brand-icon {
+.cricketbox-brand-icon {
     width: 40px;
     height: 40px;
     border-radius: 10px;
@@ -40,25 +40,25 @@
     font-size: 20px;
 }
 
-.student-cricket-brand h2 {
+.cricketbox-brand h2 {
     margin: 0;
     font-size: 17px;
     font-weight: 700;
 }
 
-.student-cricket-brand p {
+.cricketbox-brand p {
     margin: 3px 0 0;
     color: #94a3b8;
     font-size: 11px;
 }
 
-.student-cricket-nav {
+.cricketbox-nav {
     flex: 1;
     padding: 18px 12px;
     overflow-y: auto;
 }
 
-.student-cricket-nav-item {
+.cricketbox-nav-item {
     width: 100%;
     border: 0;
     background: transparent;
@@ -75,21 +75,21 @@
     transition: 0.2s ease;
 }
 
-.student-cricket-nav-item:hover {
+.cricketbox-nav-item:hover {
     background: #134e4a;
     color: #ffffff;
 }
 
-.student-cricket-nav-item.active {
+.cricketbox-nav-item.active {
     background: #134e4a;
     color: #ffffff;
 }
 
-.student-cricket-nav-item span {
+.cricketbox-nav-item span {
     font-size: 13px;
 }
 
-.student-cricket-logout {
+.cricketbox-logout {
     margin: 12px;
     border: 0;
     background: rgba(255,255,255,0.06);
@@ -104,12 +104,12 @@
     text-align: left;
 }
 
-.student-cricket-logout:hover {
+.cricketbox-logout:hover {
     background: #134e4a;
     color: #ffffff;
 }
 
-.student-cricket-main {
+.cricketbox-main {
     width: calc(100% - 255px);
     margin-left: 255px;
     min-height: 100vh;
@@ -117,7 +117,7 @@
     flex-direction: column;
 }
 
-.student-cricket-header {
+.cricketbox-header {
     min-height: 170px;
     padding: 38px 42px;
     background: #ffffff;
@@ -128,26 +128,26 @@
     gap: 20px;
 }
 
-.student-cricket-eyebrow {
+.cricketbox-eyebrow {
     color: #0f766e;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
 }
 
-.student-cricket-header h1 {
+.cricketbox-header h1 {
     margin: 8px 0 5px;
     font-size: 30px;
     line-height: 1.2;
 }
 
-.student-cricket-header p {
+.cricketbox-header p {
     margin: 0;
     color: #64748b;
     font-size: 15px;
 }
 
-.student-cricket-my-bookings {
+.cricketbox-my-bookings {
     border: 1px solid #134e4a;
     background: #ffffff;
     color: #134e4a;
@@ -159,17 +159,17 @@
     white-space: nowrap;
 }
 
-.student-cricket-my-bookings:hover {
+.cricketbox-my-bookings:hover {
     background: #134e4a;
     color: #ffffff;
 }
 
-.student-cricket-content {
+.cricketbox-content {
     flex: 1;
     padding: 35px 42px;
 }
 
-.student-cricket-section-heading {
+.cricketbox-section-heading {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -177,19 +177,19 @@
     margin-bottom: 25px;
 }
 
-.student-cricket-section-heading span:first-child {
+.cricketbox-section-heading span:first-child {
     color: #64748b;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.3px;
 }
 
-.student-cricket-section-heading h2 {
+.cricketbox-section-heading h2 {
     margin: 6px 0 0;
     font-size: 23px;
 }
 
-.student-cricket-ground-count {
+.cricketbox-ground-count {
     color: #0f766e;
     background: #ecfdf5;
     border: 1px solid #a7f3d0;
@@ -199,13 +199,13 @@
     font-weight: 700;
 }
 
-.student-cricket-ground-grid {
+.cricketbox-ground-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: 22px;
 }
 
-.student-cricket-ground-card {
+.cricketbox-ground-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 14px;
@@ -215,12 +215,12 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.student-cricket-ground-card:hover {
+.cricketbox-ground-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(15,23,42,0.08);
 }
 
-.student-cricket-ground-icon {
+.cricketbox-ground-icon {
     width: 52px;
     height: 52px;
     border-radius: 12px;
@@ -232,7 +232,7 @@
     margin-bottom: 15px;
 }
 
-.student-cricket-ground-status {
+.cricketbox-ground-status {
     position: absolute;
     right: 18px;
     top: 20px;
@@ -248,25 +248,25 @@
     gap: 5px;
 }
 
-.student-cricket-ground-status span {
+.cricketbox-ground-status span {
     width: 6px;
     height: 6px;
     background: #22c55e;
     border-radius: 50%;
 }
 
-.student-cricket-ground-info h3 {
+.cricketbox-ground-info h3 {
     margin: 0;
     font-size: 19px;
 }
 
-.student-cricket-location {
+.cricketbox-location {
     margin: 7px 0 0;
     color: #475569;
     font-size: 13px;
 }
 
-.student-cricket-description {
+.cricketbox-description {
     margin: 13px 0 0;
     color: #64748b;
     font-size: 13px;
@@ -274,22 +274,22 @@
     min-height: 42px;
 }
 
-.student-cricket-ground-details {
+.cricketbox-ground-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-top: 20px;
 }
 
-.student-cricket-ground-details div,
-.student-cricket-ground-time div {
+.cricketbox-ground-details div,
+.cricketbox-ground-time div {
     background: #f8fafc;
     border-radius: 8px;
     padding: 10px;
 }
 
-.student-cricket-ground-details span,
-.student-cricket-ground-time span {
+.cricketbox-ground-details span,
+.cricketbox-ground-time span {
     display: block;
     color: #94a3b8;
     font-size: 9px;
@@ -297,22 +297,22 @@
     letter-spacing: 0.8px;
 }
 
-.student-cricket-ground-details strong,
-.student-cricket-ground-time strong {
+.cricketbox-ground-details strong,
+.cricketbox-ground-time strong {
     display: block;
     margin-top: 4px;
     color: #0f172a;
     font-size: 13px;
 }
 
-.student-cricket-ground-time {
+.cricketbox-ground-time {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-top: 10px;
 }
 
-.student-cricket-book-button {
+.cricketbox-book-button {
     width: 100%;
     margin-top: 17px;
     border: 0;
@@ -328,11 +328,11 @@
     justify-content: space-between;
 }
 
-.student-cricket-book-button:hover {
+.cricketbox-book-button:hover {
     background: #0f766e;
 }
 
-.student-cricket-message {
+.cricketbox-message {
     min-height: 300px;
     display: flex;
     flex-direction: column;
@@ -341,17 +341,17 @@
     color: #64748b;
 }
 
-.student-cricket-loader {
+.cricketbox-loader {
     font-size: 30px;
     margin-bottom: 10px;
 }
 
-.student-cricket-message p {
+.cricketbox-message p {
     margin: 0;
     font-size: 14px;
 }
 
-.student-cricket-error {
+.cricketbox-error {
     max-width: 650px;
     margin: 40px auto;
     padding: 18px;
@@ -363,44 +363,44 @@
     color: #991b1b;
 }
 
-.student-cricket-error span {
+.cricketbox-error span {
     font-size: 22px;
 }
 
-.student-cricket-error strong {
+.cricketbox-error strong {
     font-size: 14px;
 }
 
-.student-cricket-error p {
+.cricketbox-error p {
     margin: 5px 0 0;
     font-size: 13px;
 }
 
-.student-cricket-empty {
+.cricketbox-empty {
     max-width: 600px;
     margin: 55px auto;
     text-align: center;
     color: #64748b;
 }
 
-.student-cricket-empty div {
+.cricketbox-empty div {
     font-size: 45px;
     margin-bottom: 12px;
 }
 
-.student-cricket-empty h3 {
+.cricketbox-empty h3 {
     margin: 0;
     color: #0f172a;
     font-size: 19px;
 }
 
-.student-cricket-empty p {
+.cricketbox-empty p {
     margin: 8px 0 0;
     font-size: 14px;
     line-height: 1.6;
 }
 
-.student-cricket-footer {
+.cricketbox-footer {
     padding: 20px 42px;
     border-top: 1px solid #e2e8f0;
     background: #ffffff;
@@ -412,110 +412,110 @@
 }
 
 @media (max-width: 900px) {
-    .student-cricket-ground-grid {
+    .cricketbox-ground-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .student-cricket-header {
+    .cricketbox-header {
         padding: 30px;
     }
 
-    .student-cricket-content {
+    .cricketbox-content {
         padding: 30px;
     }
 }
 
 @media (max-width: 768px) {
-    .student-cricket-page {
+    .cricketbox-page {
         display: block;
     }
 
-    .student-cricket-sidebar {
+    .cricketbox-sidebar {
         width: 270px;
         transform: translateX(-100%);
         transition: transform 0.25s ease;
     }
 
-    .student-cricket-main {
+    .cricketbox-main {
         width: 100%;
         margin-left: 0;
     }
 
-    .student-cricket-header {
+    .cricketbox-header {
         padding: 25px 20px;
     }
 
-    .student-cricket-content {
+    .cricketbox-content {
         padding: 25px 20px;
     }
 
-    .student-cricket-ground-grid {
+    .cricketbox-ground-grid {
         grid-template-columns: 1fr;
     }
 
-    .student-cricket-footer {
+    .cricketbox-footer {
         padding: 18px 20px;
         flex-direction: column;
     }
 }
 
 @media (max-width: 520px) {
-    .student-cricket-header {
+    .cricketbox-header {
         align-items: flex-start;
         flex-direction: column;
     }
 
-    .student-cricket-header h1 {
+    .cricketbox-header h1 {
         font-size: 26px;
     }
 
-    .student-cricket-my-bookings {
+    .cricketbox-my-bookings {
         width: 100%;
     }
 
-    .student-cricket-section-heading {
+    .cricketbox-section-heading {
         align-items: flex-start;
         flex-direction: column;
     }
 }
 
 /* STUDENT DASHBOARD STYLE SHELL */
-.student-cricket-sidebar { width:255px; height:100vh; position:fixed; left:0; top:0; bottom:0; background:#0f172a; color:#fff; display:flex; flex-direction:column; z-index:1100; box-sizing:border-box; }
-.student-cricket-brand { height:82px; flex-shrink:0; display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgba(255,255,255,0.08); box-sizing:border-box; }
-.student-cricket-brand h2 { margin:0; color:#fff; font-size:17px; font-weight:700; }
-.student-cricket-brand p,.student-cricket-brand span { margin:3px 0 0; color:#94a3b8; font-size:11px; }
-.student-cricket-brand-icon { width:40px; height:40px; flex-shrink:0; border-radius:10px; background:#0f766e; display:flex; align-items:center; justify-content:center; font-size:20px; }
-.student-cricket-nav { flex:1; padding:16px 12px; overflow-y:auto; box-sizing:border-box; }
-.student-cricket-nav-item { width:100%; min-height:42px; border:none; background:transparent; color:#cbd5e1; padding:11px 13px; margin-bottom:4px; border-radius:7px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; transition:background .2s ease,color .2s ease; box-sizing:border-box; }
-.student-cricket-nav-item:hover,.student-cricket-nav-item.active { background:#134e4a; color:#fff; }
-.student-cricket-nav-item span:first-child { width:20px; flex-shrink:0; text-align:center; font-size:15px; }
-.student-cricket-logout { width:calc(100% - 24px); margin:12px; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#cbd5e1; border-radius:7px; padding:11px 13px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; box-sizing:border-box; }
-.student-cricket-logout:hover { background:#7f1d1d; color:#fff; }
-.student-cricket-main { width:calc(100% - 255px); min-height:100vh; margin-left:255px; box-sizing:border-box; }
-.student-cricket-topbar { width:100%; height:72px; position:sticky; top:0; z-index:1000; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; padding:0 28px; box-sizing:border-box; }
-.student-cricket-hamburger { display:none; position:absolute; left:18px; width:42px; height:42px; border:none; border-radius:10px; background:#0f766e; color:#fff; font-size:23px; line-height:1; align-items:center; justify-content:center; cursor:pointer; }
-.student-cricket-panel-title { text-align:center; line-height:1.2; }
-.student-cricket-panel-title strong { display:block; color:#0f172a; font-size:17px; font-weight:700; }
-.student-cricket-panel-title span { display:block; margin-top:3px; color:#64748b; font-size:10px; }
-.student-cricket-profile { position:absolute; right:28px; top:50%; transform:translateY(-50%); width:42px; height:42px; }
-.student-cricket-profile img,.student-cricket-photo-fallback { width:42px; height:42px; display:flex; border-radius:50%; object-fit:cover; border:2px solid #dbeafe; box-sizing:border-box; }
-.student-cricket-photo-fallback { align-items:center; justify-content:center; background:#0f766e; color:#fff; font-size:17px; }
-.student-cricket-overlay { display:none; }
+.cricketbox-sidebar { width:255px; height:100vh; position:fixed; left:0; top:0; bottom:0; background:#0f172a; color:#fff; display:flex; flex-direction:column; z-index:1100; box-sizing:border-box; }
+.cricketbox-brand { height:82px; flex-shrink:0; display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgba(255,255,255,0.08); box-sizing:border-box; }
+.cricketbox-brand h2 { margin:0; color:#fff; font-size:17px; font-weight:700; }
+.cricketbox-brand p,.cricketbox-brand span { margin:3px 0 0; color:#94a3b8; font-size:11px; }
+.cricketbox-brand-icon { width:40px; height:40px; flex-shrink:0; border-radius:10px; background:#0f766e; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.cricketbox-nav { flex:1; padding:16px 12px; overflow-y:auto; box-sizing:border-box; }
+.cricketbox-nav-item { width:100%; min-height:42px; border:none; background:transparent; color:#cbd5e1; padding:11px 13px; margin-bottom:4px; border-radius:7px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; transition:background .2s ease,color .2s ease; box-sizing:border-box; }
+.cricketbox-nav-item:hover,.cricketbox-nav-item.active { background:#134e4a; color:#fff; }
+.cricketbox-nav-item span:first-child { width:20px; flex-shrink:0; text-align:center; font-size:15px; }
+.cricketbox-logout { width:calc(100% - 24px); margin:12px; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#cbd5e1; border-radius:7px; padding:11px 13px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; box-sizing:border-box; }
+.cricketbox-logout:hover { background:#7f1d1d; color:#fff; }
+.cricketbox-main { width:calc(100% - 255px); min-height:100vh; margin-left:255px; box-sizing:border-box; }
+.cricketbox-topbar { width:100%; height:72px; position:sticky; top:0; z-index:1000; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; padding:0 28px; box-sizing:border-box; }
+.cricketbox-hamburger { display:none; position:absolute; left:18px; width:42px; height:42px; border:none; border-radius:10px; background:#0f766e; color:#fff; font-size:23px; line-height:1; align-items:center; justify-content:center; cursor:pointer; }
+.cricketbox-panel-title { text-align:center; line-height:1.2; }
+.cricketbox-panel-title strong { display:block; color:#0f172a; font-size:17px; font-weight:700; }
+.cricketbox-panel-title span { display:block; margin-top:3px; color:#64748b; font-size:10px; }
+.cricketbox-profile { position:absolute; right:28px; top:50%; transform:translateY(-50%); width:42px; height:42px; }
+.cricketbox-profile img,.cricketbox-photo-fallback { width:42px; height:42px; display:flex; border-radius:50%; object-fit:cover; border:2px solid #dbeafe; box-sizing:border-box; }
+.cricketbox-photo-fallback { align-items:center; justify-content:center; background:#0f766e; color:#fff; font-size:17px; }
+.cricketbox-overlay { display:none; }
 @media (max-width:700px) {
-    .student-cricket-sidebar { width:270px; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
-    .student-cricket-sidebar.student-cricket-sidebar-open { transform:translateX(0); }
-    .student-cricket-overlay { display:block; position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:1050; }
-    .student-cricket-main { width:100%; margin-left:0; min-height:100vh; }
-    .student-cricket-topbar { height:64px; padding:0 58px; }
-    .student-cricket-hamburger { display:flex; }
-    .student-cricket-panel-title strong { font-size:15px; }
-    .student-cricket-profile { right:15px; }
+    .cricketbox-sidebar { width:270px; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
+    .cricketbox-sidebar.cricketbox-sidebar-open { transform:translateX(0); }
+    .cricketbox-overlay { display:block; position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:1050; }
+    .cricketbox-main { width:100%; margin-left:0; min-height:100vh; }
+    .cricketbox-topbar { height:64px; padding:0 58px; }
+    .cricketbox-hamburger { display:flex; }
+    .cricketbox-panel-title strong { font-size:15px; }
+    .cricketbox-profile { right:15px; }
 }
 @media (max-width:480px) {
-    .student-cricket-topbar { padding:0 54px; }
-    .student-cricket-hamburger { left:12px; }
-    .student-cricket-profile { right:10px; }
-    .student-cricket-panel-title strong { font-size:13px; }
-    .student-cricket-panel-title span { font-size:9px; }
+    .cricketbox-topbar { padding:0 54px; }
+    .cricketbox-hamburger { left:12px; }
+    .cricketbox-profile { right:10px; }
+    .cricketbox-panel-title strong { font-size:13px; }
+    .cricketbox-panel-title span { font-size:9px; }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CricketBox.css";
 
@@ -36,6 +36,28 @@ function CricketBox() {
     const navigate = useNavigate();
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const sidebarRef = useRef(null);
+    const mobileMenuButtonRef = useRef(null);
+
+    useEffect(() => {
+        document.body.classList.toggle("cricketbox-menu-open", sidebarOpen);
+        return () => {
+            document.body.classList.remove("cricketbox-menu-open");
+        };
+    }, [sidebarOpen]);
+
+    useEffect(() => {
+        if (!sidebarOpen) return;
+        const handleOutsidePointer = (event) => {
+            const sidebar = sidebarRef.current;
+            const menuBtn = mobileMenuButtonRef.current;
+            if (sidebar && !sidebar.contains(event.target) && menuBtn && !menuBtn.contains(event.target)) {
+                setSidebarOpen(false);
+            }
+        };
+        document.addEventListener("pointerdown", handleOutsidePointer, true);
+        return () => document.removeEventListener("pointerdown", handleOutsidePointer, true);
+    }, [sidebarOpen]);
     const student = getStudent();
     const studentPhoto = getPhotoUrl(
         student.photo ||
@@ -129,79 +151,153 @@ function CricketBox() {
     };
 
     return (
-        <div className="student-cricket-page">
+        <div className="cricketbox-page">
+            {/* MOBILE HEADER */}
+            <header className="cricketbox-mobile-header">
+                <div className="cricketbox-mobile-left">
+                    <button
+                        ref={mobileMenuButtonRef}
+                        type="button"
+                        className="cricketbox-mobile-menu"
+                        onClick={() => setSidebarOpen((prev) => !prev)}
+                        aria-label={sidebarOpen ? "Close student menu" : "Open student menu"}
+                    >
+                        ☰
+                    </button>
+                    <div className="cricketbox-mobile-brand">
+                        <div className="cricketbox-mobile-brand-icon">🏠</div>
+                        <div>
+                            <strong>Hostel</strong>
+                            <span>Student Portal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    className="cricketbox-mobile-photo"
+                    onClick={() => navigate("/student/profile")}
+                    aria-label="Open student profile"
+                >
+                    {studentPhoto ? (
+                        <img
+                            src={studentPhoto}
+                            alt="Student profile"
+                            onError={(event) => {
+                                event.currentTarget.style.display = "none";
+                            }}
+                        />
+                    ) : (
+                        "👤"
+                    )}
+                </button>
+            </header>
+
+            {/* SIDEBAR */}
+            <aside
+                ref={sidebarRef}
+                className={`cricketbox-sidebar ${
+                    sidebarOpen ? "mobile-open" : ""
+                }`}
+            >
+                <div className="cricketbox-sidebar-brand">
+                    <div className="cricketbox-brand-icon">🏠</div>
+                    <div>
+                        <strong>Hostel</strong>
+                        <span>Student Portal</span>
+                    </div>
+                </div>
+
+                <nav className="cricketbox-sidebar-nav">
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/dashboard")}>
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/profile")}>
+                        <span>👤</span>
+                        <span>My Profile</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/room")}>
+                        <span>🛏️</span>
+                        <span>My Room</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/leave")}>
+                        <span>📄</span>
+                        <span>My Leave</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/leave/apply")}>
+                        <span>➕</span>
+                        <span>Apply Leave</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/gatepass")}>
+                        <span>🎫</span>
+                        <span>Gate Pass</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/complaints")}>
+                        <span>🛠️</span>
+                        <span>Complaints</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/fees")}>
+                        <span>💰</span>
+                        <span>My Fees</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item" onClick={() => goTo("/student/notifications")}>
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+                    <button type="button" className="cricketbox-nav-item active" onClick={() => goTo("/student/cricketbox")}>
+                        <span>🏏</span>
+                        <span>Cricket Box</span>
+                    </button>
+                </nav>
+
+                <button type="button" className="cricketbox-logout" onClick={handleLogout}>
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </button>
+            </aside>
+
+            {/* MOBILE OVERLAY */}
             {sidebarOpen && (
                 <div
-                    className="student-cricket-overlay"
+                    className="cricketbox-mobile-overlay"
+                    onPointerDown={() => setSidebarOpen(false)}
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
-            <aside
-                className={`student-cricket-sidebar ${sidebarOpen ? "student-cricket-sidebar-open" : ""
-                    }`}
-            >
-                <div className="student-cricket-brand">
-                    <div className="student-cricket-brand-icon">🏠</div>
-                    <div>
-                        <h2>Hostel</h2>
-                        <p>Student Portal</p>
+            {/* MAIN */}
+            <main className="cricketbox-main">
+                <header className="cricketbox-topbar">
+                    <div className="cricketbox-heading">
+                        <span className="cricketbox-eyebrow">CRICKET FACILITIES</span>
+                        <h1>Cricket Box</h1>
+                        <p>View hostel cricket grounds and reserve your playtime.</p>
                     </div>
-                </div>
 
-                <nav className="student-cricket-nav">
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/dashboard")}>📊<span>Dashboard</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/profile")}>👤<span>My Profile</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/room")}>🛏️<span>My Room</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/leaves")}>📝<span>My Leave</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/apply-leave")}>➕<span>Apply Leave</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/gatepass")}>🚪<span>Gate Pass</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/complaints")}>🛠️<span>Complaints</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/fees")}>💰<span>My Fees</span></button>
-                    <button className="student-cricket-nav-item active" onClick={() => goTo("/student/cricketbox")}>🏏<span>Cricket Box</span></button>
-                    <button className="student-cricket-nav-item" onClick={() => goTo("/student/notifications")}>🔔<span>Notifications</span></button>
-                </nav>
-
-                <button className="student-cricket-logout" onClick={handleLogout}>🚪<span>Logout</span></button>
-            </aside>
-
-            <main className="student-cricket-main">
-                <header className="student-cricket-topbar">
-                    <button
-                        className="student-cricket-hamburger"
-                        onClick={() => setSidebarOpen((prev) => !prev)}
-                        aria-label="Toggle menu"
-                    >
-                        ☰
-                    </button>
-                    <div className="student-cricket-panel-title">
-                        <strong>Hostel Student Panel</strong>
-                        <span>Cricket Box</span>
-                    </div>
-                    <div className="student-cricket-profile">
-                        {studentPhoto ? (
-                            <img
-                                src={studentPhoto}
-                                alt="Student"
-                                onError={(event) => {
-                                    event.currentTarget.style.display = "none";
-                                    event.currentTarget.nextSibling.style.display = "flex";
-                                }}
-                            />
-                        ) : null}
-                        <div
-                            className="student-cricket-photo-fallback"
-                            style={{ display: studentPhoto ? "none" : "flex" }}
+                    <div className="cricketbox-desktop-photo">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/student/profile")}
+                            aria-label="Open student profile"
                         >
-                            👤
-                        </div>
+                            {studentPhoto ? (
+                                <img
+                                    src={studentPhoto}
+                                    alt="Student profile"
+                                    onError={(event) => {
+                                        event.currentTarget.style.display = "none";
+                                    }}
+                                />
+                            ) : (
+                                "👤"
+                            )}
+                        </button>
                     </div>
                 </header>
 
-                {/* CONTENT */}
-                <section className="student-cricket-content">
-
-                    <div className="student-cricket-section-heading">
+                <section className="cricketbox-content">
+                    <div className="cricketbox-section-heading">
                         <div>
                             <span>
                                 CRICKET FACILITIES
@@ -212,15 +308,15 @@ function CricketBox() {
                             </h2>
                         </div>
 
-                        <span className="student-cricket-ground-count">
+                        <span className="cricketbox-ground-count">
                             {grounds.length} Grounds
                         </span>
                     </div>
 
                     {/* LOADING */}
                     {loading && (
-                        <div className="student-cricket-message">
-                            <div className="student-cricket-loader">
+                        <div className="cricketbox-message">
+                            <div className="cricketbox-loader">
                                 ⏳
                             </div>
 
@@ -232,7 +328,7 @@ function CricketBox() {
 
                     {/* ERROR */}
                     {!loading && error && (
-                        <div className="student-cricket-error">
+                        <div className="cricketbox-error">
                             <span>⚠️</span>
 
                             <div>
@@ -251,7 +347,7 @@ function CricketBox() {
                     {!loading &&
                         !error &&
                         grounds.length === 0 && (
-                            <div className="student-cricket-empty">
+                            <div className="cricketbox-empty">
                                 <div>
                                     🏏
                                 </div>
@@ -272,43 +368,43 @@ function CricketBox() {
                     {!loading &&
                         !error &&
                         grounds.length > 0 && (
-                            <div className="student-cricket-ground-grid">
+                            <div className="cricketbox-ground-grid">
 
                                 {grounds.map((ground) => (
                                     <article
-                                        className="student-cricket-ground-card"
+                                        className="cricketbox-ground-card"
                                         key={ground.id}
                                     >
 
-                                        <div className="student-cricket-ground-icon">
+                                        <div className="cricketbox-ground-icon">
                                             🏏
                                         </div>
 
-                                        <div className="student-cricket-ground-status">
+                                        <div className="cricketbox-ground-status">
                                             <span></span>
                                             Available
                                         </div>
 
-                                        <div className="student-cricket-ground-info">
+                                        <div className="cricketbox-ground-info">
 
                                             <h3>
                                                 {ground.name}
                                             </h3>
 
-                                            <p className="student-cricket-location">
+                                            <p className="cricketbox-location">
                                                 📍{" "}
                                                 {ground.location ||
                                                     "Location not specified"}
                                             </p>
 
-                                            <p className="student-cricket-description">
+                                            <p className="cricketbox-description">
                                                 {ground.description ||
                                                     "Cricket ground available for student booking."}
                                             </p>
 
                                         </div>
 
-                                        <div className="student-cricket-ground-details">
+                                        <div className="cricketbox-ground-details">
 
                                             <div>
                                                 <span>
@@ -337,7 +433,7 @@ function CricketBox() {
 
                                         </div>
 
-                                        <div className="student-cricket-ground-time">
+                                        <div className="cricketbox-ground-time">
 
                                             <div>
                                                 <span>
@@ -364,7 +460,7 @@ function CricketBox() {
                                         </div>
 
                                         <button
-                                            className="student-cricket-book-button"
+                                            className="cricketbox-book-button"
                                             onClick={() =>
                                                 handleBookNow(
                                                     ground.id
@@ -384,7 +480,7 @@ function CricketBox() {
                 </section>
 
                 {/* FOOTER */}
-                <footer className="student-cricket-footer">
+                <footer className="cricketbox-footer">
                     <span>
                         © 2026 Hostel Management System
                     </span>

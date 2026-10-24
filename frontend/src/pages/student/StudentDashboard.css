@@ -1195,3 +1195,39 @@
         font-size: 9px !important;
     }
 }
+/* Common Student Sidebar Navigation item styling */
+.student-dashboard-nav-item {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #94a3b8;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.student-dashboard-nav-item:hover,
+.student-dashboard-nav-item.active {
+    background: #134e4a;
+    color: #ffffff;
+}
+
+.student-dashboard-nav-item span:first-child {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+}
+
+button.student-dashboard-profile-photo,
+button.student-dashboard-mobile-photo {
+    cursor: pointer;
+    background: #ffffff;
+    padding: 0;
+}

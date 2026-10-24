@@ -522,6 +522,19 @@ const MyGatePass = () => {
                         className="mygatepass-nav-item"
                         onClick={() =>
                             handleNavigation(
+                                "/student/notifications"
+                            )
+                        }
+                    >
+                        <span>🔔</span>
+                        Notifications
+                    </button>
+
+                    <button
+                        type="button"
+                        className="mygatepass-nav-item"
+                        onClick={() =>
+                            handleNavigation(
                                 "/student/cricketbox"
                             )
                         }
@@ -530,18 +543,7 @@ const MyGatePass = () => {
                         Cricket Box
                     </button>
 
-                    <button
-                        type="button"
-                        className="mygatepass-nav-item"
-                        onClick={() =>
-                            handleNavigation(
-                                "/student/notifications"
-                            )
-                        }
-                    >
-                        <span>🔔</span>
-                        Notifications
-                    </button>
+                    
 
                 </nav>
 

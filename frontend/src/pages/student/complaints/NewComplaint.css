@@ -1,4 +1,4 @@
-.student-complaint-page {
+.newcomplaint-page {
   min-height: 100vh;
   display: flex;
   background: #f1f5f9;
@@ -6,7 +6,7 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.student-dashboard-sidebar {
+.newcomplaint-sidebar {
   position: fixed;
   top: 0;
   left: 0;
@@ -21,7 +21,7 @@
   z-index: 1400;
 }
 
-.student-dashboard-brand {
+.newcomplaint-sidebar-brand {
   display: flex;
   align-items: center;
   gap: 11px;
@@ -29,7 +29,7 @@
   border-bottom: 1px solid #1e293b;
 }
 
-.student-dashboard-brand-icon {
+.newcomplaint-brand-icon {
   width: 43px;
   height: 43px;
   display: flex;
@@ -40,19 +40,19 @@
   font-size: 21px;
 }
 
-.student-dashboard-brand strong {
+.newcomplaint-sidebar-brand strong {
   display: block;
   font-size: 17px;
 }
 
-.student-dashboard-brand span {
+.newcomplaint-sidebar-brand span {
   display: block;
   margin-top: 3px;
   color: #94a3b8;
   font-size: 11px;
 }
 
-.student-dashboard-nav {
+.newcomplaint-sidebar-nav {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -60,7 +60,7 @@
   overflow-y: auto;
 }
 
-.student-dashboard-nav button {
+.newcomplaint-nav-item {
   width: 100%;
   display: flex;
   align-items: center;
@@ -76,19 +76,19 @@
   transition: 0.2s ease;
 }
 
-.student-dashboard-nav button:hover {
+.newcomplaint-nav-item:hover {
   background: #1e293b;
   color: #fff;
   transform: translateX(2px);
 }
 
-.student-dashboard-nav button.active {
+.newcomplaint-nav-item.active {
   background: #134e4a;
   color: #fff;
   box-shadow: inset 3px 0 0 #2dd4bf;
 }
 
-.student-dashboard-logout {
+.newcomplaint-logout {
   width: 100%;
   margin-top: auto;
   padding: 12px 13px;
@@ -103,23 +103,23 @@
   cursor: pointer;
 }
 
-.student-dashboard-logout:hover {
+.newcomplaint-logout:hover {
   background: #7f1d1d;
   color: #fff;
 }
 
-.student-complaint-main {
+.newcomplaint-main {
   width: calc(100% - 255px);
   margin-left: 255px;
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-.student-dashboard-mobile-topbar {
+.newcomplaint-mobile-header {
   display: none;
 }
 
-.student-complaint-header {
+.newcomplaint-header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -127,7 +127,7 @@
   padding: 32px 35px 25px;
 }
 
-.student-complaint-header > div:first-child span {
+.newcomplaint-header > div:first-child span {
   display: block;
   margin-bottom: 8px;
   color: #087f7b;
@@ -136,24 +136,24 @@
   letter-spacing: 2px;
 }
 
-.student-complaint-header h1 {
+.newcomplaint-header h1 {
   margin: 0;
   color: #102a43;
   font-size: 34px;
   font-weight: 800;
 }
 
-.student-complaint-header p {
+.newcomplaint-header p {
   margin: 8px 0 0;
   color: #64748b;
   font-size: 14px;
 }
 
-.student-complaint-header-profile {
+.newcomplaint-header-profile {
   display: none;
 }
 
-.student-complaint-header-profile img {
+.newcomplaint-header-profile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -407,16 +407,16 @@
 }
 
 @media (max-width: 850px) {
-  .student-dashboard-sidebar {
+  .newcomplaint-sidebar {
     width: 220px;
   }
 
-  .student-complaint-main {
+  .newcomplaint-main {
     width: calc(100% - 220px);
     margin-left: 220px;
   }
 
-  .student-complaint-header,
+  .newcomplaint-header,
   .new-complaint-content {
     padding-left: 25px;
     padding-right: 25px;
@@ -428,11 +428,11 @@
     overflow: hidden;
   }
 
-  .student-complaint-page {
+  .newcomplaint-page {
     display: block;
   }
 
-  .student-dashboard-sidebar {
+  .newcomplaint-sidebar {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -452,11 +452,11 @@
     box-shadow: 12px 0 35px rgba(15, 23, 42, 0.25);
   }
 
-  .student-dashboard-sidebar.mobile-open {
+  .newcomplaint-sidebar.mobile-open {
     transform: translateX(0) !important;
   }
 
-  .student-dashboard-nav {
+  .newcomplaint-sidebar-nav {
     display: flex !important;
     flex-direction: column !important;
     gap: 5px !important;
@@ -465,7 +465,7 @@
     overflow: visible !important;
   }
 
-  .student-dashboard-nav button {
+  .newcomplaint-nav-item {
     width: 100% !important;
     min-height: 44px !important;
     display: flex !important;
@@ -474,12 +474,12 @@
     padding: 12px 13px !important;
   }
 
-  .student-dashboard-logout {
+  .newcomplaint-logout {
     width: 100% !important;
     margin-top: auto !important;
   }
 
-  .student-dashboard-mobile-overlay {
+  .newcomplaint-mobile-overlay {
     position: fixed !important;
     inset: 0 !important;
     display: block !important;
@@ -487,13 +487,13 @@
     z-index: 1350 !important;
   }
 
-  .student-complaint-main {
+  .newcomplaint-main {
     width: 100% !important;
     margin-left: 0 !important;
     padding: 0 15px 30px !important;
   }
 
-  .student-dashboard-mobile-topbar {
+  .newcomplaint-mobile-header {
     position: sticky !important;
     top: 0 !important;
     z-index: 900 !important;
@@ -510,7 +510,7 @@
     backdrop-filter: blur(10px);
   }
 
-  .student-dashboard-mobile-menu-btn {
+  .newcomplaint-mobile-menu {
     width: 42px !important;
     height: 42px !important;
     display: flex !important;
@@ -524,14 +524,14 @@
     cursor: pointer !important;
   }
 
-  .student-dashboard-mobile-brand {
+  .newcomplaint-mobile-brand {
     min-width: 0 !important;
     display: flex !important;
     align-items: center !important;
     gap: 9px !important;
   }
 
-  .student-dashboard-mobile-brand-icon {
+  .newcomplaint-mobile-brand-icon {
     width: 40px !important;
     height: 40px !important;
     flex: 0 0 40px !important;
@@ -543,20 +543,20 @@
     font-size: 20px !important;
   }
 
-  .student-dashboard-mobile-brand strong {
+  .newcomplaint-mobile-brand strong {
     display: block !important;
     color: #102a43 !important;
     font-size: 15px !important;
   }
 
-  .student-dashboard-mobile-brand span {
+  .newcomplaint-mobile-brand span {
     display: block !important;
     margin-top: 2px !important;
     color: #64748b !important;
     font-size: 10px !important;
   }
 
-  .student-dashboard-mobile-photo {
+  .newcomplaint-mobile-photo {
     width: 42px !important;
     height: 42px !important;
     flex: 0 0 42px !important;
@@ -572,26 +572,26 @@
     font-weight: 800;
   }
 
-  .student-dashboard-mobile-photo img {
+  .newcomplaint-mobile-photo img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
   }
 
-  .student-complaint-header {
+  .newcomplaint-header {
     padding: 0 0 20px;
     align-items: flex-start;
   }
 
-  .student-complaint-header h1 {
+  .newcomplaint-header h1 {
     font-size: 28px;
   }
 
-  .student-complaint-header p {
+  .newcomplaint-header p {
     font-size: 13px;
   }
 
-  .student-complaint-header-profile {
+  .newcomplaint-header-profile {
     display: none;
   }
 
@@ -644,25 +644,25 @@
 }
 
 @media (max-width: 420px) {
-  .student-dashboard-mobile-topbar {
+  .newcomplaint-mobile-header {
     grid-template-columns: 40px 1fr 40px !important;
     gap: 8px !important;
   }
 
-  .student-dashboard-mobile-menu-btn,
-  .student-dashboard-mobile-photo {
+  .newcomplaint-mobile-menu,
+  .newcomplaint-mobile-photo {
     width: 40px !important;
     height: 40px !important;
     flex-basis: 40px !important;
   }
 
-  .student-dashboard-mobile-brand-icon {
+  .newcomplaint-mobile-brand-icon {
     width: 38px !important;
     height: 38px !important;
     flex-basis: 38px !important;
   }
 
-  .student-complaint-header h1 {
+  .newcomplaint-header h1 {
     font-size: 24px;
   }
 }
@@ -848,10 +848,10 @@
 /* =========================================================
    CURRENT JSX UI OVERRIDES
    ========================================================= */
-.student-complaint-header {
+.newcomplaint-header {
   justify-content: space-between;
 }
-.student-complaint-header-profile {
+.newcomplaint-header-profile {
   width: 52px;
   height: 52px;
   padding: 2px;
@@ -869,7 +869,7 @@
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(15, 42, 67, 0.08);
 }
-.student-complaint-header-profile img {
+.newcomplaint-header-profile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1064,10 +1064,10 @@
   cursor: not-allowed;
 }
 @media (max-width: 700px) {
-  .student-complaint-header-profile {
+  .newcomplaint-header-profile {
     display: none !important;
   }
-  .student-complaint-main {
+  .newcomplaint-main {
     width: 100% !important;
     margin-left: 0 !important;
     padding: 0 15px 30px !important;
@@ -1099,5 +1099,131 @@
   }
   .student-complaint-card-heading p {
     font-size: 11px;
+  }
+}
+
+/* Common Student Sidebar Navigation item styling for NewComplaint */
+.newcomplaint-mobile-header {
+  display: none;
+}
+.newcomplaint-mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  body.newcomplaint-menu-open {
+    overflow: hidden;
+  }
+  .newcomplaint-sidebar {
+    width: 275px;
+    max-width: 86vw;
+    transform: translateX(-105%);
+    box-shadow: 12px 0 35px rgba(0,0,0,0.22);
+    z-index: 1400;
+    transition: transform 0.3s ease;
+  }
+  .newcomplaint-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .newcomplaint-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-top: 84px !important;
+    position: relative;
+  }
+  .newcomplaint-header-profile {
+    display: none;
+  }
+  .newcomplaint-mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    display: block;
+    background: rgba(2, 12, 27, 0.48);
+    cursor: pointer;
+  }
+  .newcomplaint-mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1200;
+    width: 100%;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-bottom: 1px solid #dbe6ee;
+    box-shadow: 0 3px 12px rgba(15,42,60,0.08);
+  }
+  .newcomplaint-mobile-left {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  .newcomplaint-mobile-menu {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 9px;
+    background: #0d8b84;
+    color: #ffffff;
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .newcomplaint-mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+  }
+  .newcomplaint-mobile-brand-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #0d8b84;
+    font-size: 20px;
+  }
+  .newcomplaint-mobile-brand strong {
+    display: block;
+    color: #102a43;
+    font-size: 16px;
+    line-height: 1.1;
+  }
+  .newcomplaint-mobile-brand span {
+    display: block;
+    margin-top: 2px;
+    color: #607d98;
+    font-size: 10px;
+  }
+  .newcomplaint-mobile-photo {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dbe6ee;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+  }
+  .newcomplaint-mobile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }

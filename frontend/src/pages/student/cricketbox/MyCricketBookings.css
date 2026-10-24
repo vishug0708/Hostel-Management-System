@@ -1,11 +1,11 @@
-.my-cricket-layout {
+.mycricketbookings-layout {
     min-height: 100vh;
     background: #f8fafc;
     color: #1e293b;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.my-cricket-sidebar {
+.mycricketbookings-sidebar {
     position: fixed;
     left: 0;
     top: 0;
@@ -19,7 +19,7 @@
     transition: transform 0.3s ease;
 }
 
-.my-cricket-brand {
+.mycricketbookings-brand {
     height: 72px;
     padding: 0 20px;
     display: flex;
@@ -28,7 +28,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.my-cricket-brand-icon {
+.mycricketbookings-brand-icon {
     width: 40px;
     height: 40px;
     border-radius: 10px;
@@ -39,26 +39,26 @@
     font-size: 21px;
 }
 
-.my-cricket-brand h2 {
+.mycricketbookings-brand h2 {
     margin: 0;
     font-size: 18px;
     font-weight: 700;
 }
 
-.my-cricket-brand span {
+.mycricketbookings-brand span {
     display: block;
     margin-top: 2px;
     color: #94a3b8;
     font-size: 11px;
 }
 
-.my-cricket-nav {
+.mycricketbookings-nav {
     flex: 1;
     padding: 16px 12px;
     overflow-y: auto;
 }
 
-.my-cricket-nav-item {
+.mycricketbookings-nav-item {
     width: 100%;
     border: none;
     background: transparent;
@@ -75,23 +75,23 @@
     transition: 0.2s ease;
 }
 
-.my-cricket-nav-item:hover {
+.mycricketbookings-nav-item:hover {
     background: #134e4a;
     color: #fff;
 }
 
-.my-cricket-nav-item.active {
+.mycricketbookings-nav-item.active {
     background: #134e4a;
     color: #fff;
 }
 
-.my-cricket-nav-item span:first-child {
+.mycricketbookings-nav-item span:first-child {
     width: 20px;
     text-align: center;
     font-size: 15px;
 }
 
-.my-cricket-logout {
+.mycricketbookings-logout {
     margin: 12px;
     border: 1px solid rgba(255,255,255,0.1);
     background: rgba(255,255,255,0.04);
@@ -105,17 +105,17 @@
     cursor: pointer;
 }
 
-.my-cricket-logout:hover {
+.mycricketbookings-logout:hover {
     background: #7f1d1d;
     color: #fff;
 }
 
-.my-cricket-main {
+.mycricketbookings-main {
     margin-left: 255px;
     min-height: 100vh;
 }
 
-.my-cricket-topbar {
+.mycricketbookings-topbar {
     height: 72px;
     background: #fff;
     border-bottom: 1px solid #e2e8f0;
@@ -128,7 +128,7 @@
     padding: 0 28px;
 }
 
-.my-cricket-hamburger {
+.mycricketbookings-hamburger {
     display: none;
     position: absolute;
     left: 18px;
@@ -144,40 +144,40 @@
     gap: 5px;
 }
 
-.my-cricket-hamburger span {
+.mycricketbookings-hamburger span {
     width: 20px;
     height: 2px;
     background: #0f172a;
     border-radius: 2px;
 }
 
-.my-cricket-panel-title {
+.mycricketbookings-panel-title {
     text-align: center;
 }
 
-.my-cricket-panel-title strong {
+.mycricketbookings-panel-title strong {
     display: block;
     color: #0f172a;
     font-size: 17px;
     font-weight: 700;
 }
 
-.my-cricket-panel-title span {
+.mycricketbookings-panel-title span {
     display: block;
     color: #64748b;
     font-size: 11px;
     margin-top: 2px;
 }
 
-.my-cricket-profile {
+.mycricketbookings-profile {
     position: absolute;
     right: 28px;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.my-cricket-profile img,
-.my-cricket-photo-fallback {
+.mycricketbookings-profile img,
+.mycricketbookings-photo-fallback {
     width: 42px;
     height: 42px;
     border-radius: 50%;
@@ -185,7 +185,7 @@
     border: 2px solid #dbeafe;
 }
 
-.my-cricket-photo-fallback {
+.mycricketbookings-photo-fallback {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,13 +194,13 @@
     font-size: 17px;
 }
 
-.my-cricket-content {
+.mycricketbookings-content {
     padding: 28px;
     max-width: 1500px;
     margin: 0 auto;
 }
 
-.my-cricket-heading {
+.mycricketbookings-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -208,21 +208,21 @@
     margin-bottom: 24px;
 }
 
-.my-cricket-heading > div > span {
+.mycricketbookings-heading > div > span {
     color: #0f766e;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 1.2px;
 }
 
-.my-cricket-heading h1 {
+.mycricketbookings-heading h1 {
     margin: 5px 0 4px;
     color: #0f172a;
     font-size: 28px;
     font-weight: 750;
 }
 
-.my-cricket-heading p {
+.mycricketbookings-heading p {
     margin: 0;
     color: #64748b;
     font-size: 14px;
@@ -244,7 +244,7 @@
     background: #0f766e;
 }
 
-.my-cricket-error {
+.mycricketbookings-error {
     background: #fef2f2;
     border: 1px solid #fecaca;
     color: #b91c1c;
@@ -254,7 +254,7 @@
     margin-bottom: 18px;
 }
 
-.my-cricket-loading {
+.mycricketbookings-loading {
     min-height: 300px;
     background: #fff;
     border: 1px solid #e2e8f0;
@@ -283,7 +283,7 @@
     }
 }
 
-.my-cricket-empty {
+.mycricketbookings-empty {
     min-height: 350px;
     background: #fff;
     border: 1px solid #e2e8f0;
@@ -308,19 +308,19 @@
     margin-bottom: 15px;
 }
 
-.my-cricket-empty h3 {
+.mycricketbookings-empty h3 {
     margin: 0;
     color: #0f172a;
     font-size: 17px;
 }
 
-.my-cricket-empty p {
+.mycricketbookings-empty p {
     color: #64748b;
     font-size: 13px;
     margin: 7px 0 18px;
 }
 
-.my-cricket-empty button {
+.mycricketbookings-empty button {
     border: none;
     background: #134e4a;
     color: #fff;
@@ -331,7 +331,7 @@
     cursor: pointer;
 }
 
-.my-cricket-table-card {
+.mycricketbookings-table-card {
     background: #fff;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
@@ -339,36 +339,36 @@
     box-shadow: 0 2px 8px rgba(15,23,42,0.04);
 }
 
-.my-cricket-table-header {
+.mycricketbookings-table-header {
     padding: 18px 20px;
     border-bottom: 1px solid #e2e8f0;
 }
 
-.my-cricket-table-header h3 {
+.mycricketbookings-table-header h3 {
     margin: 0;
     color: #0f172a;
     font-size: 16px;
 }
 
-.my-cricket-table-header span {
+.mycricketbookings-table-header span {
     display: block;
     color: #94a3b8;
     font-size: 11px;
     margin-top: 3px;
 }
 
-.my-cricket-table-wrapper {
+.mycricketbookings-table-wrapper {
     width: 100%;
     overflow-x: auto;
 }
 
-.my-cricket-table {
+.mycricketbookings-table {
     width: 100%;
     border-collapse: collapse;
     min-width: 850px;
 }
 
-.my-cricket-table th {
+.mycricketbookings-table th {
     background: #f8fafc;
     color: #64748b;
     font-size: 11px;
@@ -379,7 +379,7 @@
     white-space: nowrap;
 }
 
-.my-cricket-table td {
+.mycricketbookings-table td {
     padding: 14px 15px;
     color: #475569;
     font-size: 12px;
@@ -387,11 +387,11 @@
     vertical-align: middle;
 }
 
-.my-cricket-table tbody tr:hover {
+.mycricketbookings-table tbody tr:hover {
     background: #f8fafc;
 }
 
-.my-cricket-table td strong {
+.mycricketbookings-table td strong {
     color: #334155;
 }
 
@@ -453,21 +453,21 @@
     color: #fff;
 }
 
-.my-cricket-mobile-list {
+.mycricketbookings-mobile-list {
     display: none;
 }
 
 @media (max-width: 768px) {
-    .my-cricket-sidebar {
+    .mycricketbookings-sidebar {
         transform: translateX(-100%);
         width: 270px;
     }
 
-    .my-cricket-sidebar.my-cricket-sidebar-open {
+    .mycricketbookings-sidebar.mycricketbookings-sidebar-open {
         transform: translateX(0);
     }
 
-    .my-cricket-overlay {
+    .mycricketbookings-overlay {
         display: block;
         position: fixed;
         inset: 0;
@@ -475,50 +475,50 @@
         z-index: 950;
     }
 
-    .my-cricket-main {
+    .mycricketbookings-main {
         margin-left: 0;
     }
 
-    .my-cricket-topbar {
+    .mycricketbookings-topbar {
         height: 64px;
         padding: 0 65px;
     }
 
-    .my-cricket-hamburger {
+    .mycricketbookings-hamburger {
         display: flex;
     }
 
-    .my-cricket-profile {
+    .mycricketbookings-profile {
         right: 15px;
     }
 
-    .my-cricket-profile img,
-    .my-cricket-photo-fallback {
+    .mycricketbookings-profile img,
+    .mycricketbookings-photo-fallback {
         width: 37px;
         height: 37px;
     }
 
-    .my-cricket-panel-title strong {
+    .mycricketbookings-panel-title strong {
         font-size: 14px;
     }
 
-    .my-cricket-panel-title span {
+    .mycricketbookings-panel-title span {
         font-size: 10px;
     }
 
-    .my-cricket-content {
+    .mycricketbookings-content {
         padding: 20px 15px;
     }
 
-    .my-cricket-heading {
+    .mycricketbookings-heading {
         align-items: flex-start;
     }
 
-    .my-cricket-heading h1 {
+    .mycricketbookings-heading h1 {
         font-size: 23px;
     }
 
-    .my-cricket-heading p {
+    .mycricketbookings-heading p {
         font-size: 12px;
         line-height: 1.5;
     }
@@ -528,11 +528,11 @@
         white-space: nowrap;
     }
 
-    .my-cricket-table-wrapper {
+    .mycricketbookings-table-wrapper {
         display: none;
     }
 
-    .my-cricket-mobile-list {
+    .mycricketbookings-mobile-list {
         display: block;
         padding: 14px;
     }
@@ -601,24 +601,24 @@
 }
 
 @media (max-width: 480px) {
-    .my-cricket-topbar {
+    .mycricketbookings-topbar {
         padding-left: 58px;
         padding-right: 55px;
     }
 
-    .my-cricket-panel-title strong {
+    .mycricketbookings-panel-title strong {
         font-size: 12px;
     }
 
-    .my-cricket-panel-title span {
+    .mycricketbookings-panel-title span {
         font-size: 9px;
     }
 
-    .my-cricket-profile {
+    .mycricketbookings-profile {
         right: 10px;
     }
 
-    .my-cricket-heading {
+    .mycricketbookings-heading {
         flex-direction: column;
     }
 
@@ -626,11 +626,11 @@
         align-self: flex-start;
     }
 
-    .my-cricket-heading h1 {
+    .mycricketbookings-heading h1 {
         font-size: 21px;
     }
 
-    .my-cricket-empty {
+    .mycricketbookings-empty {
         min-height: 300px;
     }
 
@@ -640,42 +640,42 @@
 }
 
 /* STUDENT DASHBOARD STYLE SHELL */
-.my-cricket-sidebar { width:255px; height:100vh; position:fixed; left:0; top:0; bottom:0; background:#0f172a; color:#fff; display:flex; flex-direction:column; z-index:1100; box-sizing:border-box; }
-.my-cricket-brand { height:82px; flex-shrink:0; display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgba(255,255,255,0.08); box-sizing:border-box; }
-.my-cricket-brand h2 { margin:0; color:#fff; font-size:17px; font-weight:700; }
-.my-cricket-brand p,.my-cricket-brand span { margin:3px 0 0; color:#94a3b8; font-size:11px; }
-.my-cricket-brand-icon { width:40px; height:40px; flex-shrink:0; border-radius:10px; background:#0f766e; display:flex; align-items:center; justify-content:center; font-size:20px; }
-.my-cricket-nav { flex:1; padding:16px 12px; overflow-y:auto; box-sizing:border-box; }
-.my-cricket-nav-item { width:100%; min-height:42px; border:none; background:transparent; color:#cbd5e1; padding:11px 13px; margin-bottom:4px; border-radius:7px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; transition:background .2s ease,color .2s ease; box-sizing:border-box; }
-.my-cricket-nav-item:hover,.my-cricket-nav-item.active { background:#134e4a; color:#fff; }
-.my-cricket-nav-item span:first-child { width:20px; flex-shrink:0; text-align:center; font-size:15px; }
-.my-cricket-logout { width:calc(100% - 24px); margin:12px; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#cbd5e1; border-radius:7px; padding:11px 13px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; box-sizing:border-box; }
-.my-cricket-logout:hover { background:#7f1d1d; color:#fff; }
-.my-cricket-main { width:calc(100% - 255px); min-height:100vh; margin-left:255px; box-sizing:border-box; }
-.my-cricket-topbar { width:100%; height:72px; position:sticky; top:0; z-index:1000; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; padding:0 28px; box-sizing:border-box; }
-.my-cricket-hamburger { display:none; position:absolute; left:18px; width:42px; height:42px; border:none; border-radius:10px; background:#0f766e; color:#fff; font-size:23px; line-height:1; align-items:center; justify-content:center; cursor:pointer; }
-.my-cricket-panel-title { text-align:center; line-height:1.2; }
-.my-cricket-panel-title strong { display:block; color:#0f172a; font-size:17px; font-weight:700; }
-.my-cricket-panel-title span { display:block; margin-top:3px; color:#64748b; font-size:10px; }
-.my-cricket-profile { position:absolute; right:28px; top:50%; transform:translateY(-50%); width:42px; height:42px; }
-.my-cricket-profile img,.my-cricket-photo-fallback { width:42px; height:42px; display:flex; border-radius:50%; object-fit:cover; border:2px solid #dbeafe; box-sizing:border-box; }
-.my-cricket-photo-fallback { align-items:center; justify-content:center; background:#0f766e; color:#fff; font-size:17px; }
-.my-cricket-overlay { display:none; }
+.mycricketbookings-sidebar { width:255px; height:100vh; position:fixed; left:0; top:0; bottom:0; background:#0f172a; color:#fff; display:flex; flex-direction:column; z-index:1100; box-sizing:border-box; }
+.mycricketbookings-brand { height:82px; flex-shrink:0; display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgba(255,255,255,0.08); box-sizing:border-box; }
+.mycricketbookings-brand h2 { margin:0; color:#fff; font-size:17px; font-weight:700; }
+.mycricketbookings-brand p,.mycricketbookings-brand span { margin:3px 0 0; color:#94a3b8; font-size:11px; }
+.mycricketbookings-brand-icon { width:40px; height:40px; flex-shrink:0; border-radius:10px; background:#0f766e; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.mycricketbookings-nav { flex:1; padding:16px 12px; overflow-y:auto; box-sizing:border-box; }
+.mycricketbookings-nav-item { width:100%; min-height:42px; border:none; background:transparent; color:#cbd5e1; padding:11px 13px; margin-bottom:4px; border-radius:7px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; transition:background .2s ease,color .2s ease; box-sizing:border-box; }
+.mycricketbookings-nav-item:hover,.mycricketbookings-nav-item.active { background:#134e4a; color:#fff; }
+.mycricketbookings-nav-item span:first-child { width:20px; flex-shrink:0; text-align:center; font-size:15px; }
+.mycricketbookings-logout { width:calc(100% - 24px); margin:12px; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#cbd5e1; border-radius:7px; padding:11px 13px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; box-sizing:border-box; }
+.mycricketbookings-logout:hover { background:#7f1d1d; color:#fff; }
+.mycricketbookings-main { width:calc(100% - 255px); min-height:100vh; margin-left:255px; box-sizing:border-box; }
+.mycricketbookings-topbar { width:100%; height:72px; position:sticky; top:0; z-index:1000; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; padding:0 28px; box-sizing:border-box; }
+.mycricketbookings-hamburger { display:none; position:absolute; left:18px; width:42px; height:42px; border:none; border-radius:10px; background:#0f766e; color:#fff; font-size:23px; line-height:1; align-items:center; justify-content:center; cursor:pointer; }
+.mycricketbookings-panel-title { text-align:center; line-height:1.2; }
+.mycricketbookings-panel-title strong { display:block; color:#0f172a; font-size:17px; font-weight:700; }
+.mycricketbookings-panel-title span { display:block; margin-top:3px; color:#64748b; font-size:10px; }
+.mycricketbookings-profile { position:absolute; right:28px; top:50%; transform:translateY(-50%); width:42px; height:42px; }
+.mycricketbookings-profile img,.mycricketbookings-photo-fallback { width:42px; height:42px; display:flex; border-radius:50%; object-fit:cover; border:2px solid #dbeafe; box-sizing:border-box; }
+.mycricketbookings-photo-fallback { align-items:center; justify-content:center; background:#0f766e; color:#fff; font-size:17px; }
+.mycricketbookings-overlay { display:none; }
 @media (max-width:700px) {
-    .my-cricket-sidebar { width:270px; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
-    .my-cricket-sidebar.my-cricket-sidebar-open { transform:translateX(0); }
-    .my-cricket-overlay { display:block; position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:1050; }
-    .my-cricket-main { width:100%; margin-left:0; min-height:100vh; }
-    .my-cricket-topbar { height:64px; padding:0 58px; }
-    .my-cricket-hamburger { display:flex; }
-    .my-cricket-panel-title strong { font-size:15px; }
-    .my-cricket-profile { right:15px; }
+    .mycricketbookings-sidebar { width:270px; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
+    .mycricketbookings-sidebar.mycricketbookings-sidebar-open { transform:translateX(0); }
+    .mycricketbookings-overlay { display:block; position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:1050; }
+    .mycricketbookings-main { width:100%; margin-left:0; min-height:100vh; }
+    .mycricketbookings-topbar { height:64px; padding:0 58px; }
+    .mycricketbookings-hamburger { display:flex; }
+    .mycricketbookings-panel-title strong { font-size:15px; }
+    .mycricketbookings-profile { right:15px; }
 }
 @media (max-width:480px) {
-    .my-cricket-topbar { padding:0 54px; }
-    .my-cricket-hamburger { left:12px; }
-    .my-cricket-profile { right:10px; }
-    .my-cricket-panel-title strong { font-size:13px; }
-    .my-cricket-panel-title span { font-size:9px; }
+    .mycricketbookings-topbar { padding:0 54px; }
+    .mycricketbookings-hamburger { left:12px; }
+    .mycricketbookings-profile { right:10px; }
+    .mycricketbookings-panel-title strong { font-size:13px; }
+    .mycricketbookings-panel-title span { font-size:9px; }
 }
 

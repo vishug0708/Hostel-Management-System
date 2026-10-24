@@ -8,13 +8,13 @@ const menuItems = [
   { label: "Dashboard", icon: "📊", path: "/student/dashboard" },
   { label: "My Profile", icon: "👤", path: "/student/profile" },
   { label: "My Room", icon: "🛏️", path: "/student/room" },
-  { label: "My Leave", icon: "📝", path: "/student/leaves" },
-  { label: "Apply Leave", icon: "➕", path: "/student/apply-leave" },
+  { label: "My Leave", icon: "📄", path: "/student/leave" },
+  { label: "Apply Leave", icon: "➕", path: "/student/leave/apply" },
   { label: "Gate Pass", icon: "🎫", path: "/student/gatepass" },
-  { label: "Complaints", icon: "📩", path: "/student/complaints" },
+  { label: "Complaints", icon: "🛠️", path: "/student/complaints" },
   { label: "My Fees", icon: "💰", path: "/student/fees" },
   { label: "Notifications", icon: "🔔", path: "/student/notifications" },
-  { label: "Cricket Box", icon: "🏏", path: "/student/cricket-box/bookings" },
+  { label: "Cricket Box", icon: "🏏", path: "/student/cricketbox" },
 ];
 
 const statusSteps = ["Submitted", "Assigned", "In Progress", "Resolution Pending", "OTP Verification", "Closed"];
@@ -120,28 +120,111 @@ const ViewComplaint = () => {
   if (loading) return <div className="view-complaint-loading"><div className="view-complaint-loader" /><p>Loading complaint...</p></div>;
 
   return (
-    <div className="student-view-complaint-page">
-      <aside ref={sidebarRef} className={`student-dashboard-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}>
-        <div className="student-dashboard-brand"><div className="student-dashboard-brand-icon">🏠</div><div><strong>Hostel</strong><span>Student Portal</span></div></div>
-        <nav className="student-dashboard-nav">
-          {menuItems.map((item) => <button key={item.path} className={item.label === "Complaints" ? "active" : ""} onClick={() => navigateTo(item.path)}><span>{item.icon}</span><span>{item.label}</span></button>)}
-        </nav>
-        <button className="student-dashboard-logout" onClick={logout}><span>🚪</span><span>Logout</span></button>
-      </aside>
-
-      {mobileMenuOpen && <div className="student-dashboard-mobile-overlay" onClick={() => setMobileMenuOpen(false)} />}
-
-      <main className="student-view-complaint-main">
-        <div className="student-dashboard-mobile-topbar">
-          <button ref={menuButtonRef} className="student-dashboard-mobile-menu-btn" onClick={() => setMobileMenuOpen(true)}>☰</button>
-          <div className="student-dashboard-mobile-brand"><strong>Hostel Student Panel</strong><span>Complaint Details</span></div>
-          <div className="student-dashboard-mobile-photo">{photo ? <img src={photo} alt="Student" /> : "👤"}</div>
+    <div className="viewcomplaint-page">
+      {/* MOBILE HEADER */}
+      <header className="viewcomplaint-mobile-header">
+        <div className="viewcomplaint-mobile-left">
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="viewcomplaint-mobile-menu"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Close student menu" : "Open student menu"}
+          >
+            ☰
+          </button>
+          <div className="viewcomplaint-mobile-brand">
+            <div className="viewcomplaint-mobile-brand-icon">🏠</div>
+            <div>
+              <strong>Hostel</strong>
+              <span>Student Portal</span>
+            </div>
+          </div>
         </div>
 
-        <header className="view-complaint-header">
-          <div><span>HOSTEL SERVICES</span><h1>Complaint Details</h1><p>Track assigned staff, expected resolution and the complete resolution workflow.</p></div>
-          <button type="button" className="view-complaint-header-profile" onClick={() => navigateTo("/student/profile")} aria-label="Open student profile">
-            {photo ? <img src={photo} alt="Student" /> : "👤"}
+        <button
+          type="button"
+          className="viewcomplaint-mobile-photo"
+          onClick={() => navigateTo("/student/profile")}
+          aria-label="Open student profile"
+        >
+          {photo ? (
+            <img
+              src={photo}
+              alt="Student profile"
+              onError={(e) => { e.currentTarget.style.display = "none"; }}
+            />
+          ) : "👤"}
+        </button>
+      </header>
+
+      {/* SIDEBAR */}
+      <aside
+        ref={sidebarRef}
+        className={`viewcomplaint-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}
+      >
+        <div className="viewcomplaint-sidebar-brand">
+          <div className="viewcomplaint-brand-icon">🏠</div>
+          <div>
+            <strong>Hostel</strong>
+            <span>Student Portal</span>
+          </div>
+        </div>
+
+        <nav className="viewcomplaint-sidebar-nav">
+          {menuItems.map((item) => (
+            <button
+              key={item.path}
+              type="button"
+              className={`viewcomplaint-nav-item ${item.label === "Complaints" ? "active" : ""}`}
+              onClick={() => navigateTo(item.path)}
+            >
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          className="viewcomplaint-logout"
+          onClick={logout}
+        >
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+      </aside>
+
+      {/* OVERLAY */}
+      {mobileMenuOpen && (
+        <div
+          className="viewcomplaint-mobile-overlay"
+          onPointerDown={() => setMobileMenuOpen(false)}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* MAIN */}
+      <main className="viewcomplaint-main">
+        <header className="viewcomplaint-header">
+          <div>
+            <span>HOSTEL SERVICES</span>
+            <h1>Complaint Details</h1>
+            <p>Track assigned staff, expected resolution and the complete resolution workflow.</p>
+          </div>
+          <button
+            type="button"
+            className="viewcomplaint-header-profile"
+            onClick={() => navigateTo("/student/profile")}
+            aria-label="Open student profile"
+          >
+            {photo ? (
+              <img
+                src={photo}
+                alt="Student profile"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
+              />
+            ) : "👤"}
           </button>
         </header>
 

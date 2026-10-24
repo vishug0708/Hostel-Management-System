@@ -775,3 +775,184 @@
         font-size: 11px;
     }
 }
+
+/* =========================================
+   MYROOM SIDEBAR & COMMON LAYOUT STYLES
+   ========================================= */
+
+.myroom-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    width: 255px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 15px;
+    background: #0f172a;
+    color: #ffffff;
+    overflow-y: auto;
+}
+
+.myroom-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 5px 10px 25px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.myroom-brand-icon {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #0f766e;
+    font-size: 21px;
+}
+
+.myroom-sidebar-brand strong {
+    display: block;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.myroom-sidebar-brand span {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.myroom-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 25px;
+}
+
+.myroom-nav-item {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #94a3b8;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.myroom-nav-item:hover,
+.myroom-nav-item.active {
+    background: #134e4a;
+    color: #ffffff;
+}
+
+.myroom-nav-item span:first-child {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.myroom-logout {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px 13px;
+    border: 1px solid #334155;
+    border-radius: 9px;
+    background: transparent;
+    color: #fca5a5;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.myroom-logout:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+}
+
+.myroom-desktop-photo {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 50;
+}
+
+.myroom-desktop-photo button {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dbe6ee;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #102a43;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 42, 60, 0.12);
+}
+
+.myroom-desktop-photo img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.myroom-mobile-overlay {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    body.myroom-menu-open {
+        overflow: hidden;
+    }
+
+    .myroom-sidebar {
+        width: 275px;
+        max-width: 86vw;
+        transform: translateX(-105%);
+        box-shadow: 12px 0 35px rgba(0,0,0,0.22);
+        z-index: 1400;
+        transition: transform 0.3s ease;
+    }
+
+    .myroom-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .myroom-main {
+        width: 100% !important;
+        margin-left: 0 !important;
+        position: relative;
+    }
+
+    .myroom-desktop-photo {
+        display: none;
+    }
+
+    .myroom-mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1300;
+        display: block;
+        background: rgba(2, 12, 27, 0.48);
+        cursor: pointer;
+    }
+}

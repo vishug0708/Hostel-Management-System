@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MyRoom.css";
-import StudentSidebar from "../../components/student/StudentSidebar";
 
 const MyRoom = () => {
     const navigate = useNavigate();
@@ -12,6 +11,70 @@ const MyRoom = () => {
     const [error, setError] = useState("");
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const sidebarRef = useRef(null);
+    const mobileMenuButtonRef = useRef(null);
+
+    useEffect(() => {
+        document.body.classList.toggle(
+            "myroom-menu-open",
+            menuOpen
+        );
+
+        return () => {
+            document.body.classList.remove(
+                "myroom-menu-open"
+            );
+        };
+    }, [menuOpen]);
+
+    useEffect(() => {
+        if (!menuOpen) {
+            return;
+        }
+
+        const handleOutsidePointer = (event) => {
+            const sidebar = sidebarRef.current;
+            const menuButton = mobileMenuButtonRef.current;
+
+            if (
+                sidebar &&
+                !sidebar.contains(event.target) &&
+                menuButton &&
+                !menuButton.contains(event.target)
+            ) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener(
+            "pointerdown",
+            handleOutsidePointer,
+            true
+        );
+
+        return () => {
+            document.removeEventListener(
+                "pointerdown",
+                handleOutsidePointer,
+                true
+            );
+        };
+    }, [menuOpen]);
+
+    const handleNavigation = (path) => {
+        setMenuOpen(false);
+        navigate(path);
+    };
+
+    const handleLogout = () => {
+        setMenuOpen(false);
+        localStorage.removeItem("studentToken");
+        localStorage.removeItem("token");
+        localStorage.removeItem("student");
+        localStorage.removeItem("studentPhoto");
+        navigate("/student/login", { replace: true });
+    };
 
     const getStudentId = () => {
         const studentData = localStorage.getItem("student");
@@ -122,6 +185,7 @@ const MyRoom = () => {
             <header className="myroom-mobile-header">
                 <div className="myroom-mobile-left">
                     <button
+                        ref={mobileMenuButtonRef}
                         type="button"
                         className="myroom-mobile-menu"
                         onClick={() => setMenuOpen((open) => !open)}
@@ -163,10 +227,181 @@ const MyRoom = () => {
                 </button>
             </header>
 
-            <StudentSidebar
-                mobileOpen={menuOpen}
-                onClose={() => setMenuOpen(false)}
-            />
+            <aside
+                ref={sidebarRef}
+                className={`myroom-sidebar ${
+                    menuOpen
+                        ? "mobile-open"
+                        : ""
+                }`}
+            >
+                <div className="myroom-sidebar-brand">
+                    <div className="myroom-brand-icon">
+                        🏠
+                    </div>
+                    <div>
+                        <strong>
+                            Hostel
+                        </strong>
+                        <span>
+                            Student Portal
+                        </span>
+                    </div>
+                </div>
+
+                <nav className="myroom-sidebar-nav">
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/dashboard"
+                            )
+                        }
+                    >
+                        <span>📊</span>
+                        Dashboard
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/profile"
+                            )
+                        }
+                    >
+                        <span>👤</span>
+                        My Profile
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item active"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/room"
+                            )
+                        }
+                    >
+                        <span>🛏️</span>
+                        My Room
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/leave"
+                            )
+                        }
+                    >
+                        <span>📄</span>
+                        My Leave
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/leave/apply"
+                            )
+                        }
+                    >
+                        <span>➕</span>
+                        Apply Leave
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/gatepass"
+                            )
+                        }
+                    >
+                        <span>🎫</span>
+                        Gate Pass
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/complaints"
+                            )
+                        }
+                    >
+                        <span>🛠️</span>
+                        Complaints
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/fees"
+                            )
+                        }
+                    >
+                        <span>💰</span>
+                        My Fees
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/notifications"
+                            )
+                        }
+                    >
+                        <span>🔔</span>
+                        Notifications
+                    </button>
+
+                    <button
+                        type="button"
+                        className="myroom-nav-item"
+                        onClick={() =>
+                            handleNavigation(
+                                "/student/cricketbox"
+                            )
+                        }
+                    >
+                        <span>🏏</span>
+                        Cricket Box
+                    </button>
+                </nav>
+
+                <button
+                    type="button"
+                    className="myroom-logout"
+                    onClick={handleLogout}
+                >
+                    <span>🚪</span>
+                    Logout
+                </button>
+            </aside>
+
+            {menuOpen && (
+                <div
+                    className="myroom-mobile-overlay"
+                    onPointerDown={() =>
+                        setMenuOpen(false)
+                    }
+                    onClick={() =>
+                        setMenuOpen(false)
+                    }
+                />
+            )}
 
             <main className="myroom-main">
                 <div className="myroom-desktop-photo">
