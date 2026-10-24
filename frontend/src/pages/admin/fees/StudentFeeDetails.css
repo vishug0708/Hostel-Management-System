@@ -846,3 +846,423 @@
         align-items: flex-start;
     }
 }
+
+/* =====================================================
+   STUDENT FEE DETAILS INVOICES & RECEIPT ENHANCEMENTS
+===================================================== */
+.student-fee-subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.student-fee-subnav button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.student-fee-subnav button:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+.student-fee-invoices-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.student-fee-invoices-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.student-fee-invoices-header span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f766e;
+    letter-spacing: 0.08em;
+}
+
+.student-fee-invoices-header h2 {
+    font-size: 18px;
+    margin: 4px 0;
+    color: #0f172a;
+}
+
+.student-fee-invoices-header p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.student-fee-invoices-count {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.student-invoices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.student-invoice-item-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 18px;
+    background: #f8fafc;
+}
+
+.student-invoice-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+
+.invoice-sem-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.student-invoice-head h3 {
+    margin: 4px 0 2px;
+    font-size: 16px;
+    color: #0f172a;
+}
+
+.student-invoice-head small {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.invoice-head-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.invoice-status-pill {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.invoice-status-pill.paid {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.invoice-status-pill.partial {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.invoice-status-pill.overdue {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.invoice-status-pill.pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.invoice-total-badge {
+    font-size: 18px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.student-invoice-charges {
+    margin: 12px 0;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.student-invoice-charges h4 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.charges-chips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+}
+
+.charge-chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.charge-chip span {
+    color: #475569;
+}
+
+.charge-chip strong {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.student-invoice-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 13px;
+    color: #475569;
+}
+
+.student-invoice-footer strong {
+    color: #0f172a;
+}
+
+.fee-mono-pill {
+    font-family: monospace;
+    font-size: 12px;
+    background: #f0fdfa;
+    color: #0f766e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccfbf1;
+}
+
+.fee-ref-code {
+    font-family: monospace;
+    font-size: 11px;
+    color: #64748b;
+    display: block;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fee-receipt-btn {
+    padding: 5px 10px;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #0f766e;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.fee-receipt-btn:hover {
+    background: #0f766e;
+    color: #ffffff;
+    border-color: #0f766e;
+}
+
+.receipt-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.receipt-modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    border-radius: 14px;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.receipt-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: #f8fafc;
+}
+
+.receipt-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border-radius: 4px;
+    margin-bottom: 4px;
+}
+
+.receipt-close-btn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.receipt-modal-body {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.receipt-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.receipt-info-grid label {
+    display: block;
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+.receipt-info-grid strong {
+    font-size: 12px;
+    color: #0f172a;
+}
+
+.receipt-amount-box {
+    text-align: center;
+    background: #f0fdf4;
+    border: 1px dashed #86efac;
+    padding: 14px;
+    border-radius: 8px;
+}
+
+.receipt-amount-box span {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #166534;
+    letter-spacing: 0.06em;
+}
+
+.receipt-amount-box strong {
+    display: block;
+    font-size: 24px;
+    color: #15803d;
+    margin: 4px 0;
+}
+
+.receipt-breakdown h4 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.receipt-table th {
+    background: #f1f5f9;
+    padding: 6px 10px;
+    color: #475569;
+    font-weight: 600;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.receipt-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
+}
+
+.receipt-table-total td {
+    font-weight: 700;
+    background: #f8fafc;
+    border-top: 2px solid #cbd5e1;
+    color: #0f172a;
+}
+
+.receipt-modal-actions {
+    padding: 14px 24px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: #f8fafc;
+}
+
+.receipt-print-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.receipt-done-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+    cursor: pointer;
+}

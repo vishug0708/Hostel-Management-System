@@ -1,0 +1,275 @@
+/* =====================================================
+   ASSIGN FEES STYLES
+   Prefix: assignfees-
+===================================================== */
+
+.assignfees-page {
+    min-height: 100vh;
+    display: flex;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.assignfees-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 255px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 15px;
+    background: #0f172a;
+    color: white;
+    z-index: 100;
+}
+
+.assignfees-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 5px 10px 25px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.assignfees-brand-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #0f766e;
+    font-size: 21px;
+}
+
+.assignfees-brand strong {
+    display: block;
+    font-size: 17px;
+}
+
+.assignfees-brand span {
+    display: block;
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.assignfees-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 25px;
+}
+
+.assignfees-nav button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 13px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #94a3b8;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.assignfees-nav button:hover {
+    background: #1e293b;
+    color: white;
+    transform: translateX(2px);
+}
+
+.assignfees-nav button.active {
+    background: #134e4a;
+    color: white;
+    box-shadow: inset 3px 0 0 #2dd4bf;
+}
+
+.assignfees-logout {
+    width: 100%;
+    margin-top: auto;
+    padding: 12px 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #334155;
+    border-radius: 9px;
+    background: transparent;
+    color: #fca5a5;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.assignfees-logout:hover {
+    background: #7f1d1d;
+    color: white;
+}
+
+.assignfees-main {
+    width: calc(100% - 255px);
+    margin-left: 255px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 30px 35px;
+}
+
+.assignfees-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.assignfees-header span.eyebrow {
+    color: #0f766e;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.assignfees-header h1 {
+    margin: 6px 0 5px;
+    font-size: 29px;
+    line-height: 1.2;
+}
+
+.assignfees-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.assignfees-card {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.assignfees-grid-config {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.assignfees-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.assignfees-field input,
+.assignfees-field select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #0f172a;
+    box-sizing: border-box;
+}
+
+.assignfees-preview-bar {
+    background: #f0fdfa;
+    border: 1px solid #ccfbf1;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.assignfees-preview-info span {
+    font-size: 13px;
+    color: #0f766e;
+    font-weight: 600;
+}
+
+.assignfees-preview-info strong {
+    font-size: 20px;
+    color: #0f766e;
+    display: block;
+}
+
+.assignfees-submit-btn {
+    padding: 11px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #0f766e;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.assignfees-submit-btn:hover:not(:disabled) {
+    background: #115e59;
+    transform: translateY(-1px);
+}
+
+.assignfees-submit-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.assignfees-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+}
+
+.assignfees-table th {
+    background: #344b63;
+    color: white;
+    padding: 12px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.assignfees-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #1e293b;
+}
+
+.assignfees-table tr:hover td {
+    background: #f8fafc;
+}
+
+.assignfees-status-pill {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.assignfees-status-pill.already-assigned {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.assignfees-status-pill.available {
+    background: #dcfce7;
+    color: #15803d;
+}
+

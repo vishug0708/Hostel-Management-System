@@ -21,6 +21,10 @@ import FeesDashboard from "./pages/admin/fees/FeesDashboard";
 import FeeRecords from "./pages/admin/fees/FeeRecords";
 import PendingFees from "./pages/admin/fees/PendingFees";
 import StudentFeeDetails from "./pages/admin/fees/StudentFeeDetails";
+import FeeStructures from "./pages/admin/fees/FeeStructures";
+import AssignFees from "./pages/admin/fees/AssignFees";
+import FeeInvoices from "./pages/admin/fees/FeeInvoices";
+import FeeReports from "./pages/admin/fees/FeeReports";
 import ViewComplaints from "./pages/admin/complaints/ViewComplaints";
 import ManageGround from "./pages/admin/cricketbox/ManageGround";
 import AddGround from "./pages/admin/cricketbox/AddGround";
@@ -70,6 +74,7 @@ import ViewGatePass from "./pages/student/gatepass/ViewGatePass";
 import StudentComplaints from "./pages/student/complaints/Complaints";
 import NewComplaint from "./pages/student/complaints/NewComplaint";
 import ViewComplaint from "./pages/student/complaints/ViewComplaint";
+import MyFees from "./pages/student/fees/MyFees";
 
 // =====================================================
 // PARENT GATE PASS
@@ -166,6 +171,10 @@ function App() {
         <Route path="/admin/rooms/edit/:id" element={<EditRoom />} />
 
         <Route path="/admin/fees" element={<FeesDashboard />} />
+        <Route path="/admin/fees/structures" element={<FeeStructures />} />
+        <Route path="/admin/fees/assign" element={<AssignFees />} />
+        <Route path="/admin/fees/invoices" element={<FeeInvoices />} />
+        <Route path="/admin/fees/reports" element={<FeeReports />} />
 
         <Route path="/admin/fees/records" element={<FeeRecords />} />
 
@@ -283,6 +292,7 @@ function App() {
           element={<MyCricketBookings />}
         />
 
+        <Route path="/student/fees" element={<MyFees />} />
         <Route path="/student/gatepass" element={<MyGatePass />} />
 
         <Route path="/student/gatepass/apply" element={<ApplyGatePass />} />

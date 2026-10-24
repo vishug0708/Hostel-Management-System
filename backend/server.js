@@ -62,6 +62,7 @@ const studentCricketRoutes = require("./routes/studentCricketRoutes");
 const studentGatePassRoutes = require("./routes/studentGatePassRoutes");
 const parentGatePassRoutes = require("./routes/parentGatePassRoutes");
 const studentComplaintRoutes = require("./routes/studentComplaintRoutes");
+const studentFeeRoutes = require("./routes/studentFeeRoutes");
 
 
 // =====================================================
@@ -305,6 +306,11 @@ app.use(
 app.use(
     "/api/student/complaints",
     studentComplaintRoutes
+);
+
+app.use(
+    "/api/student/fees",
+    studentFeeRoutes
 );
 
 

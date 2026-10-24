@@ -835,3 +835,100 @@
         align-items: flex-start;
     }
 }
+
+/* =====================================================
+   PENDING FEES SUBNAV & EXTRA HELPERS
+===================================================== */
+.pending-fees-subnav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.pending-fees-subnav button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pending-fees-subnav button:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+.pending-fees-subnav button.active {
+    background: #0f766e;
+    color: #ffffff;
+    border-color: #0f766e;
+    font-weight: 600;
+}
+
+.pending-summary-icon.overdue {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.pending-invoice-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    background: #e2e8f0;
+    color: #334155;
+    font-size: 11px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.pending-status-pill {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.pending-status-pill.unpaid {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.pending-status-pill.partially-paid {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.pending-status-pill.overdue {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.pending-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.pending-action-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.pending-action-btn:hover {
+    background: #0f766e;
+}
