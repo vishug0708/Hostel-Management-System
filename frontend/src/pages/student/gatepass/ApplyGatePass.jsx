@@ -343,6 +343,7 @@ const ApplyGatePass = () => {
                 <div
                     className="applygatepass-mobile-overlay"
                     onPointerDown={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
                 />
             )}
 
@@ -350,7 +351,7 @@ const ApplyGatePass = () => {
                 ref={sidebarRef}
                 className={`applygatepass-sidebar ${menuOpen ? "mobile-open" : ""}`}
             >
-                <div className="applygatepass-brand">
+                <div className="applygatepass-sidebar-brand">
                     <div className="applygatepass-brand-icon">🏠</div>
                     <div>
                         <strong>Hostel</strong>
@@ -358,14 +359,14 @@ const ApplyGatePass = () => {
                     </div>
                 </div>
 
-                <nav className="applygatepass-nav">
+                <nav className="applygatepass-sidebar-nav">
                     <button
                         type="button"
                         className="applygatepass-nav-item"
                         onClick={() => handleNavigation("/student/dashboard")}
                     >
                         <span>📊</span>
-                        <span>Dashboard</span>
+                        Dashboard
                     </button>
 
                     <button
@@ -374,7 +375,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/profile")}
                     >
                         <span>👤</span>
-                        <span>My Profile</span>
+                        My Profile
                     </button>
 
                     <button
@@ -383,7 +384,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/room")}
                     >
                         <span>🛏️</span>
-                        <span>My Room</span>
+                        My Room
                     </button>
 
                     <button
@@ -392,7 +393,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/leave")}
                     >
                         <span>📄</span>
-                        <span>My Leave</span>
+                        My Leave
                     </button>
 
                     <button
@@ -401,7 +402,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/leave/apply")}
                     >
                         <span>➕</span>
-                        <span>Apply Leave</span>
+                        Apply Leave
                     </button>
 
                     <button
@@ -410,7 +411,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/gatepass")}
                     >
                         <span>🎫</span>
-                        <span>Gate Pass</span>
+                        Gate Pass
                     </button>
 
                     <button
@@ -419,7 +420,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/complaints")}
                     >
                         <span>🛠️</span>
-                        <span>Complaints</span>
+                        Complaints
                     </button>
 
                     <button
@@ -428,7 +429,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/fees")}
                     >
                         <span>💰</span>
-                        <span>My Fees</span>
+                        My Fees
                     </button>
 
                     <button
@@ -437,7 +438,7 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/notifications")}
                     >
                         <span>🔔</span>
-                        <span>Notifications</span>
+                        Notifications
                     </button>
 
                     <button
@@ -446,10 +447,8 @@ const ApplyGatePass = () => {
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
-                        <span>Cricket Box</span>
+                        Cricket Box
                     </button>
-
-                    
                 </nav>
 
                 <button
@@ -458,7 +457,7 @@ const ApplyGatePass = () => {
                     onClick={handleLogout}
                 >
                     <span>🚪</span>
-                    <span>Logout</span>
+                    Logout
                 </button>
             </aside>
 

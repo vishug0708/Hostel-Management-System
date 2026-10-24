@@ -65,7 +65,6 @@ const ViewGatePass = () => {
         };
     }, [menuOpen]);
 
-
     useEffect(() => {
         const loadStudentProfile = async () => {
             const savedStudent = localStorage.getItem("student");
@@ -159,39 +158,13 @@ const ViewGatePass = () => {
     };
 
     const handleLogout = () => {
+        setMenuOpen(false);
         localStorage.removeItem("studentToken");
         localStorage.removeItem("student");
         navigate("/student/login", { replace: true });
     };
 
-    if (loading) {
-        return (
-            <div className="viewgatepass-page">
-                <div className="viewgatepass-error">
-                    <div className="viewgatepass-error-icon">⏳</div>
-                    <h2>Loading Gate Pass...</h2>
-                    <p>Please wait while your gate pass is loaded.</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (!gatePass) {
-        return (
-            <div className="viewgatepass-page">
-                <div className="viewgatepass-error">
-                    <div className="viewgatepass-error-icon">⚠️</div>
-                    <h2>Gate Pass Data Not Found</h2>
-                    <p>{error || "Please open the gate pass again."}</p>
-                    <button onClick={() => navigate("/student/gatepass")}>
-                        ← Back to My Gate Passes
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    const photo = student?.photo || gatePass.photo;
+    const photo = student?.photo || gatePass?.photo;
 
     const photoUrl = photo
         ? photo.startsWith("http")
@@ -200,6 +173,8 @@ const ViewGatePass = () => {
             ? `${API_URL}/${photo.replace(/^\/+/, "")}`
             : `${API_URL}/uploads/students/${photo.replace(/^\/+/, "")}`
         : null;
+
+    const profilePhoto = photoUrl;
 
     const formatDate = (date) => {
         if (!date) return "—";
@@ -240,44 +215,11 @@ const ViewGatePass = () => {
         });
     };
 
-    const gatePassNo =
-        gatePass.gate_pass_no ||
-        `GP-${String(gatePass.id || gatePassId).padStart(5, "0")}`;
-
-    const approved =
-        String(gatePass.rector || "").toLowerCase() === "approved";
-
-    const parentDecision = String(
-        gatePass.parent_decision || "pending"
-    ).toLowerCase();
-
-    const parentApproved = parentDecision === "approved";
-    const parentRejected = parentDecision === "rejected";
-
-    const qrValue =
-        approved && gatePass.qr_code
-            ? gatePass.qr_code
-            : "";
-
-    const expiry = gatePass.return_date
-        ? new Date(
-              `${gatePass.return_date}T${
-                  gatePass.return_time || "23:59:59"
-              }`
-          )
-        : null;
-
-    const profilePhoto = photoUrl;
-
-    const expired =
-        approved &&
-        expiry &&
-        new Date() > expiry &&
-        gatePass.security_entry !== "Yes";
-
-    return (
+    const renderLayoutShell = (content) => (
         <div className="viewgatepass-page">
-
+            {/* =========================
+                MOBILE HEADER
+            ========================= */}
             <header className="viewgatepass-mobile-header">
                 <div className="viewgatepass-mobile-left">
                     <button
@@ -323,18 +265,14 @@ const ViewGatePass = () => {
                 </button>
             </header>
 
-            {menuOpen && (
-                <div
-                    className="viewgatepass-mobile-overlay"
-                    onPointerDown={() => setMenuOpen(false)}
-                />
-            )}
-
+            {/* =========================
+                SIDEBAR
+            ========================= */}
             <aside
                 ref={sidebarRef}
                 className={`viewgatepass-sidebar ${menuOpen ? "mobile-open" : ""}`}
             >
-                <div className="viewgatepass-brand">
+                <div className="viewgatepass-sidebar-brand">
                     <div className="viewgatepass-brand-icon">🏠</div>
                     <div>
                         <strong>Hostel</strong>
@@ -342,14 +280,14 @@ const ViewGatePass = () => {
                     </div>
                 </div>
 
-                <nav className="viewgatepass-nav">
+                <nav className="viewgatepass-sidebar-nav">
                     <button
                         type="button"
                         className="viewgatepass-nav-item"
                         onClick={() => handleNavigation("/student/dashboard")}
                     >
                         <span>📊</span>
-                        <span>Dashboard</span>
+                        Dashboard
                     </button>
 
                     <button
@@ -358,7 +296,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/profile")}
                     >
                         <span>👤</span>
-                        <span>My Profile</span>
+                        My Profile
                     </button>
 
                     <button
@@ -367,7 +305,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/room")}
                     >
                         <span>🛏️</span>
-                        <span>My Room</span>
+                        My Room
                     </button>
 
                     <button
@@ -376,7 +314,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/leave")}
                     >
                         <span>📄</span>
-                        <span>My Leave</span>
+                        My Leave
                     </button>
 
                     <button
@@ -385,7 +323,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/leave/apply")}
                     >
                         <span>➕</span>
-                        <span>Apply Leave</span>
+                        Apply Leave
                     </button>
 
                     <button
@@ -394,7 +332,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/gatepass")}
                     >
                         <span>🎫</span>
-                        <span>Gate Pass</span>
+                        Gate Pass
                     </button>
 
                     <button
@@ -403,7 +341,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/complaints")}
                     >
                         <span>🛠️</span>
-                        <span>Complaints</span>
+                        Complaints
                     </button>
 
                     <button
@@ -412,7 +350,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/fees")}
                     >
                         <span>💰</span>
-                        <span>My Fees</span>
+                        My Fees
                     </button>
 
                     <button
@@ -421,7 +359,7 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/notifications")}
                     >
                         <span>🔔</span>
-                        <span>Notifications</span>
+                        Notifications
                     </button>
 
                     <button
@@ -430,10 +368,8 @@ const ViewGatePass = () => {
                         onClick={() => handleNavigation("/student/cricketbox")}
                     >
                         <span>🏏</span>
-                        <span>Cricket Box</span>
+                        Cricket Box
                     </button>
-
-                    
                 </nav>
 
                 <button
@@ -442,10 +378,24 @@ const ViewGatePass = () => {
                     onClick={handleLogout}
                 >
                     <span>🚪</span>
-                    <span>Logout</span>
+                    Logout
                 </button>
             </aside>
 
+            {/* =========================
+                MOBILE OVERLAY
+            ========================= */}
+            {menuOpen && (
+                <div
+                    className="viewgatepass-mobile-overlay"
+                    onPointerDown={() => setMenuOpen(false)}
+                    onClick={() => setMenuOpen(false)}
+                />
+            )}
+
+            {/* =========================
+                MAIN
+            ========================= */}
             <main className="viewgatepass-main">
                 <header className="viewgatepass-topbar">
                     <div className="viewgatepass-heading">
@@ -489,306 +439,356 @@ const ViewGatePass = () => {
                     </div>
                 </header>
 
-                <div className="viewgatepass-wrapper">
+                {content}
+            </main>
+        </div>
+    );
 
-                <div className="viewgatepass-card">
-                    <div className="viewgatepass-header">
-                        <div className="viewgatepass-logo">🏠</div>
+    if (loading) {
+        return renderLayoutShell(
+            <div className="viewgatepass-error">
+                <div className="viewgatepass-error-icon">⏳</div>
+                <h2>Loading Gate Pass...</h2>
+                <p>Please wait while your gate pass is loaded.</p>
+            </div>
+        );
+    }
 
+    if (!gatePass) {
+        return renderLayoutShell(
+            <div className="viewgatepass-error">
+                <div className="viewgatepass-error-icon">⚠️</div>
+                <h2>Gate Pass Data Not Found</h2>
+                <p>{error || "Please open the gate pass again."}</p>
+                <button onClick={() => navigate("/student/gatepass")}>
+                    ← Back to My Gate Passes
+                </button>
+            </div>
+        );
+    }
+
+    const gatePassNo =
+        gatePass.gate_pass_no ||
+        `GP-${String(gatePass.id || gatePassId).padStart(5, "0")}`;
+
+    const approved =
+        String(gatePass.rector || "").toLowerCase() === "approved";
+
+    const parentDecision = String(
+        gatePass.parent_decision || "pending"
+    ).toLowerCase();
+
+    const parentApproved = parentDecision === "approved";
+    const parentRejected = parentDecision === "rejected";
+
+    const qrValue =
+        approved && gatePass.qr_code
+            ? gatePass.qr_code
+            : "";
+
+    const expiry = gatePass.return_date
+        ? new Date(
+              `${gatePass.return_date}T${
+                  gatePass.return_time || "23:59:59"
+              }`
+          )
+        : null;
+
+    const expired =
+        approved &&
+        expiry &&
+        new Date() > expiry &&
+        gatePass.security_entry !== "Yes";
+
+    return renderLayoutShell(
+        <div className="viewgatepass-wrapper">
+            <div className="viewgatepass-card">
+                <div className="viewgatepass-header">
+                    <div className="viewgatepass-logo">🏠</div>
+
+                    <div>
+                        <h1>GATEPASS</h1>
+                        <p>Virtuous Hostel</p>
+                        <span>Hostel Management System</span>
+                    </div>
+
+                    <div className="viewgatepass-ticket">🎫</div>
+                </div>
+
+                <div className="viewgatepass-photo-wrap">
+                    {photoUrl ? (
+                        <img
+                            className="viewgatepass-photo"
+                            src={photoUrl}
+                            alt="Student"
+                        />
+                    ) : (
+                        <div className="viewgatepass-photo-placeholder">
+                            👨‍🎓
+                        </div>
+                    )}
+                </div>
+
+                <div className="viewgatepass-number">
+                    🎫 <strong>Gatepass No:</strong> <b>{gatePassNo}</b>
+                </div>
+
+                <section className="viewgatepass-section">
+                    <h2>STUDENT INFORMATION</h2>
+
+                    <div className="viewgatepass-info-grid">
                         <div>
-                            <h1>GATEPASS</h1>
-                            <p>Virtuous Hostel</p>
-                            <span>Hostel Management System</span>
-                        </div>
-
-                        <div className="viewgatepass-ticket">🎫</div>
-                    </div>
-
-                    <div className="viewgatepass-photo-wrap">
-                        {photoUrl ? (
-                            <img
-                                className="viewgatepass-photo"
-                                src={photoUrl}
-                                alt="Student"
-                            />
-                        ) : (
-                            <div className="viewgatepass-photo-placeholder">
-                                👨‍🎓
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="viewgatepass-number">
-                        🎫 <strong>Gatepass No:</strong> <b>{gatePassNo}</b>
-                    </div>
-
-                    <section className="viewgatepass-section">
-                        <h2>STUDENT INFORMATION</h2>
-
-                        <div className="viewgatepass-info-grid">
-                            <div>
-                                <span>Full Name</span>
-                                <strong>
-                                    {student?.name ||
-                                        gatePass.student_name ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Student ID</span>
-                                <strong>
-                                    {student?.student_id ||
-                                        student?.enrollment_no ||
-                                        gatePass.enrollment_no ||
-                                        gatePass.student_id ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Mobile</span>
-                                <strong>
-                                    {student?.mobile ||
-                                        gatePass.student_mobile ||
-                                        gatePass.mobile ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Parent Email</span>
-                                <strong>
-                                    {student?.parent_email ||
-                                        gatePass.parent_email ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>College</span>
-                                <strong>
-                                    {student?.college ||
-                                        gatePass.college ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Course</span>
-                                <strong>
-                                    {student?.course ||
-                                        gatePass.course ||
-                                        "—"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Hostel</span>
-                                <strong>
-                                    {student?.hostel ||
-                                        gatePass.hostel ||
-                                        "Virtuous Hostel"}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Room No</span>
-                                <strong>
-                                    {student?.room_no ||
-                                        gatePass.room_no ||
-                                        gatePass.room_number ||
-                                        "—"}
-                                </strong>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="viewgatepass-section">
-                        <h2>GATE PASS DETAILS</h2>
-
-                        <div className="viewgatepass-details">
-                            <div>
-                                <span>Exit Date</span>
-                                <strong>{formatDate(gatePass.out_date)}</strong>
-                            </div>
-
-                            <div>
-                                <span>Exit Time</span>
-                                <strong>{formatTime(gatePass.out_time)}</strong>
-                            </div>
-
-                            <div>
-                                <span>Return Date</span>
-                                <strong>
-                                    {formatDate(gatePass.return_date)}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Return Time</span>
-                                <strong>
-                                    {formatTime(gatePass.return_time)}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Destination</span>
-                                <strong>{gatePass.destination || "—"}</strong>
-                            </div>
-
-                            <div className="full">
-                                <span>Purpose</span>
-                                <strong>{gatePass.purpose || "—"}</strong>
-                            </div>
-
-                            <div>
-                                <span>Hostel Exit</span>
-                                <strong>
-                                    {formatDateTime(gatePass.exit_datetime)}
-                                </strong>
-                            </div>
-
-                            <div>
-                                <span>Hostel Entry</span>
-                                <strong>
-                                    {formatDateTime(gatePass.entry_datetime)}
-                                </strong>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="viewgatepass-qr">
-                        <h2>QR CODE</h2>
-
-                        {approved && qrValue ? (
-                            <>
-                                <div className="viewgatepass-qr-box">
-                                    <QRCodeSVG
-                                        value={String(qrValue)}
-                                        size={220}
-                                        level="H"
-                                        includeMargin
-                                    />
-                                </div>
-
-                                <p>Scan this QR code at the hostel security gate.</p>
-                            </>
-                        ) : (
-                            <div className="viewgatepass-qr-placeholder">
-                                <span>▦</span>
-                                <strong>QR Code Not Generated</strong>
-                                <small>QR will be generated after rector approval.</small>
-                            </div>
-                        )}
-                    </section>
-
-                    <section className="viewgatepass-approval-panel">
-                        <div className="approval-row">
-                            <span>Parent Verification</span>
-                            <strong className={parentApproved ? "view-approved" : parentRejected ? "view-rejected" : "view-pending"}>
-                                {parentApproved ? "✓ Approved" : parentRejected ? "✕ Rejected" : "⏳ Pending"}
-                            </strong>
-                        </div>
-
-                        <div className="approval-row">
-                            <span>Rector Approval</span>
-                            <strong className={approved ? "view-approved" : "view-pending"}>
-                                {approved ? "✓ Approved" : "⏳ Pending"}
-                            </strong>
-                        </div>
-                    </section>
-
-                    <section className="viewgatepass-approved-by">
-                        <div>
-                            <span>Approved By</span>
+                            <span>Full Name</span>
                             <strong>
-                                {gatePass.rector_name ||
-                                    gatePass.rectorName ||
-                                    gatePass.approved_by_rector_name ||
-                                    gatePass.approved_by_name ||
-                                    "Hostel Rector"}
+                                {student?.name ||
+                                    gatePass.student_name ||
+                                    "—"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Student ID</span>
+                            <strong>
+                                {student?.student_id ||
+                                    student?.enrollment_no ||
+                                    gatePass.enrollment_no ||
+                                    gatePass.student_id ||
+                                    "—"}
                             </strong>
                         </div>
 
                         <div>
                             <span>Mobile</span>
                             <strong>
-                                {gatePass.rector_mobile ||
-                                    gatePass.rectorMobile ||
-                                    gatePass.approved_by_rector_mobile ||
-                                    gatePass.approved_by_mobile ||
+                                {student?.mobile ||
+                                    gatePass.student_mobile ||
+                                    gatePass.mobile ||
                                     "—"}
                             </strong>
                         </div>
 
                         <div>
-                            <span>Hostel</span>
+                            <span>Parent Email</span>
                             <strong>
-                                {student?.hostel ||
-                                    gatePass.hostel ||
-                                    "Virtuous Hostel"}
-                            </strong>
-                        </div>
-                    </section>
-
-                    <section className="viewgatepass-security">
-                        <div>
-                            <span>Security Exit</span>
-                            <strong>
-                                {gatePass.security_exit === "Yes"
-                                    ? "✓ Exited"
-                                    : "Pending"}
+                                {student?.parent_email ||
+                                    gatePass.parent_email ||
+                                    "—"}
                             </strong>
                         </div>
 
                         <div>
-                            <span>Security Entry</span>
+                            <span>College</span>
                             <strong>
-                                {gatePass.security_entry === "Yes"
-                                    ? "✓ Entered"
-                                    : "Pending"}
+                                {student?.college ||
+                                    gatePass.college ||
+                                    "—"}
                             </strong>
                         </div>
-                    </section>
 
-                    <div
-                        className={`viewgatepass-validity ${
-                            !approved
-                                ? "inactive"
-                                : expired
-                                ? "expired"
-                                : "valid"
-                        }`}
-                    >
-                        <strong>
-                            {!approved ? "!" : expired ? "✕" : "✓"}{" "}
-                            {!approved
-                                ? "NOT ACTIVE"
-                                : expired
-                                ? "EXPIRED GATE PASS"
-                                : "VALID GATE PASS"}
-                        </strong>
-
-                        <span>
-                            {!approved
-                                ? "Waiting for rector approval"
-                                : expired
-                                ? `Expired On: ${formatDate(
-                                      gatePass.return_date
-                                  )}`
-                                : `Valid Until: ${formatDate(
-                                      gatePass.return_date
-                                  )} ${
-                                      gatePass.return_time
-                                          ? formatTime(gatePass.return_time)
-                                          : "11:59 PM"
-                                  }`}
-                        </span>
+                        <div>
+                            <span>Room No</span>
+                            <strong>
+                                {student?.room_no ||
+                                    gatePass.room_no ||
+                                    student?.room ||
+                                    gatePass.room ||
+                                    "—"}
+                            </strong>
+                        </div>
                     </div>
+                </section>
+
+                <section className="viewgatepass-section">
+                    <h2>OUTING DETAILS</h2>
+
+                    <div className="viewgatepass-info-grid">
+                        <div>
+                            <span>Destination</span>
+                            <strong>
+                                {gatePass.destination || "—"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Purpose</span>
+                            <strong>
+                                {gatePass.purpose || "—"}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Out Date</span>
+                            <strong>
+                                {formatDate(gatePass.out_date)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Out Time</span>
+                            <strong>
+                                {formatTime(gatePass.out_time)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Return Date</span>
+                            <strong>
+                                {formatDate(gatePass.return_date)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Return Time</span>
+                            <strong>
+                                {formatTime(gatePass.return_time)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Hostel Exit</span>
+                            <strong>
+                                {formatDateTime(gatePass.exit_datetime)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Hostel Entry</span>
+                            <strong>
+                                {formatDateTime(gatePass.entry_datetime)}
+                            </strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="viewgatepass-qr">
+                    <h2>QR CODE</h2>
+
+                    {approved && qrValue ? (
+                        <>
+                            <div className="viewgatepass-qr-box">
+                                <QRCodeSVG
+                                    value={String(qrValue)}
+                                    size={220}
+                                    level="H"
+                                    includeMargin
+                                />
+                            </div>
+
+                            <p>Scan this QR code at the hostel security gate.</p>
+                        </>
+                    ) : (
+                        <div className="viewgatepass-qr-placeholder">
+                            <span>▦</span>
+                            <strong>QR Code Not Generated</strong>
+                            <small>QR will be generated after rector approval.</small>
+                        </div>
+                    )}
+                </section>
+
+                <section className="viewgatepass-approval-panel">
+                    <div className="approval-row">
+                        <span>Parent Verification</span>
+                        <strong className={parentApproved ? "view-approved" : parentRejected ? "view-rejected" : "view-pending"}>
+                            {parentApproved ? "✓ Approved" : parentRejected ? "✕ Rejected" : "⏳ Pending"}
+                        </strong>
+                    </div>
+
+                    <div className="approval-row">
+                        <span>Rector Approval</span>
+                        <strong className={approved ? "view-approved" : "view-pending"}>
+                            {approved ? "✓ Approved" : "⏳ Pending"}
+                        </strong>
+                    </div>
+                </section>
+
+                <section className="viewgatepass-approved-by">
+                    <div>
+                        <span>Approved By</span>
+                        <strong>
+                            {gatePass.rector_name ||
+                                gatePass.rectorName ||
+                                gatePass.approved_by_rector_name ||
+                                gatePass.approved_by_name ||
+                                "Hostel Rector"}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Mobile</span>
+                        <strong>
+                            {gatePass.rector_mobile ||
+                                gatePass.rectorMobile ||
+                                gatePass.approved_by_rector_mobile ||
+                                gatePass.approved_by_mobile ||
+                                "—"}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Hostel</span>
+                        <strong>
+                            {student?.hostel ||
+                                gatePass.hostel ||
+                                "Virtuous Hostel"}
+                        </strong>
+                    </div>
+                </section>
+
+                <section className="viewgatepass-security">
+                    <div>
+                        <span>Security Exit</span>
+                        <strong>
+                            {gatePass.security_exit === "Yes"
+                                ? "✓ Exited"
+                                : "Pending"}
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Security Entry</span>
+                        <strong>
+                            {gatePass.security_entry === "Yes"
+                                ? "✓ Entered"
+                                : "Pending"}
+                        </strong>
+                    </div>
+                </section>
+
+                <div
+                    className={`viewgatepass-validity ${
+                        !approved
+                            ? "inactive"
+                            : expired
+                            ? "expired"
+                            : "valid"
+                    }`}
+                >
+                    <strong>
+                        {!approved ? "!" : expired ? "✕" : "✓"}{" "}
+                        {!approved
+                            ? "NOT ACTIVE"
+                            : expired
+                            ? "EXPIRED GATE PASS"
+                            : "VALID GATE PASS"}
+                    </strong>
+
+                    <span>
+                        {!approved
+                            ? "Waiting for rector approval"
+                            : expired
+                            ? `Expired On: ${formatDate(
+                                  gatePass.return_date
+                              )}`
+                            : `Valid Until: ${formatDate(
+                                  gatePass.return_date
+                              )} ${
+                                  gatePass.return_time
+                                      ? formatTime(gatePass.return_time)
+                                      : "11:59 PM"
+                              }`}
+                    </span>
                 </div>
-                </div>
-            </main>
+            </div>
         </div>
     );
 };

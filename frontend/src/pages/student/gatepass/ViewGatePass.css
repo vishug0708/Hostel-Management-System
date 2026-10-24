@@ -1,10 +1,14 @@
 /* =========================================================
    VIEW GATE PASS - STUDENT PORTAL STYLES
-   Reference Design: MyGatePass.css
+   Prefix: viewgatepass-
    ========================================================= */
 
 * {
     box-sizing: border-box;
+}
+
+body.viewgatepass-menu-open {
+    overflow: hidden;
 }
 
 .viewgatepass-page {
@@ -38,7 +42,7 @@
     transition: transform 0.25s ease;
 }
 
-.viewgatepass-brand {
+.viewgatepass-sidebar-brand {
     display: flex;
     align-items: center;
     gap: 11px;
@@ -59,20 +63,20 @@
     font-size: 21px;
 }
 
-.viewgatepass-brand strong {
+.viewgatepass-sidebar-brand strong {
     display: block;
     color: #ffffff;
     font-size: 17px;
 }
 
-.viewgatepass-brand span {
+.viewgatepass-sidebar-brand span {
     display: block;
     margin-top: 3px;
     color: #94a3b8;
     font-size: 11px;
 }
 
-.viewgatepass-nav {
+.viewgatepass-sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -98,94 +102,101 @@
     box-sizing: border-box;
 }
 
-.viewgatepass-nav-item:hover,
+.viewgatepass-nav-item span {
+    font-size: 17px;
+    width: 20px;
+    display: inline-flex;
+    justify-content: center;
+}
+
+.viewgatepass-nav-item:hover {
+    background: #1e293b;
+    color: #ffffff;
+}
+
 .viewgatepass-nav-item.active {
     background: #134e4a;
     color: #ffffff;
-}
-
-.viewgatepass-nav-item span:first-child {
-    width: 20px;
-    min-width: 20px;
-    text-align: center;
+    font-weight: 700;
 }
 
 .viewgatepass-logout {
-    margin-top: auto;
     width: 100%;
+    min-height: 44px;
     display: flex;
     align-items: center;
     gap: 13px;
+    margin-top: auto;
     padding: 12px 13px;
-    border: 1px solid #334155;
+    border: none;
     border-radius: 9px;
     background: transparent;
-    color: #fca5a5;
-    cursor: pointer;
+    color: #ef4444;
+    text-align: left;
     font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease;
     box-sizing: border-box;
 }
 
+.viewgatepass-logout span {
+    font-size: 17px;
+    width: 20px;
+    display: inline-flex;
+    justify-content: center;
+}
+
 .viewgatepass-logout:hover {
-    background: #7f1d1d;
-    color: #ffffff;
+    background: rgba(239, 68, 68, 0.1);
 }
 
 /* =========================
-   MAIN CONTENT WRAPPER
+   MAIN CONTENT & DESKTOP TOPBAR
    ========================= */
 
 .viewgatepass-main {
     width: calc(100% - 255px);
-    max-width: calc(100% - 255px);
-    min-height: 100vh;
     margin-left: 255px;
-    padding: 30px 35px;
+    min-height: 100vh;
+    padding: 30px 35px 60px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    background: #f8fafc;
 }
-
-/* =========================
-   DESKTOP TOPBAR
-   ========================= */
 
 .viewgatepass-topbar {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 28px;
-    box-sizing: border-box;
-    width: 100%;
 }
 
 .viewgatepass-heading {
     min-width: 0;
-    flex: 1;
 }
 
 .viewgatepass-eyebrow {
-    display: block;
+    display: inline-block;
     color: #0f766e;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
 }
 
 .viewgatepass-heading h1 {
-    margin: 8px 0 7px;
+    margin: 0;
+    font-size: 30px;
     color: #0f172a;
-    font-size: 34px;
-    line-height: 1.1;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .viewgatepass-heading p {
-    margin: 0;
+    margin: 4px 0 0;
+    font-size: 13px;
     color: #64748b;
-    font-size: 14px;
-    line-height: 1.5;
 }
 
 .viewgatepass-desktop-actions {
@@ -196,8 +207,11 @@
 }
 
 .viewgatepass-back {
-    border: 1px solid #cbd5e1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: #ffffff;
+    border: 1px solid #cbd5e1;
     color: #334155;
     border-radius: 9px;
     padding: 10px 16px;
@@ -270,10 +284,412 @@
     display: none;
 }
 
+/* =========================================================
+   GATE PASS TICKET CARD & CONTENT
+   ========================================================= */
+
 .viewgatepass-wrapper {
     width: 100%;
     max-width: 760px;
     margin: 0 auto;
+}
+
+.viewgatepass-card {
+    overflow: hidden;
+    border: 1px solid #dce6ec;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 18px 50px rgba(15, 42, 60, 0.12);
+}
+
+.viewgatepass-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 24px 30px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.viewgatepass-logo,
+.viewgatepass-ticket {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 28px;
+}
+
+.viewgatepass-logo {
+    background: #e7f7f5;
+}
+
+.viewgatepass-ticket {
+    background: #fff5df;
+}
+
+.viewgatepass-header > div:nth-child(2) {
+    flex: 1;
+    text-align: center;
+}
+
+.viewgatepass-header h1 {
+    margin: 0;
+    color: #142f49;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.viewgatepass-header p {
+    margin: 4px 0;
+    color: #117d75;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.viewgatepass-header span {
+    color: #7b8c9d;
+    font-size: 11px;
+}
+
+.viewgatepass-photo-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 24px 20px 20px;
+}
+
+.viewgatepass-photo,
+.viewgatepass-photo-placeholder {
+    width: 125px;
+    height: 125px;
+    overflow: hidden;
+    border: 1px solid #d4dde4;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+.viewgatepass-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf3f6;
+    font-size: 45px;
+}
+
+.viewgatepass-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 0 30px;
+    padding: 15px;
+    border-top: 1px solid #e1e8ed;
+    border-bottom: 1px solid #e1e8ed;
+    font-size: 14px;
+}
+
+.viewgatepass-number strong {
+    color: #102a43;
+}
+
+.viewgatepass-number b {
+    color: #117d75;
+}
+
+.viewgatepass-section {
+    padding: 24px 30px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.viewgatepass-section h2,
+.viewgatepass-qr h2 {
+    margin: 0 0 17px;
+    color: #117d75;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+}
+
+.viewgatepass-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #dce5eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.viewgatepass-info-grid > div {
+    padding: 14px 15px;
+    border-right: 1px solid #dce5eb;
+    border-bottom: 1px solid #dce5eb;
+}
+
+.viewgatepass-info-grid > div:nth-child(2n) {
+    border-right: none;
+}
+
+.viewgatepass-info-grid > div:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+
+.viewgatepass-info-grid span {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a8b9c;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.viewgatepass-info-grid strong {
+    display: block;
+    color: #172f47;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.viewgatepass-qr {
+    padding: 26px 30px;
+    text-align: center;
+    border-bottom: 1px solid #e1e8ed;
+    background: #fbfdff;
+}
+
+.viewgatepass-qr-box {
+    display: inline-flex;
+    padding: 12px;
+    border: 2px dashed #63b7b0;
+    border-radius: 13px;
+    background: white;
+}
+
+.viewgatepass-qr p {
+    margin: 11px 0 0;
+    color: #77899a;
+    font-size: 11px;
+}
+
+.viewgatepass-approval-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #e1e8ed;
+    background: #ffffff;
+}
+
+.approval-row {
+    padding: 18px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.approval-row:first-child {
+    border-right: 1px solid #e1e8ed;
+}
+
+.approval-row span {
+    font-size: 10px;
+    font-weight: 800;
+    color: #7a8b9c;
+    text-transform: uppercase;
+}
+
+.approval-row strong {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.view-approved {
+    color: #159653 !important;
+}
+
+.view-rejected {
+    color: #b42318 !important;
+}
+
+.view-pending {
+    color: #d78300 !important;
+}
+
+.viewgatepass-approved-by {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    border-bottom: 1px solid #e1e8ed;
+    background: #ffffff;
+}
+
+.viewgatepass-approved-by > div {
+    padding: 18px 24px;
+    border-right: 1px solid #e1e8ed;
+}
+
+.viewgatepass-approved-by > div:last-child {
+    border-right: none;
+}
+
+.viewgatepass-approved-by span {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a8b9c;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.viewgatepass-approved-by strong {
+    display: block;
+    color: #172f47;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.viewgatepass-security {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #e1e8ed;
+    background: #ffffff;
+}
+
+.viewgatepass-security > div {
+    padding: 18px 30px;
+}
+
+.viewgatepass-security > div:first-child {
+    border-right: 1px solid #e1e8ed;
+}
+
+.viewgatepass-security span {
+    display: block;
+    margin-bottom: 5px;
+    color: #7a8b9c;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.viewgatepass-security strong {
+    display: block;
+    color: #172f47;
+    font-size: 14px;
+}
+
+.viewgatepass-validity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 24px 30px 30px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.viewgatepass-validity strong {
+    font-size: 15px;
+}
+
+.viewgatepass-validity span {
+    color: #687b8d;
+    font-size: 12px;
+}
+
+.viewgatepass-validity.valid {
+    border: 1px solid #a8dfbd;
+    background: #edfaf2;
+    color: #14864e;
+}
+
+.viewgatepass-validity.expired {
+    border: 1px solid #f2b4b4;
+    background: #fff0f0;
+    color: #d33b3b;
+}
+
+.viewgatepass-validity.inactive {
+    border: 1px solid #d7e0e7;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.viewgatepass-qr-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #64748b;
+    gap: 8px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.viewgatepass-qr-placeholder span {
+    font-size: 32px;
+    color: #94a3b8;
+}
+
+.viewgatepass-qr-placeholder strong {
+    font-size: 14px;
+    color: #475569;
+}
+
+.viewgatepass-qr-placeholder small {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.viewgatepass-error {
+    max-width: 480px;
+    margin: 40px auto;
+    padding: 40px 30px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.viewgatepass-error-icon {
+    font-size: 42px;
+    margin-bottom: 14px;
+}
+
+.viewgatepass-error h2 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.viewgatepass-error p {
+    margin: 0 0 20px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.viewgatepass-error button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 9px;
+    background: #0f766e;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.viewgatepass-error button:hover {
+    background: #115e59;
+    transform: translateY(-1px);
 }
 
 /* =========================================================
@@ -283,7 +699,7 @@
 @media (max-width: 800px) {
     .viewgatepass-sidebar {
         transform: translateX(-100%);
-        width: 270px;
+        width: 275px;
         z-index: 1400;
     }
 
@@ -296,6 +712,11 @@
         max-width: 100% !important;
         margin-left: 0 !important;
         padding: 20px 16px !important;
+    }
+
+    .viewgatepass-desktop-actions {
+        width: 100%;
+        justify-content: flex-start;
     }
 
     .viewgatepass-desktop-photo {
@@ -398,17 +819,92 @@
         margin-bottom: 20px;
     }
 
-    .viewgatepass-desktop-actions {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
     .viewgatepass-heading h1 {
-        font-size: 27px;
+        font-size: 26px;
     }
 
     .viewgatepass-heading p {
         font-size: 13px;
+    }
+
+    .viewgatepass-approved-by {
+        grid-template-columns: 1fr;
+    }
+
+    .viewgatepass-approved-by > div {
+        border-right: none;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .viewgatepass-approved-by > div:last-child {
+        border-bottom: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .viewgatepass-header {
+        padding: 20px 15px;
+    }
+
+    .viewgatepass-logo,
+    .viewgatepass-ticket {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+    }
+
+    .viewgatepass-header h1 {
+        font-size: 21px;
+    }
+
+    .viewgatepass-header p {
+        font-size: 13px;
+    }
+
+    .viewgatepass-number {
+        margin: 0 16px;
+        font-size: 12px;
+    }
+
+    .viewgatepass-section {
+        padding: 21px 16px;
+    }
+
+    .viewgatepass-info-grid,
+    .viewgatepass-approval-panel,
+    .viewgatepass-security {
+        grid-template-columns: 1fr;
+    }
+
+    .viewgatepass-info-grid > div {
+        border-right: none;
+        border-bottom: 1px solid #dce5eb;
+    }
+
+    .viewgatepass-info-grid > div:last-child {
+        border-bottom: none;
+    }
+
+    .approval-row {
+        padding: 14px 16px;
+    }
+
+    .approval-row:first-child {
+        border-right: none;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .viewgatepass-security > div {
+        padding: 17px 16px;
+    }
+
+    .viewgatepass-security > div:first-child {
+        border-right: none;
+        border-bottom: 1px solid #e1e8ed;
+    }
+
+    .viewgatepass-validity {
+        margin: 20px 16px 24px;
     }
 }
 
@@ -435,36 +931,6 @@
     }
 
     .viewgatepass-heading h1 {
-        font-size: 23px;
+        font-size: 22px;
     }
 }
-
-/* =========================================================
-   GATE PASS TICKET CARD & CONTENT
-   ========================================================= */
-
-.viewgatepass-page {
-    min-height: 100vh;
-    padding: 35px 20px 60px;
-    box-sizing: border-box;
-    background: #eef4f7;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #102a43;
-}
-
-.viewgatepass-wrapper {
-    width: 100%;
-    max-width: 760px;
-    margin: 0 auto;
-}
-
-.viewgatepass-back {
-    margin-bottom: 18px;
-    border: none;
-    background: transparent;
-    color: #087f78;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
-}
-

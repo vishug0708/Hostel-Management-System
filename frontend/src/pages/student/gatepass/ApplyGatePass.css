@@ -1,6 +1,6 @@
 /* =========================================================
    APPLY GATE PASS - STUDENT PORTAL STYLES
-   Reference Design: MyGatePass.css
+   Exact Reference Standard: MyGatePass.css
    ========================================================= */
 
 * {
@@ -17,9 +17,9 @@
     overflow-x: hidden;
 }
 
-/* =========================
-   SIDEBAR (DESKTOP FIXED)
-   ========================= */
+/* =========================================================
+   SIDEBAR (DESKTOP FIXED) - EXACT MATCH WITH REFERENCE
+   ========================================================= */
 
 .applygatepass-sidebar {
     position: fixed;
@@ -35,9 +35,11 @@
     color: #ffffff;
     overflow-y: auto;
     box-sizing: border-box;
+    transform: translateX(0);
     transition: transform 0.25s ease;
 }
 
+.applygatepass-sidebar-brand,
 .applygatepass-brand {
     display: flex;
     align-items: center;
@@ -59,12 +61,15 @@
     font-size: 21px;
 }
 
+.applygatepass-sidebar-brand strong,
 .applygatepass-brand strong {
     display: block;
     color: #ffffff;
     font-size: 17px;
+    line-height: 1.1;
 }
 
+.applygatepass-sidebar-brand span,
 .applygatepass-brand span {
     display: block;
     margin-top: 3px;
@@ -72,11 +77,13 @@
     font-size: 11px;
 }
 
+.applygatepass-sidebar-nav,
 .applygatepass-nav {
     display: flex;
     flex-direction: column;
     gap: 5px;
     margin-top: 25px;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -94,8 +101,9 @@
     text-align: left;
     font-size: 13px;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    text-decoration: none;
     box-sizing: border-box;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .applygatepass-nav-item:hover,
@@ -124,6 +132,8 @@
     cursor: pointer;
     font-size: 13px;
     box-sizing: border-box;
+    text-align: left;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .applygatepass-logout:hover {
@@ -131,11 +141,12 @@
     color: #ffffff;
 }
 
-/* =========================
-   MAIN CONTENT WRAPPER
-   ========================= */
+/* =========================================================
+   MAIN LAYOUT CONTAINER
+   ========================================================= */
 
 .applygatepass-main {
+    position: relative;
     width: calc(100% - 255px);
     max-width: calc(100% - 255px);
     min-height: 100vh;
@@ -146,9 +157,9 @@
     flex-direction: column;
 }
 
-/* =========================
-   DESKTOP TOPBAR
-   ========================= */
+/* =========================================================
+   DESKTOP TOPBAR & PROFILE PHOTO
+   ========================================================= */
 
 .applygatepass-topbar {
     display: flex;
@@ -215,10 +226,6 @@
     transform: translateY(-1px);
 }
 
-/* =========================
-   PROFILE PHOTO BUTTONS
-   ========================= */
-
 .applygatepass-desktop-photo {
     width: 46px;
     height: 46px;
@@ -234,17 +241,16 @@
     max-width: 46px !important;
     max-height: 46px !important;
     padding: 0;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
     border: 2px solid #dbe3ea;
     border-radius: 50%;
-    background: #f8fafc;
+    background: #ffffff;
+    color: #102a43;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
-    font-size: 18px;
-    line-height: 1;
+    box-shadow: 0 4px 14px rgba(15, 42, 60, 0.12);
 }
 
 .applygatepass-desktop-photo img,
@@ -253,14 +259,15 @@
     height: 100% !important;
     max-width: 100% !important;
     max-height: 100% !important;
+    display: block;
     object-fit: cover;
     border-radius: 50%;
-    display: block;
 }
 
-/* =========================
-   MOBILE HEADER & OVERLAY (HIDDEN ON DESKTOP)
-   ========================= */
+.applygatepass-desktop-photo span,
+.applygatepass-mobile-photo span {
+    font-size: 21px;
+}
 
 .applygatepass-mobile-header {
     display: none;
@@ -271,14 +278,305 @@
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN (TABLET & MOBILE)
+   FORM CARD & FIELDS
+   ========================================================= */
+
+.applygatepass-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.applygatepass-alert.error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+}
+
+.applygatepass-alert.success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.applygatepass-alert span:first-child {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.applygatepass-alert span:nth-child(2) {
+    flex: 1;
+}
+
+.applygatepass-alert button {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.applygatepass-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    margin-bottom: 40px;
+}
+
+.applygatepass-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 28px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.applygatepass-card-icon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e4f8f5;
+    font-size: 24px;
+}
+
+.applygatepass-card-header h2 {
+    margin: 0 0 4px;
+    font-size: 20px;
+    color: #0f172a;
+}
+
+.applygatepass-card-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.applygatepass-form {
+    padding: 28px;
+}
+
+.applygatepass-section {
+    margin-bottom: 28px;
+}
+
+.applygatepass-section-title {
+    margin-bottom: 16px;
+    color: #123653;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.applygatepass-student-box,
+.applygatepass-applygatepass-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1px solid #dce5ec;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.applygatepass-student-avatar,
+.applygatepass-applygatepass-avatar {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #e5f7f4;
+    font-size: 24px;
+}
+
+.applygatepass-student-avatar img,
+.applygatepass-applygatepass-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.applygatepass-student-info,
+.applygatepass-applygatepass-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.applygatepass-student-info strong,
+.applygatepass-applygatepass-info strong {
+    color: #102a43;
+    font-size: 15px;
+}
+
+.applygatepass-student-info span,
+.applygatepass-applygatepass-info span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.applygatepass-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.applygatepass-field label {
+    color: #173b5a;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.applygatepass-field label span {
+    margin-left: 3px;
+    color: #dc2626;
+}
+
+.applygatepass-field input,
+.applygatepass-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #cbd8e5;
+    border-radius: 10px;
+    outline: none;
+    background: #fbfdff;
+    color: #102a43;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.applygatepass-field input {
+    height: 48px;
+}
+
+.applygatepass-field textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.applygatepass-field input:focus,
+.applygatepass-field textarea:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    background: #ffffff;
+}
+
+.applygatepass-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.applygatepass-parent-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 27px;
+    padding: 16px;
+    border: 1px solid #bae6fd;
+    border-left: 4px solid #0891b2;
+    border-radius: 11px;
+    background: #f0f9ff;
+}
+
+.applygatepass-parent-icon {
+    font-size: 22px;
+}
+
+.applygatepass-parent-box strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #164e63;
+    font-size: 14px;
+}
+
+.applygatepass-parent-box p {
+    margin: 0;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.applygatepass-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 22px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.applygatepass-cancel,
+.applygatepass-submit {
+    min-width: 135px;
+    padding: 12px 20px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.applygatepass-cancel {
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #475569;
+}
+
+.applygatepass-cancel:hover {
+    background: #f8fafc;
+}
+
+.applygatepass-submit {
+    border: 1px solid #0f766e;
+    background: #0f766e;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 118, 110, 0.2);
+}
+
+.applygatepass-submit:hover {
+    background: #115e59;
+}
+
+.applygatepass-submit:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN (MATCHING REFERENCE MYGATEPASS)
    ========================================================= */
 
 @media (max-width: 800px) {
+    body.applygatepass-menu-open {
+        overflow: hidden;
+    }
+
     .applygatepass-sidebar {
-        transform: translateX(-100%);
-        width: 270px;
+        width: 275px;
+        max-width: 86vw;
+        transform: translateX(-105%);
+        box-shadow: 12px 0 35px rgba(0, 0, 0, 0.22);
         z-index: 1400;
+        transition: transform 0.25s ease;
     }
 
     .applygatepass-sidebar.mobile-open {
@@ -294,6 +592,15 @@
 
     .applygatepass-desktop-photo {
         display: none !important;
+    }
+
+    .applygatepass-mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1300;
+        display: block !important;
+        background: rgba(2, 12, 27, 0.48);
+        cursor: pointer;
     }
 
     .applygatepass-mobile-header {
@@ -376,15 +683,6 @@
         flex: 0 0 46px;
     }
 
-    .applygatepass-mobile-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 1300;
-        display: block !important;
-        background: rgba(2, 12, 27, 0.48);
-        cursor: pointer;
-    }
-
     .applygatepass-topbar {
         flex-direction: column;
         align-items: flex-start;
@@ -403,6 +701,25 @@
 
     .applygatepass-heading p {
         font-size: 13px;
+    }
+
+    .applygatepass-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .applygatepass-card-header,
+    .applygatepass-form {
+        padding: 20px;
+    }
+
+    .applygatepass-form-footer {
+        flex-direction: column-reverse;
+    }
+
+    .applygatepass-cancel,
+    .applygatepass-submit {
+        width: 100%;
     }
 }
 
@@ -432,162 +749,3 @@
         font-size: 23px;
     }
 }
-
-/* =========================================================
-   APPLY GATE PASS CONTENT & INNER PANELS
-   ========================================================= */
-
-.applygatepass-page {
-    min-height: 100vh;
-    display: flex;
-    background: #f3f7fa;
-    color: #102a43;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.applygatepass-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    width: 298px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 25px 17px;
-    background: #0d172a;
-    color: white;
-}
-
-.applygatepass-sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 4px 10px 25px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.applygatepass-brand-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 13px;
-    background: #0f8b82;
-    font-size: 24px;
-}
-
-.applygatepass-sidebar-brand h2 {
-    margin: 0;
-    font-size: 20px;
-}
-
-.applygatepass-sidebar-brand span {
-    display: block;
-    margin-top: 4px;
-    color: #94a3b8;
-    font-size: 12px;
-}
-
-.applygatepass-sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 25px;
-}
-
-.applygatepass-nav-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: #cbd5e1;
-    font-size: 15px;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.applygatepass-nav-item:hover {
-    background: rgba(255, 255, 255, 0.07);
-    color: white;
-}
-
-.applygatepass-nav-item.active {
-    background: #145f5a;
-    color: white;
-    box-shadow: inset 3px 0 #2dd4bf;
-}
-
-.applygatepass-logout-button {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 16px;
-    border: 1px solid #334155;
-    border-radius: 10px;
-    background: transparent;
-    color: #fca5a5;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.applygatepass-main {
-    width: calc(100% - 298px);
-    min-height: 100vh;
-    box-sizing: border-box;
-    margin-left: 298px;
-    padding: 40px 48px 60px;
-}
-
-.applygatepass-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 28px;
-}
-
-.applygatepass-eyebrow {
-    color: #087f78;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 3px;
-}
-
-.applygatepass-header h1 {
-    margin: 8px 0 7px;
-    color: #102f4f;
-    font-size: 42px;
-    line-height: 1.1;
-}
-
-.applygatepass-header p {
-    margin: 0;
-    color: #64748b;
-    font-size: 16px;
-}
-
-.applygatepass-back {
-    padding: 12px 19px;
-    border: 1px solid #cbd5e1;
-    border-radius: 9px;
-    background: white;
-    color: #102a43;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.applygatepass-back:hover {
-    border-color: #0f766e;
-    color: #0f766e;
-}
-
