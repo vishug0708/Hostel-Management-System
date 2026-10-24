@@ -1,172 +1,281 @@
+/* =========================================================
+   CRICKET BOX - STUDENT PORTAL STYLES
+   Reference Design: MyGatePass.css
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
 .cricketbox-page {
     min-height: 100vh;
+    width: 100%;
     background: #f8fafc;
     color: #0f172a;
-    display: flex;
     font-family: Arial, Helvetica, sans-serif;
+    position: relative;
 }
+
+/* =========================
+   SIDEBAR (DESKTOP FIXED)
+   ========================= */
 
 .cricketbox-sidebar {
-    width: 255px;
-    min-height: 100vh;
-    background: #0f172a;
-    color: #ffffff;
     position: fixed;
-    left: 0;
     top: 0;
-    bottom: 0;
+    left: 0;
+    z-index: 1100;
+    width: 255px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    z-index: 100;
+    padding: 22px 15px;
+    background: #0f172a;
+    color: #ffffff;
+    overflow-y: auto;
+    box-sizing: border-box;
+    transition: transform 0.25s ease;
 }
 
-.cricketbox-brand {
-    height: 82px;
+.cricketbox-sidebar-brand {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 0 22px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    gap: 11px;
+    padding: 5px 10px 25px;
+    border-bottom: 1px solid #1e293b;
+    box-sizing: border-box;
 }
 
 .cricketbox-brand-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: #134e4a;
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    border-radius: 11px;
+    background: #0f766e;
+    font-size: 21px;
 }
 
-.cricketbox-brand h2 {
-    margin: 0;
+.cricketbox-sidebar-brand strong {
+    display: block;
+    color: #ffffff;
     font-size: 17px;
-    font-weight: 700;
 }
 
-.cricketbox-brand p {
-    margin: 3px 0 0;
+.cricketbox-sidebar-brand span {
+    display: block;
+    margin-top: 3px;
     color: #94a3b8;
     font-size: 11px;
 }
 
-.cricketbox-nav {
-    flex: 1;
-    padding: 18px 12px;
-    overflow-y: auto;
+.cricketbox-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 25px;
+    box-sizing: border-box;
 }
 
 .cricketbox-nav-item {
     width: 100%;
-    border: 0;
-    background: transparent;
-    color: #cbd5e1;
+    min-height: 44px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 11px 13px;
-    margin-bottom: 4px;
-    border-radius: 8px;
-    font-size: 13px;
+    gap: 13px;
+    padding: 12px 13px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #94a3b8;
     text-align: left;
+    font-size: 13px;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
+    box-sizing: border-box;
 }
 
-.cricketbox-nav-item:hover {
-    background: #134e4a;
-    color: #ffffff;
-}
-
+.cricketbox-nav-item:hover,
 .cricketbox-nav-item.active {
     background: #134e4a;
     color: #ffffff;
 }
 
-.cricketbox-nav-item span {
-    font-size: 13px;
+.cricketbox-nav-item span:first-child {
+    width: 20px;
+    min-width: 20px;
+    text-align: center;
 }
 
 .cricketbox-logout {
-    margin: 12px;
-    border: 0;
-    background: rgba(255,255,255,0.06);
-    color: #cbd5e1;
-    border-radius: 8px;
-    padding: 12px 14px;
+    margin-top: auto;
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 13px;
+    gap: 13px;
+    padding: 12px 13px;
+    border: 1px solid #334155;
+    border-radius: 9px;
+    background: transparent;
+    color: #fca5a5;
     cursor: pointer;
-    text-align: left;
+    font-size: 13px;
+    box-sizing: border-box;
 }
 
 .cricketbox-logout:hover {
-    background: #134e4a;
+    background: #7f1d1d;
     color: #ffffff;
 }
 
+/* =========================
+   MAIN CONTENT WRAPPER
+   ========================= */
+
 .cricketbox-main {
     width: calc(100% - 255px);
-    margin-left: 255px;
+    max-width: calc(100% - 255px);
     min-height: 100vh;
+    margin-left: 255px;
+    padding: 30px 35px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
 
-.cricketbox-header {
-    min-height: 170px;
-    padding: 38px 42px;
-    background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+/* =========================
+   DESKTOP TOPBAR
+   ========================= */
+
+.cricketbox-topbar {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
+    margin-bottom: 28px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.cricketbox-heading {
+    min-width: 0;
+    flex: 1;
 }
 
 .cricketbox-eyebrow {
+    display: block;
     color: #0f766e;
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.cricketbox-heading h1 {
+    margin: 8px 0 7px;
+    color: #0f172a;
+    font-size: 34px;
+    line-height: 1.1;
     font-weight: 700;
-    letter-spacing: 1.5px;
 }
 
-.cricketbox-header h1 {
-    margin: 8px 0 5px;
-    font-size: 30px;
-    line-height: 1.2;
-}
-
-.cricketbox-header p {
+.cricketbox-heading p {
     margin: 0;
     color: #64748b;
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.cricketbox-desktop-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
 }
 
 .cricketbox-my-bookings {
-    border: 1px solid #134e4a;
+    border: 1px solid #0f766e;
     background: #ffffff;
-    color: #134e4a;
+    color: #0f766e;
     border-radius: 9px;
-    padding: 11px 17px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .cricketbox-my-bookings:hover {
-    background: #134e4a;
+    background: #0f766e;
     color: #ffffff;
+    transform: translateY(-1px);
 }
+
+/* =========================
+   PROFILE PHOTO BUTTONS
+   ========================= */
+
+.cricketbox-desktop-photo {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+}
+
+.cricketbox-desktop-photo button,
+.cricketbox-mobile-photo {
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px solid #dbe3ea;
+    border-radius: 50%;
+    background: #f8fafc;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+    font-size: 18px;
+    line-height: 1;
+}
+
+.cricketbox-desktop-photo img,
+.cricketbox-mobile-photo img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* =========================
+   MOBILE HEADER & OVERLAY (HIDDEN ON DESKTOP)
+   ========================= */
+
+.cricketbox-mobile-header {
+    display: none;
+}
+
+.cricketbox-mobile-overlay {
+    display: none;
+}
+
+/* =========================
+   CRICKET CONTENT SECTION
+   ========================= */
 
 .cricketbox-content {
     flex: 1;
-    padding: 35px 42px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .cricketbox-section-heading {
@@ -187,6 +296,8 @@
 .cricketbox-section-heading h2 {
     margin: 6px 0 0;
     font-size: 23px;
+    color: #0f172a;
+    font-weight: 700;
 }
 
 .cricketbox-ground-count {
@@ -199,10 +310,16 @@
     font-weight: 700;
 }
 
+/* =========================
+   GROUNDS GRID & CARDS
+   ========================= */
+
 .cricketbox-ground-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: 22px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .cricketbox-ground-card {
@@ -211,13 +328,16 @@
     border-radius: 14px;
     padding: 22px;
     position: relative;
-    box-shadow: 0 4px 14px rgba(15,23,42,0.04);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .cricketbox-ground-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(15,23,42,0.08);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
 
 .cricketbox-ground-icon {
@@ -258,6 +378,8 @@
 .cricketbox-ground-info h3 {
     margin: 0;
     font-size: 19px;
+    color: #0f172a;
+    font-weight: 700;
 }
 
 .cricketbox-location {
@@ -286,6 +408,7 @@
     background: #f8fafc;
     border-radius: 8px;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .cricketbox-ground-details span,
@@ -303,6 +426,7 @@
     margin-top: 4px;
     color: #0f172a;
     font-size: 13px;
+    font-weight: 700;
 }
 
 .cricketbox-ground-time {
@@ -316,7 +440,7 @@
     width: 100%;
     margin-top: 17px;
     border: 0;
-    background: #134e4a;
+    background: #0f766e;
     color: #ffffff;
     border-radius: 9px;
     padding: 12px 15px;
@@ -326,11 +450,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    transition: background 0.2s ease, transform 0.2s ease;
+    box-sizing: border-box;
 }
 
 .cricketbox-book-button:hover {
-    background: #0f766e;
+    background: #115e59;
 }
+
+/* =========================
+   MESSAGES, LOADER & ERRORS
+   ========================= */
 
 .cricketbox-message {
     min-height: 300px;
@@ -400,122 +530,211 @@
     line-height: 1.6;
 }
 
+/* =========================
+   FOOTER
+   ========================= */
+
 .cricketbox-footer {
-    padding: 20px 42px;
+    margin-top: auto;
+    padding: 24px 0 10px;
     border-top: 1px solid #e2e8f0;
-    background: #ffffff;
     display: flex;
     justify-content: space-between;
     gap: 20px;
     color: #94a3b8;
     font-size: 12px;
+    width: 100%;
 }
+
+/* =========================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================= */
 
 @media (max-width: 900px) {
     .cricketbox-ground-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .cricketbox-header {
-        padding: 30px;
-    }
-
-    .cricketbox-content {
-        padding: 30px;
-    }
 }
 
-@media (max-width: 768px) {
-    .cricketbox-page {
-        display: block;
+@media (max-width: 800px) {
+    body.cricketbox-menu-open {
+        overflow: hidden;
     }
 
     .cricketbox-sidebar {
-        width: 270px;
-        transform: translateX(-100%);
+        width: 275px;
+        max-width: 86vw;
+        transform: translateX(-105%);
+        box-shadow: 12px 0 35px rgba(0, 0, 0, 0.22);
+        z-index: 1400;
         transition: transform 0.25s ease;
     }
 
+    .cricketbox-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
     .cricketbox-main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        padding: 20px 16px !important;
+    }
+
+    .cricketbox-desktop-photo {
+        display: none !important;
+    }
+
+    .cricketbox-mobile-header {
+        position: sticky;
+        top: 0;
+        z-index: 1200;
         width: 100%;
-        margin-left: 0;
+        min-height: 68px;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        box-sizing: border-box;
+        padding: 10px 14px;
+        background: #ffffff;
+        border-bottom: 1px solid #dbe6ee;
+        box-shadow: 0 3px 12px rgba(15, 42, 60, 0.08);
     }
 
-    .cricketbox-header {
-        padding: 25px 20px;
+    .cricketbox-mobile-left {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 11px;
     }
 
-    .cricketbox-content {
-        padding: 25px 20px;
+    .cricketbox-mobile-menu {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 0;
+        border-radius: 9px;
+        background: #0f766e;
+        color: #ffffff;
+        font-size: 23px;
+        line-height: 1;
+        cursor: pointer;
     }
 
-    .cricketbox-ground-grid {
-        grid-template-columns: 1fr;
+    .cricketbox-mobile-brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
     }
 
-    .cricketbox-footer {
-        padding: 18px 20px;
+    .cricketbox-mobile-brand-icon {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #0f766e;
+        font-size: 20px;
+    }
+
+    .cricketbox-mobile-brand strong {
+        display: block;
+        color: #102a43;
+        font-size: 16px;
+        line-height: 1.1;
+    }
+
+    .cricketbox-mobile-brand span {
+        display: block;
+        margin-top: 2px;
+        color: #607d98;
+        font-size: 10px;
+    }
+
+    .cricketbox-mobile-photo {
+        width: 46px;
+        height: 46px;
+        flex: 0 0 46px;
+    }
+
+    .cricketbox-mobile-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1300;
+        display: block !important;
+        background: rgba(2, 12, 27, 0.48);
+        cursor: pointer;
+    }
+
+    .cricketbox-topbar {
         flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .cricketbox-desktop-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .cricketbox-heading h1 {
+        font-size: 27px;
+    }
+
+    .cricketbox-heading p {
+        font-size: 13px;
     }
 }
 
-@media (max-width: 520px) {
-    .cricketbox-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .cricketbox-header h1 {
-        font-size: 26px;
-    }
-
-    .cricketbox-my-bookings {
-        width: 100%;
+@media (max-width: 600px) {
+    .cricketbox-ground-grid {
+        grid-template-columns: 1fr;
     }
 
     .cricketbox-section-heading {
         align-items: flex-start;
         flex-direction: column;
+        gap: 10px;
+    }
+
+    .cricketbox-footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
     }
 }
 
-/* STUDENT DASHBOARD STYLE SHELL */
-.cricketbox-sidebar { width:255px; height:100vh; position:fixed; left:0; top:0; bottom:0; background:#0f172a; color:#fff; display:flex; flex-direction:column; z-index:1100; box-sizing:border-box; }
-.cricketbox-brand { height:82px; flex-shrink:0; display:flex; align-items:center; gap:12px; padding:0 20px; border-bottom:1px solid rgba(255,255,255,0.08); box-sizing:border-box; }
-.cricketbox-brand h2 { margin:0; color:#fff; font-size:17px; font-weight:700; }
-.cricketbox-brand p,.cricketbox-brand span { margin:3px 0 0; color:#94a3b8; font-size:11px; }
-.cricketbox-brand-icon { width:40px; height:40px; flex-shrink:0; border-radius:10px; background:#0f766e; display:flex; align-items:center; justify-content:center; font-size:20px; }
-.cricketbox-nav { flex:1; padding:16px 12px; overflow-y:auto; box-sizing:border-box; }
-.cricketbox-nav-item { width:100%; min-height:42px; border:none; background:transparent; color:#cbd5e1; padding:11px 13px; margin-bottom:4px; border-radius:7px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; transition:background .2s ease,color .2s ease; box-sizing:border-box; }
-.cricketbox-nav-item:hover,.cricketbox-nav-item.active { background:#134e4a; color:#fff; }
-.cricketbox-nav-item span:first-child { width:20px; flex-shrink:0; text-align:center; font-size:15px; }
-.cricketbox-logout { width:calc(100% - 24px); margin:12px; flex-shrink:0; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#cbd5e1; border-radius:7px; padding:11px 13px; display:flex; align-items:center; gap:12px; font-size:13px; font-family:inherit; cursor:pointer; text-align:left; box-sizing:border-box; }
-.cricketbox-logout:hover { background:#7f1d1d; color:#fff; }
-.cricketbox-main { width:calc(100% - 255px); min-height:100vh; margin-left:255px; box-sizing:border-box; }
-.cricketbox-topbar { width:100%; height:72px; position:sticky; top:0; z-index:1000; background:#fff; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:center; padding:0 28px; box-sizing:border-box; }
-.cricketbox-hamburger { display:none; position:absolute; left:18px; width:42px; height:42px; border:none; border-radius:10px; background:#0f766e; color:#fff; font-size:23px; line-height:1; align-items:center; justify-content:center; cursor:pointer; }
-.cricketbox-panel-title { text-align:center; line-height:1.2; }
-.cricketbox-panel-title strong { display:block; color:#0f172a; font-size:17px; font-weight:700; }
-.cricketbox-panel-title span { display:block; margin-top:3px; color:#64748b; font-size:10px; }
-.cricketbox-profile { position:absolute; right:28px; top:50%; transform:translateY(-50%); width:42px; height:42px; }
-.cricketbox-profile img,.cricketbox-photo-fallback { width:42px; height:42px; display:flex; border-radius:50%; object-fit:cover; border:2px solid #dbeafe; box-sizing:border-box; }
-.cricketbox-photo-fallback { align-items:center; justify-content:center; background:#0f766e; color:#fff; font-size:17px; }
-.cricketbox-overlay { display:none; }
-@media (max-width:700px) {
-    .cricketbox-sidebar { width:270px; transform:translateX(-100%); transition:transform .25s ease; overflow-y:auto; }
-    .cricketbox-sidebar.cricketbox-sidebar-open { transform:translateX(0); }
-    .cricketbox-overlay { display:block; position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:1050; }
-    .cricketbox-main { width:100%; margin-left:0; min-height:100vh; }
-    .cricketbox-topbar { height:64px; padding:0 58px; }
-    .cricketbox-hamburger { display:flex; }
-    .cricketbox-panel-title strong { font-size:15px; }
-    .cricketbox-profile { right:15px; }
-}
-@media (max-width:480px) {
-    .cricketbox-topbar { padding:0 54px; }
-    .cricketbox-hamburger { left:12px; }
-    .cricketbox-profile { right:10px; }
-    .cricketbox-panel-title strong { font-size:13px; }
-    .cricketbox-panel-title span { font-size:9px; }
-}
+@media (max-width: 480px) {
+    .cricketbox-mobile-header {
+        min-height: 62px;
+        padding: 8px 10px;
+    }
 
+    .cricketbox-mobile-menu {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+    }
+
+    .cricketbox-mobile-photo {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+    }
+
+    .cricketbox-mobile-brand strong {
+        font-size: 15px;
+    }
+
+    .cricketbox-heading h1 {
+        font-size: 24px;
+    }
+}

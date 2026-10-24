@@ -275,24 +275,34 @@ function CricketBox() {
                         <p>View hostel cricket grounds and reserve your playtime.</p>
                     </div>
 
-                    <div className="cricketbox-desktop-photo">
+                    <div className="cricketbox-desktop-actions">
                         <button
                             type="button"
-                            onClick={() => navigate("/student/profile")}
-                            aria-label="Open student profile"
+                            className="cricketbox-my-bookings"
+                            onClick={handleMyBookings}
                         >
-                            {studentPhoto ? (
-                                <img
-                                    src={studentPhoto}
-                                    alt="Student profile"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display = "none";
-                                    }}
-                                />
-                            ) : (
-                                "👤"
-                            )}
+                            📋 My Bookings
                         </button>
+
+                        <div className="cricketbox-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {studentPhoto ? (
+                                    <img
+                                        src={studentPhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </header>
 
