@@ -123,21 +123,21 @@ const Complaints = () => {
   const initials = String(student?.name || "Student").split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 
   return (
-    <div className="studentcomplaints-page">
+    <div className="complaints-page">
       {/* MOBILE HEADER */}
-      <header className="studentcomplaints-mobile-header">
-        <div className="studentcomplaints-mobile-left">
+      <header className="complaints-mobile-header">
+        <div className="complaints-mobile-left">
           <button
             ref={menuButtonRef}
             type="button"
-            className="studentcomplaints-mobile-menu"
+            className="complaints-mobile-menu"
             onClick={() => setMobileMenuOpen((open) => !open)}
             aria-label={mobileMenuOpen ? "Close student menu" : "Open student menu"}
           >
             ☰
           </button>
-          <div className="studentcomplaints-mobile-brand">
-            <div className="studentcomplaints-mobile-brand-icon">🏠</div>
+          <div className="complaints-mobile-brand">
+            <div className="complaints-mobile-brand-icon">🏠</div>
             <div>
               <strong>Hostel</strong>
               <span>Student Portal</span>
@@ -147,7 +147,7 @@ const Complaints = () => {
 
         <button
           type="button"
-          className="studentcomplaints-mobile-photo"
+          className="complaints-mobile-photo"
           onClick={() => navigateTo("/student/profile")}
           aria-label="Open student profile"
         >
@@ -164,33 +164,62 @@ const Complaints = () => {
       {/* SIDEBAR */}
       <aside
         ref={sidebarRef}
-        className={`studentcomplaints-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}
+        className={`complaints-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}
       >
-        <div className="studentcomplaints-sidebar-brand">
-          <div className="studentcomplaints-brand-icon">🏠</div>
+        <div className="complaints-sidebar-brand">
+          <div className="complaints-brand-icon">🏠</div>
           <div>
             <strong>Hostel</strong>
             <span>Student Portal</span>
           </div>
         </div>
 
-        <nav className="studentcomplaints-sidebar-nav">
-          {menuItems.map((item) => (
-            <button
-              key={item.path}
-              type="button"
-              className={`studentcomplaints-nav-item ${item.label === "Complaints" ? "active" : ""}`}
-              onClick={() => navigateTo(item.path)}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+        <nav className="complaints-sidebar-nav">
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/dashboard")}>
+            <span>📊</span>
+            <span>Dashboard</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/profile")}>
+            <span>👤</span>
+            <span>My Profile</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/room")}>
+            <span>🛏️</span>
+            <span>My Room</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/leave")}>
+            <span>📄</span>
+            <span>My Leave</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/leave/apply")}>
+            <span>➕</span>
+            <span>Apply Leave</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/gatepass")}>
+            <span>🎫</span>
+            <span>Gate Pass</span>
+          </button>
+          <button type="button" className="complaints-nav-item active" onClick={() => navigateTo("/student/complaints")}>
+            <span>🛠️</span>
+            <span>Complaints</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/fees")}>
+            <span>💰</span>
+            <span>My Fees</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/notifications")}>
+            <span>🔔</span>
+            <span>Notifications</span>
+          </button>
+          <button type="button" className="complaints-nav-item" onClick={() => navigateTo("/student/cricketbox")}>
+            <span>🏏</span>
+            <span>Cricket Box</span>
+          </button>
         </nav>
 
         <button
           type="button"
-          className="studentcomplaints-logout"
+          className="complaints-logout"
           onClick={logout}
         >
           <span>🚪</span>
@@ -201,34 +230,38 @@ const Complaints = () => {
       {/* OVERLAY */}
       {mobileMenuOpen && (
         <div
-          className="studentcomplaints-mobile-overlay"
+          className="complaints-mobile-overlay"
           onPointerDown={() => setMobileMenuOpen(false)}
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* MAIN */}
-      <main className="studentcomplaints-main">
-        <header className="studentcomplaints-header">
-          <div>
-            <span>HOSTEL SERVICES</span>
+      <main className="complaints-main">
+        <header className="complaints-topbar">
+          <div className="complaints-heading">
+            <span className="complaints-eyebrow">HOSTEL SERVICES</span>
             <h1>My Complaints</h1>
             <p>Raise a complaint, track the assigned staff and follow the resolution.</p>
           </div>
-          <button
-            type="button"
-            className="studentcomplaints-profile"
-            onClick={() => navigateTo("/student/profile")}
-            aria-label="Open student profile"
-          >
-            {photo ? (
-              <img
-                src={photo}
-                alt="Student"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            ) : initials}
-          </button>
+
+          <div className="complaints-desktop-photo">
+            <button
+              type="button"
+              onClick={() => navigateTo("/student/profile")}
+              aria-label="Open student profile"
+            >
+              {photo ? (
+                <img
+                  src={photo}
+                  alt="Student profile"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+              ) : (
+                <span>{initials}</span>
+              )}
+            </button>
+          </div>
         </header>
 
         <section className="student-complaints-content">

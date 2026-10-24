@@ -204,180 +204,15 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="student-dashboard-page">
+        <div className="studentdashboard-page">
 
-            {/* ================= SIDEBAR ================= */}
-            <aside
-                ref={sidebarRef}
-                className={`student-dashboard-sidebar ${
-                    mobileMenuOpen
-                        ? "mobile-open"
-                        : ""
-                }`}
-            >
-
-                <div className="student-dashboard-brand">
-
-                    <div className="student-dashboard-brand-icon">
-                        🏠
-                    </div>
-
-                    <div>
-                        <strong>
-                            Hostel
-                        </strong>
-
-                        <span>
-                            Student Portal
-                        </span>
-                    </div>
-
-                </div>
-
-                <nav className="student-dashboard-nav">
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item active"
-                        onClick={() =>
-                            handleNavigation("/student/dashboard")
-                        }
-                    >
-                        <span>📊</span>
-                        <span>Dashboard</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/profile")
-                        }
-                    >
-                        <span>👤</span>
-                        <span>My Profile</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/room")
-                        }
-                    >
-                        <span>🛏️</span>
-                        <span>My Room</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/leave")
-                        }
-                    >
-                        <span>📄</span>
-                        <span>My Leave</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/leave/apply")
-                        }
-                    >
-                        <span>➕</span>
-                        <span>Apply Leave</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/gatepass")
-                        }
-                    >
-                        <span>🎫</span>
-                        <span>Gate Pass</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/complaints")
-                        }
-                    >
-                        <span>🛠️</span>
-                        <span>Complaints</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/fees")
-                        }
-                    >
-                        <span>💰</span>
-                        <span>My Fees</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/notifications")
-                        }
-                    >
-                        <span>🔔</span>
-                        <span>Notifications</span>
-                    </button>
-
-                    <button
-                        type="button"
-                        className="student-dashboard-nav-item"
-                        onClick={() =>
-                            handleNavigation("/student/cricketbox")
-                        }
-                    >
-                        <span>🏏</span>
-                        <span>Cricket Box</span>
-                    </button>
-
-                </nav>
-
-                <button
-                    className="student-dashboard-logout"
-                    onClick={handleLogout}
-                >
-                    🚪 Logout
-                </button>
-
-            </aside>
-
-            {mobileMenuOpen && (
-                <div
-                    className="student-dashboard-mobile-overlay"
-                    onPointerDown={() =>
-                        setMobileMenuOpen(false)
-                    }
-                    onClick={() =>
-                        setMobileMenuOpen(false)
-                    }
-                />
-            )}
-
-            {/* ================= MAIN ================= */}
-            <main className="student-dashboard-main">
-
-                <header className="student-dashboard-mobile-header student-dashboard-mobile-topbar">
-
+            {/* MOBILE HEADER */}
+            <header className="studentdashboard-mobile-header">
+                <div className="studentdashboard-mobile-left">
                     <button
                         ref={mobileMenuButtonRef}
                         type="button"
-                        className="student-dashboard-mobile-menu-btn"
+                        className="studentdashboard-mobile-menu"
                         onClick={() =>
                             setMobileMenuOpen((open) => !open)
                         }
@@ -390,107 +225,239 @@ const StudentDashboard = () => {
                         ☰
                     </button>
 
-                    <div className="student-dashboard-mobile-brand">
-                        <div className="student-dashboard-mobile-brand-icon">
+                    <div className="studentdashboard-mobile-brand">
+                        <div className="studentdashboard-mobile-brand-icon">
                             🏠
                         </div>
-
                         <div>
-                            <strong>
-                                Hostel
-                            </strong>
-
-                            <span>
-                                Student Portal
-                            </span>
+                            <strong>Hostel</strong>
+                            <span>Student Portal</span>
                         </div>
                     </div>
+                </div>
+
+                <button
+                    type="button"
+                    className="studentdashboard-mobile-photo"
+                    onClick={() =>
+                        handleNavigation("/student/profile")
+                    }
+                    aria-label="Open student profile"
+                >
+                    {getPhotoUrl() ? (
+                        <img
+                            src={getPhotoUrl()}
+                            alt="Student profile"
+                            onError={(event) => {
+                                event.currentTarget.style.display = "none";
+                            }}
+                        />
+                    ) : (
+                        <span>
+                            {getInitials(student?.name)}
+                        </span>
+                    )}
+                </button>
+            </header>
+
+            {/* SIDEBAR */}
+            <aside
+                ref={sidebarRef}
+                className={`studentdashboard-sidebar ${
+                    mobileMenuOpen ? "mobile-open" : ""
+                }`}
+            >
+                <div className="studentdashboard-sidebar-brand">
+                    <div className="studentdashboard-brand-icon">
+                        🏠
+                    </div>
+                    <div>
+                        <strong>Hostel</strong>
+                        <span>Student Portal</span>
+                    </div>
+                </div>
+
+                <nav className="studentdashboard-sidebar-nav">
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item active"
+                        onClick={() =>
+                            handleNavigation("/student/dashboard")
+                        }
+                    >
+                        <span>📊</span>
+                        <span>Dashboard</span>
+                    </button>
 
                     <button
                         type="button"
-                        className="student-dashboard-mobile-photo"
+                        className="studentdashboard-nav-item"
                         onClick={() =>
                             handleNavigation("/student/profile")
                         }
-                        aria-label="Open student profile"
                     >
-                        {getPhotoUrl() ? (
-                            <img
-                                src={getPhotoUrl()}
-                                alt="Student profile"
-                                onError={(event) => {
-                                    event.currentTarget.style.display = "none";
-                                }}
-                            />
-                        ) : (
-                            <span>
-                                {getInitials(
-                                    student?.name
-                                )}
-                            </span>
-                        )}
+                        <span>👤</span>
+                        <span>My Profile</span>
                     </button>
 
-                </header>
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/room")
+                        }
+                    >
+                        <span>🛏️</span>
+                        <span>My Room</span>
+                    </button>
 
-                {/* HEADER */}
-                <header className="student-dashboard-header">
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/leave")
+                        }
+                    >
+                        <span>📄</span>
+                        <span>My Leave</span>
+                    </button>
 
-                    <div>
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/leave/apply")
+                        }
+                    >
+                        <span>➕</span>
+                        <span>Apply Leave</span>
+                    </button>
 
-                        <span className="student-dashboard-eyebrow">
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/gatepass")
+                        }
+                    >
+                        <span>🎫</span>
+                        <span>Gate Pass</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/complaints")
+                        }
+                    >
+                        <span>🛠️</span>
+                        <span>Complaints</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/fees")
+                        }
+                    >
+                        <span>💰</span>
+                        <span>My Fees</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/notifications")
+                        }
+                    >
+                        <span>🔔</span>
+                        <span>Notifications</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        className="studentdashboard-nav-item"
+                        onClick={() =>
+                            handleNavigation("/student/cricketbox")
+                        }
+                    >
+                        <span>🏏</span>
+                        <span>Cricket Box</span>
+                    </button>
+                </nav>
+
+                <button
+                    type="button"
+                    className="studentdashboard-logout"
+                    onClick={handleLogout}
+                >
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </button>
+            </aside>
+
+            {/* MOBILE OVERLAY */}
+            {mobileMenuOpen && (
+                <div
+                    className="studentdashboard-mobile-overlay"
+                    onPointerDown={() =>
+                        setMobileMenuOpen(false)
+                    }
+                    onClick={() =>
+                        setMobileMenuOpen(false)
+                    }
+                />
+            )}
+
+            {/* MAIN */}
+            <main className="studentdashboard-main">
+                <header className="studentdashboard-topbar">
+                    <div className="studentdashboard-heading">
+                        <span className="studentdashboard-eyebrow">
                             STUDENT PORTAL
                         </span>
-
-                        <h1>
-                            Dashboard
-                        </h1>
-
+                        <h1>Dashboard</h1>
                         <p>
                             Welcome back! Here's your hostel overview.
                         </p>
-
                     </div>
 
-                    <div className="student-dashboard-header-actions">
-
-                        <button
-                            className="student-dashboard-refresh"
-                            onClick={fetchDashboard}
-                        >
-                            ↻ Refresh
-                        </button>
-
+                    <div className="studentdashboard-desktop-actions">
                         <button
                             type="button"
-                            className="student-dashboard-profile-photo"
-                            onClick={() =>
-                                handleNavigation("/student/profile")
-                            }
-                            aria-label="Open student profile"
+                            className="studentdashboard-refresh"
+                            onClick={fetchDashboard}
                         >
-                            {getPhotoUrl() ? (
-                                <img
-                                    src={getPhotoUrl()}
-                                    alt="Student profile"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display = "none";
-                                    }}
-                                />
-                            ) : (
-                                <span>
-                                    {getInitials(
-                                        student?.name
-                                    )}
-                                </span>
-                            )}
+                            🔄 Refresh
                         </button>
 
+                        <div className="studentdashboard-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => handleNavigation("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {getPhotoUrl() ? (
+                                    <img
+                                        src={getPhotoUrl()}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    <span>
+                                        {getInitials(student?.name)}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                     </div>
-
                 </header>
 
-                {/* ERROR */}
                 {error && (
                     <div className="student-dashboard-error">
 

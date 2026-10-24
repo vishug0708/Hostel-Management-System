@@ -447,33 +447,49 @@ const ViewGatePass = () => {
             </aside>
 
             <main className="viewgatepass-main">
-                <div className="viewgatepass-desktop-photo">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/student/profile")}
-                        aria-label="Open student profile"
-                    >
-                        {profilePhoto ? (
-                            <img
-                                src={profilePhoto}
-                                alt="Student profile"
-                                onError={(event) => {
-                                    event.currentTarget.style.display = "none";
-                                }}
-                            />
-                        ) : (
-                            "👤"
-                        )}
-                    </button>
-                </div>
+                <header className="viewgatepass-topbar">
+                    <div className="viewgatepass-heading">
+                        <span className="viewgatepass-eyebrow">
+                            GATE PASS
+                        </span>
+                        <h1>Gate Pass Details</h1>
+                        <p>
+                            View verified gate pass request details and exit pass.
+                        </p>
+                    </div>
+
+                    <div className="viewgatepass-desktop-actions">
+                        <button
+                            type="button"
+                            className="viewgatepass-back"
+                            onClick={() => navigate("/student/gatepass")}
+                        >
+                            ← My Gate Pass
+                        </button>
+
+                        <div className="viewgatepass-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {profilePhoto ? (
+                                    <img
+                                        src={profilePhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </header>
 
                 <div className="viewgatepass-wrapper">
-                <button
-                    className="viewgatepass-back"
-                    onClick={() => navigate("/student/gatepass")}
-                >
-                    ← Back to My Gate Passes
-                </button>
 
                 <div className="viewgatepass-card">
                     <div className="viewgatepass-header">

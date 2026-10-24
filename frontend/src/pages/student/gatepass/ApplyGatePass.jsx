@@ -463,51 +463,48 @@ const ApplyGatePass = () => {
             </aside>
 
             <main className="applygatepass-main">
-                <div className="applygatepass-desktop-photo">
-                    <button
-                        type="button"
-                        onClick={() => navigate("/student/profile")}
-                        aria-label="Open student profile"
-                    >
-                        {profilePhoto ? (
-                            <img
-                                src={profilePhoto}
-                                alt="Student profile"
-                                onError={(event) => {
-                                    event.currentTarget.style.display = "none";
-                                }}
-                            />
-                        ) : (
-                            "👤"
-                        )}
-                    </button>
-                </div>
-
-                {/* HEADER */}
-
-                <div className="applygatepass-header">
-
-                    <div>
+                <header className="applygatepass-topbar">
+                    <div className="applygatepass-heading">
                         <span className="applygatepass-eyebrow">
                             GATE PASS
                         </span>
-
                         <h1>Apply Gate Pass</h1>
-
                         <p>
                             Submit a gate pass request for going outside
                             the hostel.
                         </p>
                     </div>
 
-                    <button
-                        className="applygatepass-back"
-                        onClick={() => handleNavigation("/student/gatepass")}
-                    >
-                        ← My Gate Pass
-                    </button>
+                    <div className="applygatepass-desktop-actions">
+                        <button
+                            type="button"
+                            className="applygatepass-back"
+                            onClick={() => handleNavigation("/student/gatepass")}
+                        >
+                            ← My Gate Pass
+                        </button>
 
-                </div>
+                        <div className="applygatepass-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {profilePhoto ? (
+                                    <img
+                                        src={profilePhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </header>
 
 
                 {/* ERROR */}

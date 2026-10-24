@@ -172,17 +172,46 @@ const ViewComplaint = () => {
         </div>
 
         <nav className="viewcomplaint-sidebar-nav">
-          {menuItems.map((item) => (
-            <button
-              key={item.path}
-              type="button"
-              className={`viewcomplaint-nav-item ${item.label === "Complaints" ? "active" : ""}`}
-              onClick={() => navigateTo(item.path)}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/dashboard")}>
+            <span>📊</span>
+            <span>Dashboard</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/profile")}>
+            <span>👤</span>
+            <span>My Profile</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/room")}>
+            <span>🛏️</span>
+            <span>My Room</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/leave")}>
+            <span>📄</span>
+            <span>My Leave</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/leave/apply")}>
+            <span>➕</span>
+            <span>Apply Leave</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/gatepass")}>
+            <span>🎫</span>
+            <span>Gate Pass</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item active" onClick={() => navigateTo("/student/complaints")}>
+            <span>🛠️</span>
+            <span>Complaints</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/fees")}>
+            <span>💰</span>
+            <span>My Fees</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/notifications")}>
+            <span>🔔</span>
+            <span>Notifications</span>
+          </button>
+          <button type="button" className="viewcomplaint-nav-item" onClick={() => navigateTo("/student/cricketbox")}>
+            <span>🏏</span>
+            <span>Cricket Box</span>
+          </button>
         </nav>
 
         <button
@@ -206,26 +235,28 @@ const ViewComplaint = () => {
 
       {/* MAIN */}
       <main className="viewcomplaint-main">
-        <header className="viewcomplaint-header">
-          <div>
-            <span>HOSTEL SERVICES</span>
+        <header className="viewcomplaint-topbar">
+          <div className="viewcomplaint-heading">
+            <span className="viewcomplaint-eyebrow">HOSTEL SERVICES</span>
             <h1>Complaint Details</h1>
             <p>Track assigned staff, expected resolution and the complete resolution workflow.</p>
           </div>
-          <button
-            type="button"
-            className="viewcomplaint-header-profile"
-            onClick={() => navigateTo("/student/profile")}
-            aria-label="Open student profile"
-          >
-            {photo ? (
-              <img
-                src={photo}
-                alt="Student profile"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            ) : "👤"}
-          </button>
+
+          <div className="viewcomplaint-desktop-photo">
+            <button
+              type="button"
+              onClick={() => navigateTo("/student/profile")}
+              aria-label="Open student profile"
+            >
+              {photo ? (
+                <img
+                  src={photo}
+                  alt="Student profile"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+              ) : "👤"}
+            </button>
+          </div>
         </header>
 
         <section className="view-complaint-content">

@@ -7,7 +7,7 @@
 }
 
 .myprofile-sidebar {
-    width: 275px;
+    width: 255px;
     min-height: 100vh;
     background: #0d172b;
     color: #ffffff;
@@ -104,8 +104,8 @@
 }
 
 .myprofile-main {
-    width: calc(100% - 275px);
-    margin-left: 275px;
+    width: calc(100% - 255px);
+    margin-left: 255px;
     padding: 45px 38px;
     min-height: 100vh;
     box-sizing: border-box;
@@ -517,7 +517,7 @@
     top: 0;
     left: 0;
     z-index: 1400;
-    width: 275px;
+    width: 255px;
     height: 100vh;
     box-sizing: border-box;
     display: flex;
@@ -636,9 +636,9 @@
 
 .myprofile-main {
     position: relative;
-    width: calc(100% - 275px);
+    width: calc(100% - 255px);
     min-height: 100vh;
-    margin-left: 275px;
+    margin-left: 255px;
     box-sizing: border-box;
 }
 
@@ -694,7 +694,7 @@
     }
 
     .myprofile-sidebar {
-        width: 275px;
+        width: 255px;
         max-width: 86vw;
         transform: translateX(-105%);
         box-shadow: 12px 0 35px rgba(0,0,0,0.22);

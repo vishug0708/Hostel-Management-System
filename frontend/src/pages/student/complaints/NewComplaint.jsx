@@ -296,17 +296,46 @@ const NewComplaint = () => {
         </div>
 
         <nav className="newcomplaint-sidebar-nav">
-          {menuItems.map((item) => (
-            <button
-              key={item.path}
-              type="button"
-              className={`newcomplaint-nav-item ${item.label === "Complaints" ? "active" : ""}`}
-              onClick={() => navigateTo(item.path)}
-            >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </button>
-          ))}
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/dashboard")}>
+            <span>📊</span>
+            <span>Dashboard</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/profile")}>
+            <span>👤</span>
+            <span>My Profile</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/room")}>
+            <span>🛏️</span>
+            <span>My Room</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/leave")}>
+            <span>📄</span>
+            <span>My Leave</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/leave/apply")}>
+            <span>➕</span>
+            <span>Apply Leave</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/gatepass")}>
+            <span>🎫</span>
+            <span>Gate Pass</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item active" onClick={() => navigateTo("/student/complaints")}>
+            <span>🛠️</span>
+            <span>Complaints</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/fees")}>
+            <span>💰</span>
+            <span>My Fees</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/notifications")}>
+            <span>🔔</span>
+            <span>Notifications</span>
+          </button>
+          <button type="button" className="newcomplaint-nav-item" onClick={() => navigateTo("/student/cricketbox")}>
+            <span>🏏</span>
+            <span>Cricket Box</span>
+          </button>
         </nav>
 
         <button
@@ -330,29 +359,33 @@ const NewComplaint = () => {
 
       {/* MAIN */}
       <main className="newcomplaint-main">
-        <header className="newcomplaint-header">
-          <div>
-            <span>HOSTEL SERVICES</span>
+        <header className="newcomplaint-topbar">
+          <div className="newcomplaint-heading">
+            <span className="newcomplaint-eyebrow">HOSTEL SERVICES</span>
             <h1>New Complaint</h1>
             <p>
               Backup student is mandatory and staff is assigned automatically by
               complaint category.
             </p>
           </div>
-          <button
-            type="button"
-            className="newcomplaint-header-profile"
-            onClick={() => navigateTo("/student/profile")}
-            aria-label="Open student profile"
-          >
-            {photo ? (
-              <img
-                src={photo}
-                alt="Student profile"
-                onError={(e) => { e.currentTarget.style.display = "none"; }}
-              />
-            ) : initials}
-          </button>
+
+          <div className="newcomplaint-desktop-photo">
+            <button
+              type="button"
+              onClick={() => navigateTo("/student/profile")}
+              aria-label="Open student profile"
+            >
+              {photo ? (
+                <img
+                  src={photo}
+                  alt="Student profile"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+              ) : (
+                <span>{initials}</span>
+              )}
+            </button>
+          </div>
         </header>
 
         <section className="student-complaint-content">
