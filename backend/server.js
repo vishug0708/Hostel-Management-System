@@ -13,6 +13,7 @@ const db = require("./config/database");
 // =====================================================
 
 const { generateMonthlySalaries } = require("./services/salaryService");
+const { initFeeTables } = require("./services/feeService");
 const salaryAccountRoutes = require("./routes/salaryAccountRoutes");
 
 const razorpayWebhookRoutes = require("./routes/razorpayWebhookRoutes");
@@ -352,4 +353,5 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
+    initFeeTables().catch((err) => console.warn("Fee table init warning:", err.message));
 });

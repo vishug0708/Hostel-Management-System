@@ -2,17 +2,20 @@
 -- MIGRATION: Complete Fees Management Module
 -- Tables: fee_structures, fee_structure_charges, fee_invoices,
 --         fee_invoice_items, fee_payments, fee_receipts,
---         fee_audit_logs, fee_email_logs
+--         fee_audit_logs, fee_email_logs, fees
 -- =======================================================================
 
 -- 1. FEE STRUCTURES TABLE
 CREATE TABLE IF NOT EXISTS `fee_structures` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `title` VARCHAR(150) NOT NULL,
+    `structure_name` VARCHAR(150) NULL,
     `academic_year` VARCHAR(20) NOT NULL,
     `semester` VARCHAR(50) NOT NULL,
+    `semester_number` TINYINT UNSIGNED NULL DEFAULT 1,
     `total_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `status` ENUM('draft','active','inactive') NOT NULL DEFAULT 'active',
     `description` TEXT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -24,28 +27,29 @@ CREATE TABLE IF NOT EXISTS `fee_structures` (
 CREATE TABLE IF NOT EXISTS `fee_structure_charges` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `fee_structure_id` INT NOT NULL,
-    `charge_name` VARCHAR(100) NOT NULL,
+    `charge_name` VARCHAR(150) NOT NULL,
     `amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `is_active` TINYINT(1) NOT NULL DEFAULT 1,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`fee_structure_id`) REFERENCES `fee_structures`(`id`) ON DELETE CASCADE,
     INDEX `idx_structure_charges` (`fee_structure_id`, `is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 3. FEE INVOICES TABLE
 CREATE TABLE IF NOT EXISTS `fee_invoices` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `invoice_no` VARCHAR(50) NOT NULL UNIQUE,
+    `invoice_no` VARCHAR(60) NOT NULL UNIQUE,
+    `invoice_number` VARCHAR(60) NULL,
     `student_id` INT NOT NULL,
-    `fee_structure_id` INT NULL,
+    `fee_structure_id` INT UNSIGNED NULL,
     `academic_year` VARCHAR(20) NOT NULL,
     `semester` VARCHAR(50) NOT NULL,
+    `semester_number` TINYINT UNSIGNED NULL DEFAULT 1,
     `total_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `paid_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `balance_amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `issue_date` DATE NOT NULL,
     `due_date` DATE NOT NULL,
-    `status` ENUM('Unpaid', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled') NOT NULL DEFAULT 'Unpaid',
+    `status` ENUM('Unpaid', 'Pending', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled') NOT NULL DEFAULT 'Unpaid',
     `remarks` TEXT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -59,10 +63,9 @@ CREATE TABLE IF NOT EXISTS `fee_invoices` (
 CREATE TABLE IF NOT EXISTS `fee_invoice_items` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `invoice_id` INT NOT NULL,
-    `charge_name` VARCHAR(100) NOT NULL,
+    `charge_name` VARCHAR(150) NOT NULL,
     `amount` DECIMAL(10,2) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`invoice_id`) REFERENCES `fee_invoices`(`id`) ON DELETE CASCADE,
     INDEX `idx_invoice_items` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,12 +95,15 @@ CREATE TABLE IF NOT EXISTS `fee_payments` (
 -- 6. FEE RECEIPTS TABLE
 CREATE TABLE IF NOT EXISTS `fee_receipts` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `receipt_no` VARCHAR(50) NOT NULL UNIQUE,
+    `receipt_no` VARCHAR(60) NULL UNIQUE,
+    `receipt_number` VARCHAR(60) NULL,
     `payment_id` INT NOT NULL,
     `invoice_id` INT NOT NULL,
     `student_id` INT NOT NULL,
     `amount` DECIMAL(10,2) NOT NULL,
-    `payment_date` DATETIME NOT NULL,
+    `payment_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+    `issued_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+    `pdf_path` VARCHAR(500) NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX `idx_receipts_invoice` (`invoice_id`),
     INDEX `idx_receipts_student` (`student_id`),
@@ -119,21 +125,36 @@ CREATE TABLE IF NOT EXISTS `fee_audit_logs` (
 -- 8. FEE EMAIL LOGS TABLE
 CREATE TABLE IF NOT EXISTS `fee_email_logs` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `receipt_no` VARCHAR(50) NULL,
+    `receipt_no` VARCHAR(60) NULL,
     `student_id` INT NOT NULL,
     `recipient_email` VARCHAR(150) NOT NULL,
-    `status` ENUM('Sent', 'Failed') NOT NULL,
+    `status` VARCHAR(50) NOT NULL DEFAULT 'sent',
     `error_message` TEXT NULL,
     `sent_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX `idx_email_logs_receipt` (`receipt_no`),
     INDEX `idx_email_logs_student` (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- 9. LEGACY FEES TABLE
+CREATE TABLE IF NOT EXISTS `fees` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `student_id` INT NOT NULL,
+    `room_id` INT NULL,
+    `amount` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    `status` VARCHAR(30) NOT NULL DEFAULT 'Pending',
+    `payment_method` VARCHAR(50) NULL DEFAULT 'Razorpay',
+    `payment_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_fees_student` (`student_id`),
+    INDEX `idx_fees_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- =======================================================================
 -- INITIAL SEED: Standard Semester Fee Structure (₹45,000 total)
 -- =======================================================================
-INSERT INTO `fee_structures` (`id`, `title`, `academic_year`, `semester`, `total_amount`, `is_active`, `description`)
-SELECT 1, 'Standard Hostel Semester Fee', '2026-2027', 'Semester 1', 45000.00, 1, 'Initial standard semester hostel fee structure'
+INSERT INTO `fee_structures` (`id`, `title`, `structure_name`, `academic_year`, `semester`, `semester_number`, `total_amount`, `is_active`, `status`, `description`)
+SELECT 1, 'Standard Hostel Semester Fee', 'Standard Hostel Semester Fee', '2026-2027', 'Semester 1', 1, 45000.00, 1, 'active', 'Initial standard semester hostel fee structure'
 WHERE NOT EXISTS (SELECT 1 FROM `fee_structures` WHERE `id` = 1);
 
 INSERT INTO `fee_structure_charges` (`fee_structure_id`, `charge_name`, `amount`, `is_active`)
@@ -151,4 +172,3 @@ WHERE NOT EXISTS (SELECT 1 FROM `fee_structure_charges` WHERE `fee_structure_id`
 INSERT INTO `fee_structure_charges` (`fee_structure_id`, `charge_name`, `amount`, `is_active`)
 SELECT 1, 'Light Bill', 3000.00, 1
 WHERE NOT EXISTS (SELECT 1 FROM `fee_structure_charges` WHERE `fee_structure_id` = 1 AND `charge_name` = 'Light Bill');
-

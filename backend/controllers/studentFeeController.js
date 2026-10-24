@@ -20,8 +20,22 @@ const getMyInvoices = async (req, res) => {
 
         const [invoices] = await db.query(`
             SELECT
-                fi.*,
-                fs.title AS structure_title
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                fi.student_id,
+                fi.fee_structure_id,
+                fi.academic_year,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.issue_date,
+                fi.due_date,
+                fi.status,
+                fi.remarks,
+                fi.created_at,
+                COALESCE(fs.title, fs.structure_name, 'Hostel Semester Fee') AS structure_title
             FROM fee_invoices fi
             LEFT JOIN fee_structures fs ON fs.id = fi.fee_structure_id
             WHERE fi.student_id = ?
@@ -80,7 +94,18 @@ const createPaymentOrder = async (req, res) => {
         }
 
         const [invRows] = await db.query(`
-            SELECT fi.*, s.name AS student_name, s.email AS student_email, s.mobile AS student_mobile
+            SELECT
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.status,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                s.name AS student_name,
+                s.email AS student_email,
+                s.mobile AS student_mobile
             FROM fee_invoices fi
             JOIN students s ON s.id = fi.student_id
             WHERE fi.id = ? AND fi.student_id = ?
@@ -208,7 +233,20 @@ const verifyPayment = async (req, res) => {
 
         // Fetch invoice
         const [invRows] = await db.query(`
-            SELECT fi.*, s.name, s.email, s.mobile, s.college, s.course
+            SELECT
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.status,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                s.name,
+                s.email,
+                s.mobile,
+                s.college,
+                s.course
             FROM fee_invoices fi
             JOIN students s ON s.id = fi.student_id
             WHERE fi.id = ? AND fi.student_id = ?
@@ -362,9 +400,10 @@ const getMyReceipt = async (req, res) => {
                 fp.payment_method,
                 fp.razorpay_payment_id,
                 fp.razorpay_order_id,
-                fi.invoice_no,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
                 fi.academic_year,
-                fi.semester,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
                 fi.total_amount AS invoice_total,
                 fi.paid_amount AS invoice_paid,
                 fi.balance_amount AS invoice_balance,

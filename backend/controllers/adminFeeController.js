@@ -21,8 +21,9 @@ const getFeesDashboard = async (req, res) => {
         }
 
         if (semester && semester !== "all") {
-            invoiceFilter += " AND fi.semester = ?";
-            invoiceParams.push(semester);
+            const semNum = parseInt(String(semester).replace(/\D/g, ""), 10);
+            invoiceFilter += " AND fi.semester_number = ?";
+            invoiceParams.push(semNum || 1);
         }
 
         // 1. Total assigned fees and balances from fee_invoices (fallback to fees table if empty)
@@ -76,15 +77,16 @@ const getFeesDashboard = async (req, res) => {
         const [semesterSummary] = await db.query(`
             SELECT
                 academic_year,
-                semester,
+                semester_number,
+                CONCAT('Semester ', semester_number) AS semester,
                 COUNT(id) AS total_invoices,
                 COALESCE(SUM(total_amount), 0) AS total_assigned,
                 COALESCE(SUM(paid_amount), 0) AS total_collected,
                 COALESCE(SUM(balance_amount), 0) AS total_pending
             FROM fee_invoices
             WHERE status != 'Cancelled'
-            GROUP BY academic_year, semester
-            ORDER BY academic_year DESC, semester ASC
+            GROUP BY academic_year, semester_number
+            ORDER BY academic_year DESC, semester_number ASC
             LIMIT 6
         `);
 
@@ -102,8 +104,9 @@ const getFeesDashboard = async (req, res) => {
                 fp.razorpay_payment_id,
                 s.name AS student_name,
                 s.email AS student_email,
-                fi.invoice_no,
-                fi.semester
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number
             FROM fee_payments fp
             LEFT JOIN students s ON s.id = fp.student_id
             LEFT JOIN fee_invoices fi ON fi.id = fp.invoice_id
@@ -166,7 +169,15 @@ const getFeeStructures = async (req, res) => {
     try {
         const [structures] = await db.query(`
             SELECT
-                fs.*,
+                fs.id,
+                COALESCE(fs.title, fs.structure_name, 'Hostel Fee') AS title,
+                COALESCE(fs.structure_name, fs.title, 'Hostel Fee') AS structure_name,
+                fs.academic_year,
+                CONCAT('Semester ', fs.semester_number) AS semester,
+                fs.semester_number,
+                fs.total_amount,
+                fs.is_active,
+                fs.description,
                 COUNT(fi.id) AS assigned_invoices_count
             FROM fee_structures fs
             LEFT JOIN fee_invoices fi ON fi.fee_structure_id = fs.id AND fi.status != 'Cancelled'
@@ -201,7 +212,20 @@ const getFeeStructures = async (req, res) => {
 const getFeeStructureById = async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await db.query("SELECT * FROM fee_structures WHERE id = ?", [id]);
+        const [rows] = await db.query(`
+            SELECT
+                id,
+                COALESCE(title, structure_name, 'Hostel Fee') AS title,
+                COALESCE(structure_name, title, 'Hostel Fee') AS structure_name,
+                academic_year,
+                CONCAT('Semester ', semester_number) AS semester,
+                semester_number,
+                total_amount,
+                is_active,
+                description
+            FROM fee_structures
+            WHERE id = ?
+        `, [id]);
 
         if (rows.length === 0) {
             return res.status(404).json({ success: false, message: "Fee structure not found." });
@@ -246,12 +270,25 @@ const createFeeStructure = async (req, res) => {
             }
         }
 
+        const semNumber = parseInt(String(semester).replace(/\D/g, ""), 10) || 1;
+        const semTitle = `Semester ${semNumber}`;
+
         await connection.beginTransaction();
 
         const [insertResult] = await connection.query(`
-            INSERT INTO fee_structures (title, academic_year, semester, total_amount, is_active, description)
-            VALUES (?, ?, ?, ?, ?, ?)
-        `, [title.trim(), academic_year.trim(), semester.trim(), calculatedTotal, is_active === false ? 0 : 1, description || null]);
+            INSERT INTO fee_structures (title, structure_name, academic_year, semester, semester_number, total_amount, is_active, status, description)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+            title.trim(),
+            title.trim(),
+            academic_year.trim(),
+            semTitle,
+            semNumber,
+            calculatedTotal,
+            is_active === false ? 0 : 1,
+            is_active === false ? 'inactive' : 'active',
+            description || null
+        ]);
 
         const structureId = insertResult.insertId;
 
@@ -308,18 +345,24 @@ const updateFeeStructure = async (req, res) => {
             }
         }
 
+        const semNumber = semester ? (parseInt(String(semester).replace(/\D/g, ""), 10) || 1) : (existing[0].semester_number || 1);
+        const semTitle = `Semester ${semNumber}`;
+
         await connection.beginTransaction();
 
         await connection.query(`
             UPDATE fee_structures
-            SET title = ?, academic_year = ?, semester = ?, total_amount = ?, is_active = ?, description = ?
+            SET title = ?, structure_name = ?, academic_year = ?, semester = ?, semester_number = ?, total_amount = ?, is_active = ?, status = ?, description = ?
             WHERE id = ?
         `, [
-            title ? title.trim() : existing[0].title,
+            title ? title.trim() : (existing[0].title || existing[0].structure_name),
+            title ? title.trim() : (existing[0].structure_name || existing[0].title),
             academic_year ? academic_year.trim() : existing[0].academic_year,
-            semester ? semester.trim() : existing[0].semester,
+            semTitle,
+            semNumber,
             calculatedTotal > 0 ? calculatedTotal : existing[0].total_amount,
             is_active !== undefined ? (is_active ? 1 : 0) : existing[0].is_active,
+            is_active !== undefined ? (is_active ? 'active' : 'inactive') : (existing[0].status || 'active'),
             description !== undefined ? description : existing[0].description,
             id
         ]);
@@ -380,6 +423,7 @@ const toggleFeeStructureStatus = async (req, res) => {
 const getEligibleStudents = async (req, res) => {
     try {
         const { academic_year, semester, search } = req.query;
+        const semNumber = semester && semester !== "all" ? parseInt(String(semester).replace(/\D/g, ""), 10) : null;
 
         let query = `
             SELECT
@@ -400,16 +444,16 @@ const getEligibleStudents = async (req, res) => {
                     WHERE fi.student_id = s.id
                       AND fi.status != 'Cancelled'
                       ${academic_year ? "AND fi.academic_year = " + db.escape(academic_year) : ""}
-                      ${semester ? "AND fi.semester = " + db.escape(semester) : ""}
+                      ${semNumber ? "AND fi.semester_number = " + db.escape(semNumber) : ""}
                     LIMIT 1
                 ) AS existing_invoice_id,
                 (
-                    SELECT fi.invoice_no
+                    SELECT COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id))
                     FROM fee_invoices fi
                     WHERE fi.student_id = s.id
                       AND fi.status != 'Cancelled'
                       ${academic_year ? "AND fi.academic_year = " + db.escape(academic_year) : ""}
-                      ${semester ? "AND fi.semester = " + db.escape(semester) : ""}
+                      ${semNumber ? "AND fi.semester_number = " + db.escape(semNumber) : ""}
                     LIMIT 1
                 ) AS existing_invoice_no
             FROM students s
@@ -476,16 +520,19 @@ const assignFeeStructure = async (req, res) => {
 
         const totalAmount = charges.reduce((sum, c) => sum + Number(c.amount || 0), 0);
 
+        const semNumber = parseInt(String(semester).replace(/\D/g, ""), 10) || 1;
+        const semTitle = `Semester ${semNumber}`;
+
         // Check for duplicates
         const [duplicates] = await connection.query(`
-            SELECT fi.student_id, s.name, fi.invoice_no
+            SELECT fi.student_id, s.name, COALESCE(fi.invoice_no, fi.invoice_number) AS invoice_no
             FROM fee_invoices fi
             JOIN students s ON s.id = fi.student_id
             WHERE fi.student_id IN (?)
               AND fi.academic_year = ?
-              AND fi.semester = ?
+              AND fi.semester_number = ?
               AND fi.status != 'Cancelled'
-        `, [student_ids, academic_year, semester]);
+        `, [student_ids, academic_year, semNumber]);
 
         if (duplicates.length > 0) {
             const names = duplicates.map(d => `${d.name} (${d.invoice_no})`).join(", ");
@@ -500,17 +547,32 @@ const assignFeeStructure = async (req, res) => {
         const createdInvoices = [];
 
         for (const studentId of student_ids) {
-            // Reserve invoice row to get auto-increment ID
+            let assignmentId = null;
+            try {
+                const [assignRes] = await connection.query(`
+                    INSERT INTO student_fee_assignments
+                    (student_id, fee_structure_id, academic_year, semester_number, assigned_amount, assigned_at, status)
+                    VALUES (?, ?, ?, ?, ?, NOW(), 'invoiced')
+                `, [studentId, fee_structure_id, academic_year, semNumber, totalAmount]);
+                assignmentId = assignRes.insertId;
+            } catch (assignErr) {
+                console.warn("student_fee_assignments sync notice:", assignErr.message);
+            }
+
+            const tempNo = `TEMP-${Date.now()}-${studentId}`;
             const [insertRes] = await connection.query(`
                 INSERT INTO fee_invoices
-                (invoice_no, student_id, fee_structure_id, academic_year, semester, total_amount, paid_amount, balance_amount, issue_date, due_date, status, remarks)
-                VALUES (?, ?, ?, ?, ?, ?, 0.00, ?, ?, ?, 'Unpaid', ?)
+                (invoice_no, invoice_number, student_id, fee_structure_id, fee_assignment_id, academic_year, semester, semester_number, total_amount, paid_amount, balance_amount, issue_date, due_date, status, remarks)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0.00, ?, ?, ?, 'Unpaid', ?)
             `, [
-                `TEMP-${Date.now()}-${studentId}`,
+                tempNo,
+                tempNo,
                 studentId,
                 fee_structure_id,
+                assignmentId,
                 academic_year,
-                semester,
+                semTitle,
+                semNumber,
                 totalAmount,
                 totalAmount,
                 issue_date,
@@ -521,7 +583,7 @@ const assignFeeStructure = async (req, res) => {
             const invoiceId = insertRes.insertId;
             const finalInvoiceNo = generateInvoiceNumber(invoiceId);
 
-            await connection.query("UPDATE fee_invoices SET invoice_no = ? WHERE id = ?", [finalInvoiceNo, invoiceId]);
+            await connection.query("UPDATE fee_invoices SET invoice_no = ?, invoice_number = ? WHERE id = ?", [finalInvoiceNo, finalInvoiceNo, invoiceId]);
 
             // Insert itemized charges
             for (const c of charges) {
@@ -595,8 +657,9 @@ const getInvoices = async (req, res) => {
         }
 
         if (semester && semester !== "all") {
-            whereClause += " AND fi.semester = ?";
-            params.push(semester);
+            const semNum = parseInt(String(semester).replace(/\D/g, ""), 10);
+            whereClause += " AND fi.semester_number = ?";
+            params.push(semNum || 1);
         }
 
         if (status && status !== "all") {
@@ -605,16 +668,33 @@ const getInvoices = async (req, res) => {
         }
 
         if (search) {
-            whereClause += " AND (fi.invoice_no LIKE ? OR s.name LIKE ? OR s.email LIKE ? OR s.mobile LIKE ?)";
+            whereClause += " AND (fi.invoice_no LIKE ? OR fi.invoice_number LIKE ? OR s.name LIKE ? OR s.email LIKE ? OR s.mobile LIKE ?)";
             const term = `%${search}%`;
-            params.push(term, term, term, term);
+            params.push(term, term, term, term, term);
         }
 
         const offset = (Number(page) - 1) * Number(limit);
 
         const [invoices] = await db.query(`
             SELECT
-                fi.*,
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                COALESCE(fi.invoice_number, fi.invoice_no) AS invoice_number,
+                fi.student_id,
+                fi.fee_structure_id,
+                fi.fee_assignment_id,
+                fi.academic_year,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.issue_date,
+                fi.due_date,
+                fi.status,
+                fi.remarks,
+                fi.created_at,
+                fi.updated_at,
                 s.name AS student_name,
                 s.email AS student_email,
                 s.mobile AS student_mobile,
@@ -657,7 +737,24 @@ const getInvoiceDetails = async (req, res) => {
 
         const [invRows] = await db.query(`
             SELECT
-                fi.*,
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                COALESCE(fi.invoice_number, fi.invoice_no) AS invoice_number,
+                fi.student_id,
+                fi.fee_structure_id,
+                fi.fee_assignment_id,
+                fi.academic_year,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.issue_date,
+                fi.due_date,
+                fi.status,
+                fi.remarks,
+                fi.created_at,
+                fi.updated_at,
                 s.name AS student_name,
                 s.email AS student_email,
                 s.mobile AS student_mobile,
@@ -839,10 +936,23 @@ const getStudentFeeDetails = async (req, res) => {
 
         // Fetch invoices
         const [invoices] = await db.query(`
-            SELECT *
-            FROM fee_invoices
-            WHERE student_id = ?
-            ORDER BY id DESC
+            SELECT
+                fi.id,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                fi.academic_year,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
+                fi.total_amount,
+                fi.paid_amount,
+                fi.balance_amount,
+                fi.issue_date,
+                fi.due_date,
+                fi.status,
+                fi.remarks,
+                fi.created_at
+            FROM fee_invoices fi
+            WHERE fi.student_id = ?
+            ORDER BY fi.id DESC
         `, [id]);
 
         for (const inv of invoices) {
@@ -858,8 +968,9 @@ const getStudentFeeDetails = async (req, res) => {
         const [payments] = await db.query(`
             SELECT
                 fp.*,
-                fi.invoice_no,
-                fi.semester
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number
             FROM fee_payments fp
             LEFT JOIN fee_invoices fi ON fi.id = fp.invoice_id
             WHERE fp.student_id = ?
@@ -926,8 +1037,9 @@ const getPaymentHistory = async (req, res) => {
                 s.name AS student_name,
                 s.email AS student_email,
                 s.mobile AS student_mobile,
-                fi.invoice_no,
-                fi.semester,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
                 fi.academic_year
             FROM fee_payments fp
             JOIN students s ON s.id = fp.student_id
@@ -943,9 +1055,9 @@ const getPaymentHistory = async (req, res) => {
         }
 
         if (search) {
-            query += " AND (s.name LIKE ? OR s.email LIKE ? OR fp.receipt_no LIKE ? OR fp.razorpay_payment_id LIKE ? OR fi.invoice_no LIKE ?)";
+            query += " AND (s.name LIKE ? OR s.email LIKE ? OR fp.receipt_no LIKE ? OR fp.razorpay_payment_id LIKE ? OR fi.invoice_no LIKE ? OR fi.invoice_number LIKE ?)";
             const term = `%${search}%`;
-            params.push(term, term, term, term, term);
+            params.push(term, term, term, term, term, term);
         }
 
         query += " ORDER BY fp.payment_date DESC, fp.id DESC LIMIT 100";
@@ -997,22 +1109,24 @@ const getPendingFees = async (req, res) => {
         }
 
         if (semester && semester !== "all") {
-            whereClause += " AND fi.semester = ?";
-            params.push(semester);
+            const semNum = parseInt(String(semester).replace(/\D/g, ""), 10);
+            whereClause += " AND fi.semester_number = ?";
+            params.push(semNum || 1);
         }
 
         if (search) {
-            whereClause += " AND (s.name LIKE ? OR s.email LIKE ? OR s.mobile LIKE ? OR fi.invoice_no LIKE ?)";
+            whereClause += " AND (s.name LIKE ? OR s.email LIKE ? OR s.mobile LIKE ? OR fi.invoice_no LIKE ? OR fi.invoice_number LIKE ?)";
             const term = `%${search}%`;
-            params.push(term, term, term, term);
+            params.push(term, term, term, term, term);
         }
 
         let [pendingInvoices] = await db.query(`
             SELECT
                 fi.id AS invoice_id,
-                fi.invoice_no,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
                 fi.academic_year,
-                fi.semester,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
                 fi.total_amount,
                 fi.paid_amount,
                 fi.balance_amount AS pending_amount,
@@ -1098,15 +1212,16 @@ const getFeeReports = async (req, res) => {
         const [semesterBreakdown] = await db.query(`
             SELECT
                 academic_year,
-                semester,
+                semester_number,
+                CONCAT('Semester ', semester_number) AS semester,
                 COUNT(id) AS total_invoices,
                 COALESCE(SUM(total_amount), 0) AS assigned,
                 COALESCE(SUM(paid_amount), 0) AS collected,
                 COALESCE(SUM(balance_amount), 0) AS outstanding
             FROM fee_invoices
             WHERE status != 'Cancelled'
-            GROUP BY academic_year, semester
-            ORDER BY academic_year DESC, semester ASC
+            GROUP BY academic_year, semester_number
+            ORDER BY academic_year DESC, semester_number ASC
         `);
 
         // 3. Date-wise payments
@@ -1120,8 +1235,9 @@ const getFeeReports = async (req, res) => {
                 fp.razorpay_payment_id,
                 s.name AS student_name,
                 s.id AS student_id,
-                fi.invoice_no,
-                fi.semester,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
                 fi.academic_year
             FROM fee_payments fp
             JOIN students s ON s.id = fp.student_id
@@ -1162,9 +1278,10 @@ const getReceiptDetails = async (req, res) => {
                 fp.payment_method,
                 fp.razorpay_payment_id,
                 fp.razorpay_order_id,
-                fi.invoice_no,
+                COALESCE(fi.invoice_no, fi.invoice_number, CONCAT('INV-', fi.id)) AS invoice_no,
                 fi.academic_year,
-                fi.semester,
+                CONCAT('Semester ', fi.semester_number) AS semester,
+                fi.semester_number,
                 fi.total_amount AS invoice_total,
                 fi.paid_amount AS invoice_paid,
                 fi.balance_amount AS invoice_balance,

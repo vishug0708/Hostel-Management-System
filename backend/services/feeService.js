@@ -7,14 +7,18 @@ const { sendEmail } = require("./emailService");
 
 async function initFeeTables() {
     try {
+        // 1. Fee Structures
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_structures (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(150) NOT NULL,
+                structure_name VARCHAR(150) NULL,
                 academic_year VARCHAR(20) NOT NULL,
                 semester VARCHAR(50) NOT NULL,
+                semester_number TINYINT UNSIGNED NULL DEFAULT 1,
                 total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                 is_active TINYINT(1) NOT NULL DEFAULT 1,
+                status ENUM('draft','active','inactive') NOT NULL DEFAULT 'active',
                 description TEXT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -23,33 +27,56 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // Harmonize fee_structures columns if pre-existing
+        try {
+            const [structCols] = await db.query("SHOW COLUMNS FROM fee_structures");
+            const names = structCols.map(c => c.Field);
+            if (!names.includes("title")) await db.query("ALTER TABLE fee_structures ADD COLUMN title VARCHAR(150) NULL AFTER id");
+            if (!names.includes("semester")) await db.query("ALTER TABLE fee_structures ADD COLUMN semester VARCHAR(50) NULL AFTER academic_year");
+            if (!names.includes("is_active")) await db.query("ALTER TABLE fee_structures ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1 AFTER total_amount");
+            if (!names.includes("description")) await db.query("ALTER TABLE fee_structures ADD COLUMN description TEXT NULL AFTER is_active");
+            if (names.includes("structure_name")) await db.query("ALTER TABLE fee_structures MODIFY COLUMN structure_name VARCHAR(150) NULL");
+            if (names.includes("semester_number")) await db.query("ALTER TABLE fee_structures MODIFY COLUMN semester_number TINYINT UNSIGNED NULL DEFAULT 1");
+            await db.query(`
+                UPDATE fee_structures
+                SET title = COALESCE(title, structure_name, 'Standard Hostel Semester Fee'),
+                    semester = COALESCE(semester, CONCAT('Semester ', COALESCE(semester_number, 1)), 'Semester 1')
+                WHERE title IS NULL OR semester IS NULL
+            `);
+        } catch (e) {
+            console.warn("fee_structures harmonize notice:", e.message);
+        }
+
+        // 2. Fee Structure Charges
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_structure_charges (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 fee_structure_id INT NOT NULL,
-                charge_name VARCHAR(100) NOT NULL,
+                charge_name VARCHAR(150) NOT NULL,
                 amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                 is_active TINYINT(1) NOT NULL DEFAULT 1,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (fee_structure_id) REFERENCES fee_structures(id) ON DELETE CASCADE,
                 INDEX idx_structure_charges (fee_structure_id, is_active)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // 3. Fee Invoices
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_invoices (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 invoice_no VARCHAR(50) NOT NULL UNIQUE,
+                invoice_number VARCHAR(60) NULL,
                 student_id INT NOT NULL,
-                fee_structure_id INT NULL,
+                fee_structure_id INT UNSIGNED NULL,
                 academic_year VARCHAR(20) NOT NULL,
                 semester VARCHAR(50) NOT NULL,
+                semester_number TINYINT UNSIGNED NULL DEFAULT 1,
                 total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                 paid_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                 balance_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
                 issue_date DATE NOT NULL,
                 due_date DATE NOT NULL,
-                status ENUM('Unpaid', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled') NOT NULL DEFAULT 'Unpaid',
+                status ENUM('Unpaid', 'Pending', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled') NOT NULL DEFAULT 'Unpaid',
                 remarks TEXT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -60,18 +87,39 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // Harmonize fee_invoices columns if pre-existing
+        try {
+            const [invCols] = await db.query("SHOW COLUMNS FROM fee_invoices");
+            const names = invCols.map(c => c.Field);
+            if (!names.includes("invoice_no")) await db.query("ALTER TABLE fee_invoices ADD COLUMN invoice_no VARCHAR(60) NULL AFTER id");
+            if (!names.includes("semester")) await db.query("ALTER TABLE fee_invoices ADD COLUMN semester VARCHAR(50) NULL AFTER academic_year");
+            if (!names.includes("remarks")) await db.query("ALTER TABLE fee_invoices ADD COLUMN remarks TEXT NULL AFTER status");
+            if (names.includes("invoice_number")) await db.query("ALTER TABLE fee_invoices MODIFY COLUMN invoice_number VARCHAR(60) NULL");
+            if (names.includes("fee_structure_id")) await db.query("ALTER TABLE fee_invoices MODIFY COLUMN fee_structure_id INT UNSIGNED NULL");
+            if (names.includes("semester_number")) await db.query("ALTER TABLE fee_invoices MODIFY COLUMN semester_number TINYINT UNSIGNED NULL DEFAULT 1");
+            await db.query(`
+                UPDATE fee_invoices
+                SET invoice_no = COALESCE(invoice_no, invoice_number),
+                    semester = COALESCE(semester, CONCAT('Semester ', COALESCE(semester_number, 1)))
+                WHERE invoice_no IS NULL OR semester IS NULL
+            `);
+        } catch (e) {
+            console.warn("fee_invoices harmonize notice:", e.message);
+        }
+
+        // 4. Fee Invoice Items
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_invoice_items (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 invoice_id INT NOT NULL,
-                charge_name VARCHAR(100) NOT NULL,
+                charge_name VARCHAR(150) NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (invoice_id) REFERENCES fee_invoices(id) ON DELETE CASCADE,
                 INDEX idx_invoice_items (invoice_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // 5. Fee Payments
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_payments (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -96,15 +144,19 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // 6. Fee Receipts
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_receipts (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                receipt_no VARCHAR(50) NOT NULL UNIQUE,
+                receipt_no VARCHAR(60) NULL,
+                receipt_number VARCHAR(60) NULL,
                 payment_id INT NOT NULL,
                 invoice_id INT NOT NULL,
                 student_id INT NOT NULL,
                 amount DECIMAL(10,2) NOT NULL,
-                payment_date DATETIME NOT NULL,
+                payment_date DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+                issued_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+                pdf_path VARCHAR(500) NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_receipts_invoice (invoice_id),
                 INDEX idx_receipts_student (student_id),
@@ -112,6 +164,19 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // Harmonize fee_receipts columns
+        try {
+            const [receiptCols] = await db.query("SHOW COLUMNS FROM fee_receipts");
+            const names = receiptCols.map(c => c.Field);
+            if (!names.includes("receipt_no")) await db.query("ALTER TABLE fee_receipts ADD COLUMN receipt_no VARCHAR(60) NULL AFTER id");
+            if (!names.includes("payment_date")) await db.query("ALTER TABLE fee_receipts ADD COLUMN payment_date DATETIME NULL DEFAULT CURRENT_TIMESTAMP AFTER amount");
+            if (names.includes("receipt_number")) await db.query("ALTER TABLE fee_receipts MODIFY COLUMN receipt_number VARCHAR(60) NULL");
+            if (names.includes("issued_at")) await db.query("ALTER TABLE fee_receipts MODIFY COLUMN issued_at DATETIME NULL DEFAULT CURRENT_TIMESTAMP");
+        } catch (e) {
+            console.warn("fee_receipts harmonize notice:", e.message);
+        }
+
+        // 7. Fee Audit Logs
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_audit_logs (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,13 +190,26 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
+        // Harmonize fee_audit_logs columns
+        try {
+            const [auditCols] = await db.query("SHOW COLUMNS FROM fee_audit_logs");
+            const names = auditCols.map(c => c.Field);
+            if (!names.includes("performed_by")) await db.query("ALTER TABLE fee_audit_logs ADD COLUMN performed_by VARCHAR(100) NULL AFTER entity_id");
+            if (!names.includes("details")) await db.query("ALTER TABLE fee_audit_logs ADD COLUMN details JSON NULL AFTER performed_by");
+            if (names.includes("admin_id")) await db.query("ALTER TABLE fee_audit_logs MODIFY COLUMN admin_id INT NULL");
+            if (names.includes("entity_id")) await db.query("ALTER TABLE fee_audit_logs MODIFY COLUMN entity_id BIGINT UNSIGNED NULL");
+        } catch (e) {
+            console.warn("fee_audit_logs harmonize notice:", e.message);
+        }
+
+        // 8. Fee Email Logs
         await db.query(`
             CREATE TABLE IF NOT EXISTS fee_email_logs (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                receipt_no VARCHAR(50) NULL,
+                receipt_no VARCHAR(60) NULL,
                 student_id INT NOT NULL,
                 recipient_email VARCHAR(150) NOT NULL,
-                status ENUM('Sent', 'Failed') NOT NULL,
+                status VARCHAR(50) NOT NULL DEFAULT 'sent',
                 error_message TEXT NULL,
                 sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_email_logs_receipt (receipt_no),
@@ -139,15 +217,41 @@ async function initFeeTables() {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
         `);
 
-        // Check if standard initial fee structure exists
-        const [existing] = await db.query(
-            "SELECT id FROM fee_structures WHERE id = 1"
-        );
+        // Harmonize fee_email_logs columns
+        try {
+            const [emailCols] = await db.query("SHOW COLUMNS FROM fee_email_logs");
+            const names = emailCols.map(c => c.Field);
+            if (!names.includes("receipt_no")) await db.query("ALTER TABLE fee_email_logs ADD COLUMN receipt_no VARCHAR(60) NULL AFTER id");
+            if (!names.includes("error_message")) await db.query("ALTER TABLE fee_email_logs ADD COLUMN error_message TEXT NULL");
+            if (names.includes("email_type")) await db.query("ALTER TABLE fee_email_logs MODIFY COLUMN email_type VARCHAR(60) NULL DEFAULT 'receipt'");
+            if (names.includes("status")) await db.query("ALTER TABLE fee_email_logs MODIFY COLUMN status VARCHAR(50) NOT NULL DEFAULT 'sent'");
+        } catch (e) {
+            console.warn("fee_email_logs harmonize notice:", e.message);
+        }
 
+        // 9. Legacy fees table (ensures zero crash on fallback queries)
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS fees (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                student_id INT NOT NULL,
+                room_id INT NULL,
+                amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                status VARCHAR(30) NOT NULL DEFAULT 'Pending',
+                payment_method VARCHAR(50) NULL DEFAULT 'Razorpay',
+                payment_date DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                INDEX idx_fees_student (student_id),
+                INDEX idx_fees_status (status)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+        `);
+
+        // 10. Check if standard initial fee structure exists
+        const [existing] = await db.query("SELECT id FROM fee_structures WHERE id = 1");
         if (existing.length === 0) {
-            const [res] = await db.query(`
-                INSERT INTO fee_structures (id, title, academic_year, semester, total_amount, is_active, description)
-                VALUES (1, 'Standard Hostel Semester Fee', '2026-2027', 'Semester 1', 45000.00, 1, 'Initial standard semester hostel fee structure')
+            await db.query(`
+                INSERT INTO fee_structures (id, title, structure_name, academic_year, semester, semester_number, total_amount, is_active, status, description)
+                VALUES (1, 'Standard Hostel Semester Fee', 'Standard Hostel Semester Fee', '2026-2027', 'Semester 1', 1, 45000.00, 1, 'active', 'Initial standard semester hostel fee structure')
             `);
 
             await db.query(`
@@ -374,4 +478,3 @@ module.exports = {
     logFeeAudit,
     sendFeePaymentReceiptEmail
 };
-

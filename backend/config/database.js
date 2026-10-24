@@ -1,3 +1,5 @@
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 const mysql = require("mysql2");
 
 const db = mysql.createPool({
@@ -49,3 +51,4 @@ db.getConnection()
     });
 
 module.exports = db;
+
