@@ -295,49 +295,38 @@ function MyCricketBookings() {
                         <p>View, manage and track your hostel cricket box reservations.</p>
                     </div>
 
-                    <div className="mycricketbookings-desktop-photo">
+                    <div className="mycricketbookings-desktop-actions">
                         <button
                             type="button"
-                            onClick={() => navigate("/student/profile")}
-                            aria-label="Open student profile"
+                            className="new-cricket-booking"
+                            onClick={() => navigate("/student/cricketbox")}
                         >
-                            {studentPhoto ? (
-                                <img
-                                    src={studentPhoto}
-                                    alt="Student profile"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display = "none";
-                                    }}
-                                />
-                            ) : (
-                                "👤"
-                            )}
+                            + New Booking
                         </button>
+
+                        <div className="mycricketbookings-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {studentPhoto ? (
+                                    <img
+                                        src={studentPhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </header>
 
                 <main className="mycricketbookings-content">
-                    <div className="mycricketbookings-heading">
-                        <div>
-                            <span>CRICKET BOX</span>
-                            <h1>My Cricket Bookings</h1>
-                            <p>
-                                View and manage your cricket box
-                                booking requests.
-                            </p>
-                        </div>
-
-                        <button
-                            className="new-cricket-booking"
-                            onClick={() =>
-                                navigate(
-                                    "/student/cricketbox"
-                                )
-                            }
-                        >
-                            + New Booking
-                        </button>
-                    </div>
 
                     {error && (
                         <div className="mycricketbookings-error">
@@ -366,7 +355,7 @@ function MyCricketBookings() {
                             <button
                                 onClick={() =>
                                     navigate(
-                                        "/student/cricket-box"
+                                        "/student/cricketbox"
                                     )
                                 }
                             >
