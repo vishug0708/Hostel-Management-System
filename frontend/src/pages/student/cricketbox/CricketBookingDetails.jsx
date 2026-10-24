@@ -545,39 +545,9 @@ function CricketBookingDetails() {
                         <p>View complete information about your cricket box booking.</p>
                     </div>
 
-                    <div className="cricketbookingdetails-desktop-photo">
+                    <div className="cricketbookingdetails-desktop-actions">
                         <button
                             type="button"
-                            onClick={() => navigate("/student/profile")}
-                            aria-label="Open student profile"
-                        >
-                            {studentPhoto ? (
-                                <img
-                                    src={studentPhoto}
-                                    alt="Student profile"
-                                    onError={(event) => {
-                                        event.currentTarget.style.display = "none";
-                                    }}
-                                />
-                            ) : (
-                                "👤"
-                            )}
-                        </button>
-                    </div>
-                </header>
-
-                <main className="cricketbookingdetails-content">
-                    <div className="cricketbookingdetails-heading">
-                        <div>
-                            <span>CRICKET BOX</span>
-                            <h1>Booking Details</h1>
-                            <p>
-                                View complete information about
-                                your cricket box booking.
-                            </p>
-                        </div>
-
-                        <button
                             className="details-back-btn"
                             onClick={() =>
                                 navigate(
@@ -587,8 +557,30 @@ function CricketBookingDetails() {
                         >
                             ← My Bookings
                         </button>
-                    </div>
 
+                        <div className="cricketbookingdetails-desktop-photo">
+                            <button
+                                type="button"
+                                onClick={() => navigate("/student/profile")}
+                                aria-label="Open student profile"
+                            >
+                                {studentPhoto ? (
+                                    <img
+                                        src={studentPhoto}
+                                        alt="Student profile"
+                                        onError={(event) => {
+                                            event.currentTarget.style.display = "none";
+                                        }}
+                                    />
+                                ) : (
+                                    "👤"
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </header>
+
+                <main className="cricketbookingdetails-content">
                     {error && (
                         <div className="cricketbookingdetails-error">
                             ⚠️ {error}
